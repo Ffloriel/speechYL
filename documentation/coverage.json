@@ -1,0 +1,17 @@
+{
+  "coverage": "100%",
+  "expectCount": 50,
+  "actualCount": 50,
+  "files": {
+    "src/SpeechYL.es6.js": {
+      "expectCount": 45,
+      "actualCount": 45,
+      "undocumentLines": []
+    },
+    "src/example/dataObjects.js": {
+      "expectCount": 5,
+      "actualCount": 5,
+      "undocumentLines": []
+    }
+  }
+}

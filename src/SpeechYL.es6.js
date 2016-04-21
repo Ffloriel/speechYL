@@ -1,4 +1,14 @@
-/* globals window, console, SpeechYWFunc, webkitSpeechRecognition, SpeechSynthesisUtterance */
+/* globals window, console, SpeechYWFunc, webkitSpeechRecognition, SpeechSynthesisUtterance, XMLHttpRequest */
+
+
+/*  TODO:
+
+    Load data from json with a promise.
+    Create data with the library.
+    Add sentence, functions, recognition.
+    
+*/
+
 
 /**
 * Library Web Speech Recognition & Web Speech Synthesis
@@ -46,10 +56,10 @@ class SpeechYL{
         this.synthText = "";
         
         /**
-        * Object that contains recognition and speech commands.
-        * @type {Object}
+        * Array that contains recognition and speech commands.
+        * @type {Array}
         */
-        this.commands = null;
+        this.commands = [];
         /**
         * Object that contains all functions listed in 'commands' object
         * @type {Object}
@@ -408,8 +418,10 @@ class SpeechYL{
     * speechYL.say("Hello world!");
     */
     say(sentence) {
+        this.synthText = sentence;
         this.utterance.text = sentence;
         this.synthesis.speak(this.utterance);
+        return this;
     }
 
     /**
@@ -749,12 +761,94 @@ class SpeechYL{
         }
         return this.formatTranscript(recognition);
     }
-
+    
+    /**
+     * @access private
+     * Get a JSON File
+     * @param   {string}  url Url of the json file
+     * @returns {Promise} Promise
+     */
+    getJson(url) {
+        return new Promise( (resolve, reject) => {
+            let request = new XMLHttpRequest();
+            request.open('Get', url);
+            request.onload = () => {
+                if (request.status === 200) {
+                    resolve(request.response);
+                } else {
+                    reject(new Error(`Data did not load successfully; Error code: ${request.statusText}`));
+                }
+            };
+            request.onerror = () => {
+                reject(new Error('Data did not load successfully; Network error.'));
+            };
+            request.send();
+        });
+    }
+    
+    /**
+     * Load commands from a json file
+     * @throws {TypeError} JSON object is not an array
+     * @param {string} url Url of the json file
+     */
+    loadJsonCommands(url) {
+        let commands;
+        this.getJson(url).then( (data) => {
+            commands = JSON.parse(data);
+            if (!(commands instanceof Array)) {
+                throw new TypeError("Json data must be an Array");
+            } else {
+                this.commands = this.commands.concat(commands);
+            }
+        }, (e) => {
+            throw e;
+        });
+    }
+    
+    /**
+     * Return a voice with the specified name
+     * @param   {string}               name Name of the voice
+     * @returns {SpeechSynthesisVoice} Voice
+     */
+    getVoiceByName(name) {
+        return this.voices.find( voice => {
+            return voice.name === name;
+        });
+    }
+    
+    /**
+     * Return an array of voices corresponding to the specified langage
+     * @param   {string} lang Lang of the voices
+     * @returns {Array}  Array of voices
+     */
+    getVoicesByLang(lang) {
+        return this.voices.filter(voice => {
+            return voice.lang === lang;
+        });
+    }
+    
+    
+    createCommands(recognition, synthesis, func) {
+        return {
+            recognition,
+            synthesis,
+            func
+        };
+    }
+    
+    addCommand(recognition, synthesis, func) {
+        this.commands.push({
+            recognition,
+            synthesis,
+            func
+        });
+    }
+    
 }
 
 
 
-
+export default SpeechYL;
 
 
 

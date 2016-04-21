@@ -1,12 +1,15 @@
 {
-  "coverage": "100%",
-  "expectCount": 50,
-  "actualCount": 50,
+  "coverage": "96.36%",
+  "expectCount": 55,
+  "actualCount": 53,
   "files": {
-    "src/SpeechYL.es6.js": {
-      "expectCount": 45,
-      "actualCount": 45,
-      "undocumentLines": []
+    "src/speechYL.es6.js": {
+      "expectCount": 50,
+      "actualCount": 48,
+      "undocumentLines": [
+        839,
+        831
+      ]
     },
     "src/example/dataObjects.js": {
       "expectCount": 5,

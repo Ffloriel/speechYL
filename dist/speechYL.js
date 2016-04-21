@@ -1,49 +1,4 @@
-<!DOCTYPE html>
-<html>
-<head>
-  <meta charset="utf-8">
-  <base data-ice="baseUrl" href="../../">
-  <title data-ice="title">src/speechYL.es6.js | API Document</title>
-  <link type="text/css" rel="stylesheet" href="css/style.css">
-  <link type="text/css" rel="stylesheet" href="css/prettify-tomorrow.css">
-  <script src="script/prettify/prettify.js"></script>
-  
-  
-  <script src="script/manual.js"></script>
-</head>
-<body class="layout-container" data-ice="rootContainer">
-
-<header>
-  <a href="./">Home</a>
-  
-  <a href="identifiers.html">Reference</a>
-  <a href="source.html">Source</a>
-  
-  <a data-ice="repoURL" href="https://github.com/Ffloriel/speechYL" class="repo-url-github">Repository</a>
-  <div class="search-box">
-  <span>
-    <img src="./image/search.png">
-    <span class="search-input-edge"></span><input class="search-input"><span class="search-input-edge"></span>
-  </span>
-    <ul class="search-result"></ul>
-  </div>
-</header>
-
-<nav class="navigation" data-ice="nav"><div>
-  <ul>
-    
-  <li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/speechYL.es6.js~SpeechYL.html">SpeechYL</a></span></span></li>
-<li data-ice="doc"><div data-ice="dirPath" class="nav-dir-path">example</div><span data-ice="kind" class="kind-variable">V</span><span data-ice="name"><span><a href="variable/index.html#static-variable-func">func</a></span></span></li>
-<li data-ice="doc"><span data-ice="kind" class="kind-variable">V</span><span data-ice="name"><span><a href="variable/index.html#static-variable-recognitionObj">recognitionObj</a></span></span></li>
-<li data-ice="doc"><span data-ice="kind" class="kind-variable">V</span><span data-ice="name"><span><a href="variable/index.html#static-variable-simpleData">simpleData</a></span></span></li>
-<li data-ice="doc"><span data-ice="kind" class="kind-variable">V</span><span data-ice="name"><span><a href="variable/index.html#static-variable-simpleData2">simpleData2</a></span></span></li>
-<li data-ice="doc"><span data-ice="kind" class="kind-variable">V</span><span data-ice="name"><span><a href="variable/index.html#static-variable-synthesisObj">synthesisObj</a></span></span></li>
-</ul>
-</div>
-</nav>
-
-<div class="content" data-ice="content"><h1 data-ice="title">src/speechYL.es6.js</h1>
-<pre class="source-code line-number raw-source-code"><code class="prettyprint linenums" data-ice="content">/* globals window, console, SpeechYWFunc, webkitSpeechRecognition, SpeechSynthesisUtterance, XMLHttpRequest */
+/* globals window, console, SpeechYWFunc, webkitSpeechRecognition, SpeechSynthesisUtterance, XMLHttpRequest */
 
 
 /*  TODO:
@@ -56,7 +11,7 @@
 
 
 /**
-* Library Web Speech Recognition &amp; Web Speech Synthesis
+* Library Web Speech Recognition & Web Speech Synthesis
 * @class SpeechYL
 */
 class SpeechYL{
@@ -76,7 +31,7 @@ class SpeechYL{
             */
             this.recognition = new speechRecognition();
         } else {
-            throw(&quot;Your browser does not support the Web Speech API&quot;);
+            throw("Your browser does not support the Web Speech API");
         }
         
         /**
@@ -93,12 +48,12 @@ class SpeechYL{
         * The last transcript from SpeechRecognition
         * @type {String} 
         */
-        this.lastTranscript = &quot;&quot;;
+        this.lastTranscript = "";
         /**
         * The last text from SpeechSynthesis
         * @type {String} 
         */
-        this.synthText = &quot;&quot;;
+        this.synthText = "";
         
         /**
         * Array that contains recognition and speech commands.
@@ -106,32 +61,32 @@ class SpeechYL{
         */
         this.commands = [];
         /**
-        * Object that contains all functions listed in &apos;commands&apos; object
+        * Object that contains all functions listed in 'commands' object
         * @type {Object}
         */
         this.commandsFunc = null;
         
         /**
         * List of SpeechSynthesisVoice objects representing all the available voices on the current device.
-        * @type {Array&lt;SpeechSynthesisVoice&gt;}
+        * @type {Array<SpeechSynthesisVoice>}
         */
          
         this.voices = this.synthesis.getVoices();
         
         //Default onresult
-        this.onresult = e =&gt; {
+        this.onresult = e => {
             this.actionData(e, this.commands);
         };
         
         //Default onvoiceschanged
-        this.onvoiceschanged = e =&gt; {
+        this.onvoiceschanged = e => {
             this.voices = this.synthesis.getVoices();
         };
     }
     
     /**
      * Set lang for synthesis and recognition speech.
-     * @param {string} lang Language (&quot;en-EN&quot;, &quot;fr-FR&quot;)
+     * @param {string} lang Language ("en-EN", "fr-FR")
      */
     setLang(lang) {
         this.synthesisLang = lang;
@@ -146,7 +101,7 @@ class SpeechYL{
     }
     
     /**
-    * Set the language for speech synthesis (ex : &quot;en-EN&quot;, &quot;fr-FR&quot;)
+    * Set the language for speech synthesis (ex : "en-EN", "fr-FR")
     * @type {string}
     */
     set synthesisLang(v) {
@@ -161,7 +116,7 @@ class SpeechYL{
     }
     
     /**
-    * Set the language for speech recognition (ex : &quot;en-EN&quot;, &quot;fr-FR&quot;)
+    * Set the language for speech recognition (ex : "en-EN", "fr-FR")
     * @type {string}
     */
     set recognitionLang(v) {
@@ -176,7 +131,7 @@ class SpeechYL{
     }
     
     /**
-    * Set the language for speech synthesis (ex : &quot;en-EN&quot;, &quot;fr-FR&quot;)
+    * Set the language for speech synthesis (ex : "en-EN", "fr-FR")
     * @type {string}
     */
     set voice (v) {
@@ -206,7 +161,7 @@ class SpeechYL{
     }
     /**
     * Specifies the location of the speech recognition service used by the current SpeechRecognition
-    * to handle the actual recognition. The default is the user agent&apos;s default speech service.
+    * to handle the actual recognition. The default is the user agent's default speech service.
     * @type {DOMString}
     */
     set serviceURI(v) {
@@ -250,7 +205,7 @@ class SpeechYL{
     }
     
     /**
-    * Fired when the speech recognition service returns a final result with no significant recognition. This may involve some degree of recognition, which doesn&apos;t meet or exceed the confidence threshold.
+    * Fired when the speech recognition service returns a final result with no significant recognition. This may involve some degree of recognition, which doesn't meet or exceed the confidence threshold.
     * @listens {nomatch}
     * @type {function}
     */
@@ -259,7 +214,7 @@ class SpeechYL{
     }
     
     /**
-    * Fired when the speech recognition service returns a result &#x2014; a word or phrase has been positively recognized and this has been communicated back to the app.
+    * Fired when the speech recognition service returns a result — a word or phrase has been positively recognized and this has been communicated back to the app.
     * @listens {result}
     * @type {function}
     */
@@ -268,7 +223,7 @@ class SpeechYL{
     }
     
     /**
-    * Fired when any sound &#x2014; recognisable speech or not &#x2014; has been detected.
+    * Fired when any sound — recognisable speech or not — has been detected.
     * @listens {soundstart}
     * @type {function}
     */
@@ -277,7 +232,7 @@ class SpeechYL{
     }
     
     /**
-    * Fired when any sound &#x2014; recognisable speech or not &#x2014; has stopped being detected.
+    * Fired when any sound — recognisable speech or not — has stopped being detected.
     * @listens {soundend}
     * @type {function}
     */
@@ -425,7 +380,7 @@ class SpeechYL{
     }
     
     /**
-     * Stops the speech recognition service from listening to incoming audio, and doesn&apos;t attempt to return a SpeechRecognitionResult.
+     * Stops the speech recognition service from listening to incoming audio, and doesn't attempt to return a SpeechRecognitionResult.
      */
     recogAbort() {
         this.recognition.abort();
@@ -460,7 +415,7 @@ class SpeechYL{
     * @param {String} sentence The sentence that is said by the speech synthesis
     * @example
     * let speechYL = new SpeechYL();
-    * speechYL.say(&quot;Hello world!&quot;);
+    * speechYL.say("Hello world!");
     */
     say(sentence) {
         this.synthText = sentence;
@@ -479,9 +434,9 @@ class SpeechYL{
     isWordSaid(event, word) {
         let indexResult = event.resultIndex;
         
-        for (indexResult; indexResult &lt; event.results.length; indexResult += 1) {
+        for (indexResult; indexResult < event.results.length; indexResult += 1) {
             this.lastTranscript = this.formatTranscript(`${event.results[indexResult][0].transcript} ` );
-            if (event.results[indexResult].isFinal &amp;&amp; this.lastTranscript.includes(`${word} `)) {
+            if (event.results[indexResult].isFinal && this.lastTranscript.includes(`${word} `)) {
                 return true;
             }
         }
@@ -497,7 +452,7 @@ class SpeechYL{
     */
     isSentenceSaid(event, sentence) {
         let indexResult = event.resultIndex;
-        for (indexResult; indexResult &lt; event.results.length; indexResult += 1) {
+        for (indexResult; indexResult < event.results.length; indexResult += 1) {
             this.lastTranscript = this.formatTranscript(event.results[indexResult][0].transcript);
             if (event.results[indexResult].isFinal) {
                 if (this.lastTranscript === sentence) {
@@ -518,7 +473,7 @@ class SpeechYL{
     saySentenceAfterRecognition(event, sentenceRecognition, sentenceSynthesis) {
         let indexResult = event.resultIndex;
         let transcript;
-        for (indexResult; indexResult &lt; event.results.length; indexResult += 1) {
+        for (indexResult; indexResult < event.results.length; indexResult += 1) {
             this.lastTranscript = this.formatTranscript(event.results[indexResult][0].transcript);
             
             if (this.lastTranscript === sentenceRecognition) {
@@ -537,11 +492,11 @@ class SpeechYL{
     */
     saySentenceFromData(transcript, recogData) {
         let dataIndex = 0;
-        for (dataIndex; dataIndex &lt; recogData.length; dataIndex += 1) {
+        for (dataIndex; dataIndex < recogData.length; dataIndex += 1) {
             if (transcript === recogData[dataIndex].recognition.toLowerCase()) {
 
                 //Sunthesis
-                if (recogData[dataIndex].synthesis &amp;&amp; recogData[dataIndex].synthesis !== &quot;&quot;) {
+                if (recogData[dataIndex].synthesis && recogData[dataIndex].synthesis !== "") {
                     this.say(recogData[dataIndex].synthesis);
                 }
 
@@ -561,17 +516,17 @@ class SpeechYL{
      * Execute function in commandsFunc
      * @param {object} funcObj       Function object
      * @param {string} recogSentence Recognition sentence
-     * @param {string} [type=&quot;normal&quot;] Type (normal or start)
+     * @param {string} [type="normal"] Type (normal or start)
      */
-    launchFunc(funcObj, recogSentence, type = &quot;normal&quot;) {
+    launchFunc(funcObj, recogSentence, type = "normal") {
         let fn = this.commandsFunc[funcObj.func];
         let params = funcObj.funcParameters;
         let transcript;
-        if (typeof fn === &quot;function&quot;) {
+        if (typeof fn === "function") {
             if (!params) {
                 params = [];
             }
-            if (type === &quot;start&quot;) {
+            if (type === "start") {
                 transcript = this.lastTranscript.slice(recogSentence.length + 1);
                 params.unshift(transcript);
             }
@@ -594,13 +549,13 @@ class SpeechYL{
         let random = Math.random() * weightTotal;
         let weight = 0;
         let i = 0;
-        for (i; i &lt; synthesisArray.length; i += 1) {
+        for (i; i < synthesisArray.length; i += 1) {
             weight += synthesisArray[i].weight;
-            if (random &lt; weight) {
+            if (random < weight) {
                 return synthesisArray[i][this.utterance.lang];
             }
         }
-        throw(&quot;SpeechYW : getSynthesisError.&quot;);
+        throw("SpeechYW : getSynthesisError.");
     }
     
     /**
@@ -614,13 +569,13 @@ class SpeechYL{
         let random = Math.random() * weightTotal;
         let weight = 0;
         let i = 0;
-        for (i; i &lt; funcArray.length; i += 1) {
+        for (i; i < funcArray.length; i += 1) {
             weight += funcArray[i].weight;
-            if (random &lt; weight) {
+            if (random < weight) {
                 return funcArray[i];
             }
         }
-        throw(&quot;SpeechYW : getFunctionError.&quot;);
+        throw("SpeechYW : getFunctionError.");
     }
     
     /**
@@ -634,7 +589,7 @@ class SpeechYL{
             return null;
         }
         transcript = transcript.toLowerCase();
-        if (transcript.charAt(0) === &quot; &quot;) {
+        if (transcript.charAt(0) === " ") {
             transcript = transcript.slice(1);
         }
         return transcript;
@@ -646,19 +601,19 @@ class SpeechYL{
      * @param {object} recogData Array of single recognition data
      * @param {string} [type=normal] (normal, start or include)
      */
-    actionDataType(event, recogData, type = &quot;normal&quot;) {
+    actionDataType(event, recogData, type = "normal") {
         let eventResult,
             data,
             synthesis,
             funcObj,
             recogSentence;
-        for (let i = 0; i &lt; event.results.length; i += 1) {
+        for (let i = 0; i < event.results.length; i += 1) {
             eventResult = event.results[i];
             this.lastTranscript = this.formatTranscript(eventResult[0].transcript);
             
             data = this.retrieveData(recogData, type);
             
-            if (data !== null &amp;&amp; data !== undefined) {
+            if (data !== null && data !== undefined) {
                 recogSentence = this.retrieveRecognitionSentence(data);
                 //Synthesis
                 synthesis = this.retrieveSynthesis(data);
@@ -683,7 +638,7 @@ class SpeechYL{
      * @param {object} recogData Array of single recognition data
      */
     actionData(event, recogData) {
-        this.actionDataType(event, recogData, &quot;normal&quot;);
+        this.actionDataType(event, recogData, "normal");
     }
     
     /**
@@ -692,7 +647,7 @@ class SpeechYL{
      * @param {object} recogData Array of single recognition data
      */
     actionDataStart(event, recogData) {
-        this.actionDataType(event, recogData, &quot;start&quot;);
+        this.actionDataType(event, recogData, "start");
     }
     
     /**
@@ -701,7 +656,7 @@ class SpeechYL{
      * @param {object} recogData Array of single recognition data
      */
     actionDataInclude(event, recogData) {
-        this.actionDataType(event, recogData, &quot;include&quot;);
+        this.actionDataType(event, recogData, "include");
     }
     
     /**
@@ -713,7 +668,7 @@ class SpeechYL{
     computeTotalWeight(objectArray) {
         let i = 0;
         let weight = 0;
-        for (i; i &lt; objectArray.length; i += 1) {
+        for (i; i < objectArray.length; i += 1) {
             weight += objectArray[i].weight;
         }
         return weight;
@@ -723,24 +678,24 @@ class SpeechYL{
      * @access private
      * Retrieve data based on the type (normal, start, include)
      * @param   {object} recogData Data from the recognition object
-     * @param   {string} [type=&quot;normal&quot;] Type (normal, start or include)
+     * @param   {string} [type="normal"] Type (normal, start or include)
      * @returns {object} Data
      */
-    retrieveData(recogData, type = &quot;normal&quot;) {
+    retrieveData(recogData, type = "normal") {
         let data;
         switch (type) {
-            case &quot;normal&quot;:
-                data = recogData.find(data =&gt; {
+            case "normal":
+                data = recogData.find(data => {
                     return this.lastTranscript === this.retrieveRecognitionSentence(data);
                 });
                 break;
-            case &quot;start&quot;:
-                data = recogData.find(data =&gt; {
+            case "start":
+                data = recogData.find(data => {
                     return this.lastTranscript.startsWith(this.retrieveRecognitionSentence(data));
                 });
                 break;
-            case &quot;include&quot;:
-                data = recogData.find(data =&gt; {
+            case "include":
+                data = recogData.find(data => {
                     return this.lastTranscript.includes(this.retrieveRecognitionSentence(data));
                 });
                 break;
@@ -765,7 +720,7 @@ class SpeechYL{
             synthesis = this.getSynthesisSentence(data.synthesis);
         } else if (data.synthesis instanceof Object) {
             synthesis = data.synthesis[this.utterance.lang];
-        } else if (typeof data.synthesis === &quot;string&quot;){
+        } else if (typeof data.synthesis === "string"){
             synthesis = data.synthesis;
         }
         return synthesis;
@@ -785,7 +740,7 @@ class SpeechYL{
             funcObj = this.getFunction(data.func);
         } else if (data.func instanceof Object) {
             funcObj = data.func;
-        } else if (typeof data.func === &quot;string&quot;) {
+        } else if (typeof data.func === "string") {
             funcObj = {func: data.func, funcParameters: []};
         }
         return funcObj;
@@ -801,7 +756,7 @@ class SpeechYL{
         let recognition = null;
         if (data.recognition instanceof Object) {
             recognition = data.recognition[this.recognition.lang];
-        } else if (typeof data.recognition === &quot;string&quot;) {
+        } else if (typeof data.recognition === "string") {
             recognition = data.recognition;
         }
         return this.formatTranscript(recognition);
@@ -814,18 +769,18 @@ class SpeechYL{
      * @returns {Promise} Promise
      */
     getJson(url) {
-        return new Promise( (resolve, reject) =&gt; {
+        return new Promise( (resolve, reject) => {
             let request = new XMLHttpRequest();
-            request.open(&apos;Get&apos;, url);
-            request.onload = () =&gt; {
+            request.open('Get', url);
+            request.onload = () => {
                 if (request.status === 200) {
                     resolve(request.response);
                 } else {
                     reject(new Error(`Data did not load successfully; Error code: ${request.statusText}`));
                 }
             };
-            request.onerror = () =&gt; {
-                reject(new Error(&apos;Data did not load successfully; Network error.&apos;));
+            request.onerror = () => {
+                reject(new Error('Data did not load successfully; Network error.'));
             };
             request.send();
         });
@@ -838,14 +793,14 @@ class SpeechYL{
      */
     loadJsonCommands(url) {
         let commands;
-        this.getJson(url).then( (data) =&gt; {
+        this.getJson(url).then( (data) => {
             commands = JSON.parse(data);
             if (!(commands instanceof Array)) {
-                throw new TypeError(&quot;Json data must be an Array&quot;);
+                throw new TypeError("Json data must be an Array");
             } else {
                 this.commands = this.commands.concat(commands);
             }
-        }, (e) =&gt; {
+        }, (e) => {
             throw e;
         });
     }
@@ -856,7 +811,7 @@ class SpeechYL{
      * @returns {SpeechSynthesisVoice} Voice
      */
     getVoiceByName(name) {
-        return this.voices.find( voice =&gt; {
+        return this.voices.find( voice => {
             return voice.name === name;
         });
     }
@@ -867,7 +822,7 @@ class SpeechYL{
      * @returns {Array}  Array of voices
      */
     getVoicesByLang(lang) {
-        return this.voices.filter(voice =&gt; {
+        return this.voices.filter(voice => {
             return voice.lang === lang;
         });
     }
@@ -891,30 +846,5 @@ class SpeechYL{
     
 }
 
-
-
 export default SpeechYL;
 
-
-
-
-
-
-
-</code></pre>
-
-</div>
-
-<footer class="footer">
-  Generated by <a href="https://esdoc.org">ESDoc<span data-ice="esdocVersion">(0.4.6)</span></a>
-</footer>
-
-<script src="script/search_index.js"></script>
-<script src="script/search.js"></script>
-<script src="script/pretty-print.js"></script>
-<script src="script/inherited-summary.js"></script>
-<script src="script/test-summary.js"></script>
-<script src="script/inner-link.js"></script>
-<script src="script/patch-for-local.js"></script>
-</body>
-</html>

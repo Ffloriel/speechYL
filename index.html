@@ -1,0 +1,139 @@
+<!DOCTYPE html>
+<html lang="en-us">
+  <head>
+    <meta charset="UTF-8">
+    <title>Speechyl by Ffloriel</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" type="text/css" href="stylesheets/normalize.css" media="screen">
+    <link href='https://fonts.googleapis.com/css?family=Open+Sans:400,700' rel='stylesheet' type='text/css'>
+    <link rel="stylesheet" type="text/css" href="stylesheets/stylesheet.css" media="screen">
+    <link rel="stylesheet" type="text/css" href="stylesheets/github-light.css" media="screen">
+  </head>
+  <body>
+    <section class="page-header">
+      <h1 class="project-name">Speechyl</h1>
+      <h2 class="project-tagline">Web speech API library wrapper</h2>
+      <a href="https://github.com/Ffloriel/speechYL" class="btn">View on GitHub</a>
+      <a href="https://github.com/Ffloriel/speechYL/zipball/master" class="btn">Download .zip</a>
+      <a href="https://github.com/Ffloriel/speechYL/tarball/master" class="btn">Download .tar.gz</a>
+    </section>
+
+    <section class="main-content">
+      <h1>
+<a id="speechyljs" class="anchor" href="#speechyljs" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>speechYL.js</h1>
+
+<p>SpeechYL is a Web Speech API library wrapper. It helps with the basic usage of web speech api. You can associate a sentence to a function with just a json object. </p>
+
+<h2>
+<a id="installation" class="anchor" href="#installation" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Installation</h2>
+
+<h3>
+<a id="from-npm" class="anchor" href="#from-npm" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>From npm</h3>
+
+<div class="highlight highlight-source-shell"><pre>$ npm install speechyl</pre></div>
+
+<h2>
+<a id="documentation" class="anchor" href="#documentation" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Documentation</h2>
+
+<p>Documentation available here.</p>
+
+<h2>
+<a id="usage" class="anchor" href="#usage" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Usage</h2>
+
+<h3>
+<a id="getting-started" class="anchor" href="#getting-started" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Getting started</h3>
+
+<p>Start by importing the library if you are using ES6</p>
+
+<div class="highlight highlight-source-js"><pre><span class="pl-k">import</span> <span class="pl-smi">SpeechYL</span> <span class="pl-k">from</span> <span class="pl-s"><span class="pl-pds">'</span>speechyl<span class="pl-pds">'</span></span></pre></div>
+
+<p>Or put the script file in the html file :</p>
+
+<div class="highlight highlight-text-html-basic"><pre>&lt;<span class="pl-ent">script</span> <span class="pl-e">src</span>=<span class="pl-s"><span class="pl-pds">"</span>speechYL.min.js<span class="pl-pds">"</span></span>&gt;&lt;/<span class="pl-ent">script</span>&gt;</pre></div>
+
+<div class="highlight highlight-source-js"><pre><span class="pl-k">var</span> speechYL <span class="pl-k">=</span> <span class="pl-k">new</span> <span class="pl-en">SpeechYL</span>();
+<span class="pl-k">var</span> lang <span class="pl-k">=</span> <span class="pl-s"><span class="pl-pds">"</span>en-EN<span class="pl-pds">"</span></span>;
+<span class="pl-smi">speechYL</span>.<span class="pl-en">setLang</span>(lang);
+<span class="pl-smi">speechYL</span>.<span class="pl-smi">commands</span> <span class="pl-k">=</span> simpleData <span class="pl-c">// from 'Commands Data examples'</span></pre></div>
+
+<h3>
+<a id="commands-data-examples" class="anchor" href="#commands-data-examples" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Commands Data examples</h3>
+
+<div class="highlight highlight-source-js"><pre><span class="pl-k">var</span> simpleData <span class="pl-k">=</span> [
+    {
+        recognition<span class="pl-k">:</span> <span class="pl-s"><span class="pl-pds">"</span>How are you<span class="pl-pds">"</span></span>,
+        synthesis<span class="pl-k">:</span> <span class="pl-s"><span class="pl-pds">"</span>I am fine. Thank you<span class="pl-pds">"</span></span>
+    },
+    {
+        recognition<span class="pl-k">:</span> <span class="pl-s"><span class="pl-pds">"</span>Hello World<span class="pl-pds">"</span></span>,
+        synthesis<span class="pl-k">:</span> <span class="pl-s"><span class="pl-pds">"</span>Hello human<span class="pl-pds">"</span></span>
+    },
+    {
+        recognition<span class="pl-k">:</span> <span class="pl-s"><span class="pl-pds">"</span>This is a test<span class="pl-pds">"</span></span>,
+        synthesis<span class="pl-k">:</span> <span class="pl-s"><span class="pl-pds">"</span>The test is passed<span class="pl-pds">"</span></span>
+    }
+];</pre></div>
+
+<div class="highlight highlight-source-js"><pre><span class="pl-k">var</span> simpleData2 <span class="pl-k">=</span> [
+    {
+        recognition<span class="pl-k">:</span> {
+            <span class="pl-s"><span class="pl-pds">"</span>en-EN<span class="pl-pds">"</span></span><span class="pl-k">:</span> <span class="pl-s"><span class="pl-pds">"</span>Hello<span class="pl-pds">"</span></span>,
+            <span class="pl-s"><span class="pl-pds">"</span>fr-FR<span class="pl-pds">"</span></span><span class="pl-k">:</span> <span class="pl-s"><span class="pl-pds">"</span>Bonjour<span class="pl-pds">"</span></span>
+        },
+        synthesis<span class="pl-k">:</span> [
+            {
+                weight<span class="pl-k">:</span> <span class="pl-c1">1</span>,
+                <span class="pl-s"><span class="pl-pds">"</span>en-EN<span class="pl-pds">"</span></span><span class="pl-k">:</span> <span class="pl-s"><span class="pl-pds">"</span>Hello, Sir<span class="pl-pds">"</span></span>,
+                <span class="pl-s"><span class="pl-pds">"</span>fr-FR<span class="pl-pds">"</span></span><span class="pl-k">:</span> <span class="pl-s"><span class="pl-pds">"</span>Bonjour, monsieur<span class="pl-pds">"</span></span>
+            },
+            {
+                weight<span class="pl-k">:</span> <span class="pl-c1">1</span>,
+                <span class="pl-s"><span class="pl-pds">"</span>en-EN<span class="pl-pds">"</span></span><span class="pl-k">:</span> <span class="pl-s"><span class="pl-pds">"</span>Hi, Sir<span class="pl-pds">"</span></span>,
+                <span class="pl-s"><span class="pl-pds">"</span>fr-FR<span class="pl-pds">"</span></span><span class="pl-k">:</span> <span class="pl-s"><span class="pl-pds">"</span>Salut, mec<span class="pl-pds">"</span></span>
+            }
+        ],
+        func<span class="pl-k">:</span> [
+            <span class="pl-c">// this function will be executed 1 / 25 in average</span>
+            {
+                weight<span class="pl-k">:</span> <span class="pl-c1">1</span>,
+                func<span class="pl-k">:</span> <span class="pl-s"><span class="pl-pds">"</span>func1<span class="pl-pds">"</span></span>
+            },
+            <span class="pl-c">// this function will be executed 24 / 25 in average</span>
+            {
+                weight<span class="pl-k">:</span> <span class="pl-c1">24</span>,
+                func<span class="pl-k">:</span> <span class="pl-s"><span class="pl-pds">"</span>func2<span class="pl-pds">"</span></span>
+            }
+        ]
+    }
+];</pre></div>
+
+<h3>
+<a id="methods" class="anchor" href="#methods" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Methods</h3>
+
+<pre><code>actionData(event: object, recogData: object);
+actionDataInclude(event: object, recogData: object)
+actionDataStart(event: object, recogData: object)
+actionDataType(event: object, recogData: object, type: string): boolean
+isSentenceSaid(event: Object, sentence: String): Bool
+isWordSaid(event: Object, word: String): Bool
+launchFunc(funcObj: object, recogSentence: string, type: string)
+saySentenceAfterRecognition(event: Object, sentenceRecognition: String, sentenceSynthesis: String): Bool
+saySentenceFromData(transcript: String, recogData: Object): Bool
+setLang(lang: string)
+speak(sentence: string)
+synthCancel()
+synthPause()
+synthResume()
+</code></pre>
+
+      <footer class="site-footer">
+        <span class="site-footer-owner"><a href="https://github.com/Ffloriel/speechYL">Speechyl</a> is maintained by <a href="https://github.com/Ffloriel">Ffloriel</a>.</span>
+
+        <span class="site-footer-credits">This page was generated by <a href="https://pages.github.com">GitHub Pages</a> using the <a href="https://github.com/jasonlong/cayman-theme">Cayman theme</a> by <a href="https://twitter.com/jasonlong">Jason Long</a>.</span>
+      </footer>
+
+    </section>
+
+  
+  </body>
+</html>

@@ -1,0 +1,33 @@
+{
+  "name": "speechyl",
+  "version": "1.0.0",
+  "description": "Web Speech API library wrapper",
+  "main": "dist/speechYL.js",
+  "directories": {
+    "test": "test"
+  },
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Ffloriel/speechYL.git"
+  },
+  "keywords": [
+    "Web",
+    "Speech",
+    "speech",
+    "synthesis",
+    "recognition",
+    "web",
+    "html5",
+    "api",
+    "library"
+  ],
+  "author": "Floriel Fedry",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/Ffloriel/speechYL/issues"
+  },
+  "homepage": "https://github.com/Ffloriel/speechYL#readme"
+}

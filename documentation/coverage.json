@@ -3,7 +3,7 @@
   "expectCount": 55,
   "actualCount": 53,
   "files": {
-    "src/speechYL.es6.js": {
+    "src/SpeechYL.es6.js": {
       "expectCount": 50,
       "actualCount": 48,
       "undocumentLines": [

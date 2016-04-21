@@ -12,7 +12,7 @@ $ npm install speechyl
 
 ## Documentation
 
-Documentation available [here](#http://ffloriel.github.io/speechYL/documentation/).
+Documentation available [here](http://ffloriel.github.io/speechYL/documentation/).
 
 ## Usage
 

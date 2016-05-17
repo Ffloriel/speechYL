@@ -3,7 +3,7 @@
 <head>
   <meta charset="utf-8">
   <base data-ice="baseUrl" href="../">
-  <title data-ice="title">Overview</title>
+  <title data-ice="title">Tutorial</title>
   <link type="text/css" rel="stylesheet" href="css/style.css">
   <link type="text/css" rel="stylesheet" href="css/prettify-tomorrow.css">
   <script src="script/prettify/prettify.js"></script>
@@ -98,37 +98,31 @@
   <div class="manual-breadcrumb-list">
     <a href="./manual/./index.html">Manual</a>
     <span>&#xBB;</span>
-    <span data-ice="title">Overview</span>
+    <span data-ice="title">Tutorial</span>
   </div>
-  <div data-ice="content"><h1 id="speechyl">SpeechYL</h1>
-<p>SpeechYL (spit&#x283; waj &#x25B;l) is a Web Speech API library wrapper. It helps with the basic usage of web speech api. You can associate a sentence to a function with just a json object. </p>
-<h2 id="installation">Installation</h2>
-<h3 id="from-npm">From npm</h3>
-<pre><code class="lang-bash"><code class="source-code prettyprint">$ npm install speechyl</code>
-</code></pre>
-<h2 id="quick-tutorial">Quick tutorial</h2>
-<p>A quick tutorial available <a href="http://ffloriel.github.io/speechYL/documentation/manual/tutorial.html">here</a>.</p>
-<h2 id="documentation">Documentation</h2>
-<p>Documentation available <a href="http://ffloriel.github.io/speechYL/documentation/">here</a>.</p>
-<h2 id="usage">Usage</h2>
-<h3 id="getting-started">Getting started</h3>
-<p>Start by importing the library if you are using ES6</p>
-<pre><code class="lang-javascript"><code class="source-code prettyprint">import SpeechYL from &apos;speechyl&apos;</code>
-</code></pre>
-<p>Or put the script file in the html file :</p>
-<pre><code class="lang-html"><code class="source-code prettyprint">&lt;script src=&quot;speechYL.min.js&quot;&gt;&lt;/script&gt;</code>
-</code></pre>
-<pre><code class="lang-javascript"><code class="source-code prettyprint">var speechYL = new SpeechYL();
+  <div data-ice="content"><h1 id="tutorial">Tutorial</h1>
+<p>In this example, we add quickly voice functionality to an application in french and english.</p>
+<h2 id="1-setting-up">1) Setting up</h2>
+<pre><code class="lang-javascript"><code class="source-code prettyprint">
+var speechYL = new SpeechYL();
 var lang = &quot;en-EN&quot;;
-speechYL.setLang(lang);</code>
+speechYL.setLang(lang);
+
+//Choose a voice for synthesis
+
+var voiceFemaleEnglish = speechYL.getVoiceByName(&quot;Google UK English Female&quot;);
+
+//Set voice
+
+speechYL.voice = voiceFemaleEnglish;</code>
 </code></pre>
-<h3 id="simple-example-commands-file">Simple example commands file</h3>
+<h2 id="2-write-a-json-file-with-our-commands">2) Write a json file with our commands</h2>
+<p>When we write the json file, we can specified multiple langages.
+SpeechYL will take in consideration the langage set with the methods <code>setLang</code>
+The punctuation is not recognize by the SpeechRecogniton API, so do not put punctuations in  the recognition object, it could not be recognize.</p>
+<p>File: commands.json</p>
 <pre><code class="lang-json"><code class="source-code prettyprint">
 [
-    {
-        &quot;recognition&quot;: &quot;Hello&quot;,
-        &quot;synthesis&quot;: &quot;Hello World&quot;
-    },
     {
         &quot;recognition&quot;: {
             &quot;en-EN&quot;: &quot;log me out&quot;,
@@ -152,6 +146,58 @@ speechYL.setLang(lang);</code>
     },
 
 ]</code>
+</code></pre>
+<p>You can also add commands programmaticaly.</p>
+<h2 id="3-write-the-functions-associated-with-the-commands">3) Write the functions associated with the commands</h2>
+<h3 id="es6-es2015-">ES6 (ES2015)</h3>
+<p>One of the way to add the functions associated with the commands is in a class.</p>
+<pre><code class="lang-javascript"><code class="source-code prettyprint">
+class SpeechYLFunc{
+
+    logOut() {
+        //code
+    }
+
+    goPreviousPage() {
+        //code
+    }
+
+    goNextPage() {
+        //code
+    }
+
+}</code>
+</code></pre>
+<h3 id="es5">ES5</h3>
+<p>var func = {</p>
+<pre><code><code class="source-code prettyprint">logOut: function () {},
+goPreviousPage: function () {},
+goNextPage: function () {}</code>
+</code></pre><p>}</p>
+<h2 id="4-add-the-commands-and-functions-to-speechyl">4) Add the commands and functions to speechYL</h2>
+<pre><code class="lang-javascript"><code class="source-code prettyprint">
+speechYL.loadJsonCommands(&quot;commands.json&quot;):
+
+// ES6 (ES2015)
+speechYL.commandsFunc = new SpeechYLFunc();
+
+// ES5
+
+speechYL.commandsFunc = func;</code>
+</code></pre>
+<h2 id="5-start-the-recognition">5) Start the recognition</h2>
+<p>You can start the recognition with the methods <code>recogStart</code>.</p>
+<h3 id="click-on-a-button">Click on a button</h3>
+<pre><code class="lang-javascript"><code class="source-code prettyprint">
+document.getElementById(&quot;button&quot;).addEventListener(&quot;click&quot;, function() {
+    speechYL.recogStart();
+}, false);</code>
+</code></pre>
+<h3 id="keyboard-shortcut">Keyboard shortcut</h3>
+<pre><code class="lang-javascript"><code class="source-code prettyprint">
+document.getElementById(&quot;button&quot;).addEventListener(&quot;click&quot;, function() {
+    speechYL.recogStart();
+}, false);</code>
 </code></pre>
 </div>
 </div>

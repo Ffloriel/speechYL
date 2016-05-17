@@ -1,6 +1,6 @@
 {
   "name": "speechyl",
-  "version": "1.0.1",
+  "version": "1.0.2",
   "description": "Web Speech API library wrapper",
   "main": "dist/speechYL.js",
   "directories": {

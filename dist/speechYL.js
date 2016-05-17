@@ -1,15 +1,3 @@
-/* globals window, console, SpeechYWFunc, webkitSpeechRecognition, SpeechSynthesisUtterance, XMLHttpRequest */
-
-
-/*  TODO:
-
-    Load data from json with a promise.
-    Create data with the library.
-    Add sentence, functions, recognition.
-    
-*/
-
-
 /**
 * Library Web Speech Recognition & Web Speech Synthesis
 * @class SpeechYL
@@ -828,6 +816,13 @@ class SpeechYL{
     }
     
     
+    /**
+     * Return a command object 
+     * @param   {string          |           Array}   recognition Recognition string or array
+     * @param   {string          |           Array}       synthesis   Synthesis string or array
+     * @param   {string}         func        Name of the function
+     * @returns {object}         Command object
+     */
     createCommands(recognition, synthesis, func) {
         return {
             recognition,
@@ -836,6 +831,12 @@ class SpeechYL{
         };
     }
     
+    /**
+     * Add a command
+     * @param   {string          |           Array}   recognition Recognition string or array
+     * @param   {string          |           Array}       synthesis   Synthesis string or array
+     * @param   {string}         func        Name of the function
+     */
     addCommand(recognition, synthesis, func) {
         this.commands.push({
             recognition,
@@ -846,5 +847,13 @@ class SpeechYL{
     
 }
 
+
+
 export default SpeechYL;
+
+
+
+
+
+
 

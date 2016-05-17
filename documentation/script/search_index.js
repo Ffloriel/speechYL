@@ -1,8 +1,8 @@
 window.esdocSearchIndex = [
   [
-    "speechyl/src/speechyl.es6.js~speechyl",
-    "class/src/SpeechYL.es6.js~SpeechYL.html",
-    "<span>SpeechYL</span> <span class=\"search-result-import-path\">speechyl/src/SpeechYL.es6.js</span>",
+    "speechyl/src/speechyl.js~speechyl",
+    "class/src/SpeechYL.js~SpeechYL.html",
+    "<span>SpeechYL</span> <span class=\"search-result-import-path\">speechyl/src/SpeechYL.js</span>",
     "class"
   ],
   [
@@ -366,303 +366,303 @@ window.esdocSearchIndex = [
     "external"
   ],
   [
-    "src/speechyl.es6.js",
-    "file/src/SpeechYL.es6.js.html",
-    "src/SpeechYL.es6.js",
+    "src/speechyl.js",
+    "file/src/SpeechYL.js.html",
+    "src/SpeechYL.js",
     "file"
   ],
   [
-    "src/speechyl.es6.js~speechyl#actiondata",
-    "class/src/SpeechYL.es6.js~SpeechYL.html#instance-method-actionData",
-    "src/SpeechYL.es6.js~SpeechYL#actionData",
+    "src/speechyl.js~speechyl#actiondata",
+    "class/src/SpeechYL.js~SpeechYL.html#instance-method-actionData",
+    "src/SpeechYL.js~SpeechYL#actionData",
     "method"
   ],
   [
-    "src/speechyl.es6.js~speechyl#actiondatainclude",
-    "class/src/SpeechYL.es6.js~SpeechYL.html#instance-method-actionDataInclude",
-    "src/SpeechYL.es6.js~SpeechYL#actionDataInclude",
+    "src/speechyl.js~speechyl#actiondatainclude",
+    "class/src/SpeechYL.js~SpeechYL.html#instance-method-actionDataInclude",
+    "src/SpeechYL.js~SpeechYL#actionDataInclude",
     "method"
   ],
   [
-    "src/speechyl.es6.js~speechyl#actiondatastart",
-    "class/src/SpeechYL.es6.js~SpeechYL.html#instance-method-actionDataStart",
-    "src/SpeechYL.es6.js~SpeechYL#actionDataStart",
+    "src/speechyl.js~speechyl#actiondatastart",
+    "class/src/SpeechYL.js~SpeechYL.html#instance-method-actionDataStart",
+    "src/SpeechYL.js~SpeechYL#actionDataStart",
     "method"
   ],
   [
-    "src/speechyl.es6.js~speechyl#actiondatatype",
-    "class/src/SpeechYL.es6.js~SpeechYL.html#instance-method-actionDataType",
-    "src/SpeechYL.es6.js~SpeechYL#actionDataType",
+    "src/speechyl.js~speechyl#actiondatatype",
+    "class/src/SpeechYL.js~SpeechYL.html#instance-method-actionDataType",
+    "src/SpeechYL.js~SpeechYL#actionDataType",
     "method"
   ],
   [
-    "src/speechyl.es6.js~speechyl#addcommand",
-    "class/src/SpeechYL.es6.js~SpeechYL.html#instance-method-addCommand",
-    "src/SpeechYL.es6.js~SpeechYL#addCommand",
+    "src/speechyl.js~speechyl#addcommand",
+    "class/src/SpeechYL.js~SpeechYL.html#instance-method-addCommand",
+    "src/SpeechYL.js~SpeechYL#addCommand",
     "method"
   ],
   [
-    "src/speechyl.es6.js~speechyl#commands",
-    "class/src/SpeechYL.es6.js~SpeechYL.html#instance-member-commands",
-    "src/SpeechYL.es6.js~SpeechYL#commands",
+    "src/speechyl.js~speechyl#commands",
+    "class/src/SpeechYL.js~SpeechYL.html#instance-member-commands",
+    "src/SpeechYL.js~SpeechYL#commands",
     "member"
   ],
   [
-    "src/speechyl.es6.js~speechyl#commandsfunc",
-    "class/src/SpeechYL.es6.js~SpeechYL.html#instance-member-commandsFunc",
-    "src/SpeechYL.es6.js~SpeechYL#commandsFunc",
+    "src/speechyl.js~speechyl#commandsfunc",
+    "class/src/SpeechYL.js~SpeechYL.html#instance-member-commandsFunc",
+    "src/SpeechYL.js~SpeechYL#commandsFunc",
     "member"
   ],
   [
-    "src/speechyl.es6.js~speechyl#constructor",
-    "class/src/SpeechYL.es6.js~SpeechYL.html#instance-constructor-constructor",
-    "src/SpeechYL.es6.js~SpeechYL#constructor",
+    "src/speechyl.js~speechyl#constructor",
+    "class/src/SpeechYL.js~SpeechYL.html#instance-constructor-constructor",
+    "src/SpeechYL.js~SpeechYL#constructor",
     "method"
   ],
   [
-    "src/speechyl.es6.js~speechyl#createcommands",
-    "class/src/SpeechYL.es6.js~SpeechYL.html#instance-method-createCommands",
-    "src/SpeechYL.es6.js~SpeechYL#createCommands",
+    "src/speechyl.js~speechyl#createcommands",
+    "class/src/SpeechYL.js~SpeechYL.html#instance-method-createCommands",
+    "src/SpeechYL.js~SpeechYL#createCommands",
     "method"
   ],
   [
-    "src/speechyl.es6.js~speechyl#getvoicebyname",
-    "class/src/SpeechYL.es6.js~SpeechYL.html#instance-method-getVoiceByName",
-    "src/SpeechYL.es6.js~SpeechYL#getVoiceByName",
+    "src/speechyl.js~speechyl#getvoicebyname",
+    "class/src/SpeechYL.js~SpeechYL.html#instance-method-getVoiceByName",
+    "src/SpeechYL.js~SpeechYL#getVoiceByName",
     "method"
   ],
   [
-    "src/speechyl.es6.js~speechyl#getvoicesbylang",
-    "class/src/SpeechYL.es6.js~SpeechYL.html#instance-method-getVoicesByLang",
-    "src/SpeechYL.es6.js~SpeechYL#getVoicesByLang",
+    "src/speechyl.js~speechyl#getvoicesbylang",
+    "class/src/SpeechYL.js~SpeechYL.html#instance-method-getVoicesByLang",
+    "src/SpeechYL.js~SpeechYL#getVoicesByLang",
     "method"
   ],
   [
-    "src/speechyl.es6.js~speechyl#issentencesaid",
-    "class/src/SpeechYL.es6.js~SpeechYL.html#instance-method-isSentenceSaid",
-    "src/SpeechYL.es6.js~SpeechYL#isSentenceSaid",
+    "src/speechyl.js~speechyl#issentencesaid",
+    "class/src/SpeechYL.js~SpeechYL.html#instance-method-isSentenceSaid",
+    "src/SpeechYL.js~SpeechYL#isSentenceSaid",
     "method"
   ],
   [
-    "src/speechyl.es6.js~speechyl#iswordsaid",
-    "class/src/SpeechYL.es6.js~SpeechYL.html#instance-method-isWordSaid",
-    "src/SpeechYL.es6.js~SpeechYL#isWordSaid",
+    "src/speechyl.js~speechyl#iswordsaid",
+    "class/src/SpeechYL.js~SpeechYL.html#instance-method-isWordSaid",
+    "src/SpeechYL.js~SpeechYL#isWordSaid",
     "method"
   ],
   [
-    "src/speechyl.es6.js~speechyl#lasttranscript",
-    "class/src/SpeechYL.es6.js~SpeechYL.html#instance-member-lastTranscript",
-    "src/SpeechYL.es6.js~SpeechYL#lastTranscript",
+    "src/speechyl.js~speechyl#lasttranscript",
+    "class/src/SpeechYL.js~SpeechYL.html#instance-member-lastTranscript",
+    "src/SpeechYL.js~SpeechYL#lastTranscript",
     "member"
   ],
   [
-    "src/speechyl.es6.js~speechyl#launchfunc",
-    "class/src/SpeechYL.es6.js~SpeechYL.html#instance-method-launchFunc",
-    "src/SpeechYL.es6.js~SpeechYL#launchFunc",
+    "src/speechyl.js~speechyl#launchfunc",
+    "class/src/SpeechYL.js~SpeechYL.html#instance-method-launchFunc",
+    "src/SpeechYL.js~SpeechYL#launchFunc",
     "method"
   ],
   [
-    "src/speechyl.es6.js~speechyl#loadjsoncommands",
-    "class/src/SpeechYL.es6.js~SpeechYL.html#instance-method-loadJsonCommands",
-    "src/SpeechYL.es6.js~SpeechYL#loadJsonCommands",
+    "src/speechyl.js~speechyl#loadjsoncommands",
+    "class/src/SpeechYL.js~SpeechYL.html#instance-method-loadJsonCommands",
+    "src/SpeechYL.js~SpeechYL#loadJsonCommands",
     "method"
   ],
   [
-    "src/speechyl.es6.js~speechyl#maxalternatives",
-    "class/src/SpeechYL.es6.js~SpeechYL.html#instance-set-maxAlternatives",
-    "src/SpeechYL.es6.js~SpeechYL#maxAlternatives",
+    "src/speechyl.js~speechyl#maxalternatives",
+    "class/src/SpeechYL.js~SpeechYL.html#instance-set-maxAlternatives",
+    "src/SpeechYL.js~SpeechYL#maxAlternatives",
     "member"
   ],
   [
-    "src/speechyl.es6.js~speechyl#onaudioend",
-    "class/src/SpeechYL.es6.js~SpeechYL.html#instance-set-onaudioend",
-    "src/SpeechYL.es6.js~SpeechYL#onaudioend",
+    "src/speechyl.js~speechyl#onaudioend",
+    "class/src/SpeechYL.js~SpeechYL.html#instance-set-onaudioend",
+    "src/SpeechYL.js~SpeechYL#onaudioend",
     "member"
   ],
   [
-    "src/speechyl.es6.js~speechyl#onaudiostart",
-    "class/src/SpeechYL.es6.js~SpeechYL.html#instance-set-onaudiostart",
-    "src/SpeechYL.es6.js~SpeechYL#onaudiostart",
+    "src/speechyl.js~speechyl#onaudiostart",
+    "class/src/SpeechYL.js~SpeechYL.html#instance-set-onaudiostart",
+    "src/SpeechYL.js~SpeechYL#onaudiostart",
     "member"
   ],
   [
-    "src/speechyl.es6.js~speechyl#onend",
-    "class/src/SpeechYL.es6.js~SpeechYL.html#instance-set-onend",
-    "src/SpeechYL.es6.js~SpeechYL#onend",
+    "src/speechyl.js~speechyl#onend",
+    "class/src/SpeechYL.js~SpeechYL.html#instance-set-onend",
+    "src/SpeechYL.js~SpeechYL#onend",
     "member"
   ],
   [
-    "src/speechyl.es6.js~speechyl#onerror",
-    "class/src/SpeechYL.es6.js~SpeechYL.html#instance-set-onerror",
-    "src/SpeechYL.es6.js~SpeechYL#onerror",
+    "src/speechyl.js~speechyl#onerror",
+    "class/src/SpeechYL.js~SpeechYL.html#instance-set-onerror",
+    "src/SpeechYL.js~SpeechYL#onerror",
     "member"
   ],
   [
-    "src/speechyl.es6.js~speechyl#onnomatch",
-    "class/src/SpeechYL.es6.js~SpeechYL.html#instance-set-onnomatch",
-    "src/SpeechYL.es6.js~SpeechYL#onnomatch",
+    "src/speechyl.js~speechyl#onnomatch",
+    "class/src/SpeechYL.js~SpeechYL.html#instance-set-onnomatch",
+    "src/SpeechYL.js~SpeechYL#onnomatch",
     "member"
   ],
   [
-    "src/speechyl.es6.js~speechyl#onresult",
-    "class/src/SpeechYL.es6.js~SpeechYL.html#instance-set-onresult",
-    "src/SpeechYL.es6.js~SpeechYL#onresult",
+    "src/speechyl.js~speechyl#onresult",
+    "class/src/SpeechYL.js~SpeechYL.html#instance-set-onresult",
+    "src/SpeechYL.js~SpeechYL#onresult",
     "member"
   ],
   [
-    "src/speechyl.es6.js~speechyl#onsoundend",
-    "class/src/SpeechYL.es6.js~SpeechYL.html#instance-set-onsoundend",
-    "src/SpeechYL.es6.js~SpeechYL#onsoundend",
+    "src/speechyl.js~speechyl#onsoundend",
+    "class/src/SpeechYL.js~SpeechYL.html#instance-set-onsoundend",
+    "src/SpeechYL.js~SpeechYL#onsoundend",
     "member"
   ],
   [
-    "src/speechyl.es6.js~speechyl#onsoundstart",
-    "class/src/SpeechYL.es6.js~SpeechYL.html#instance-set-onsoundstart",
-    "src/SpeechYL.es6.js~SpeechYL#onsoundstart",
+    "src/speechyl.js~speechyl#onsoundstart",
+    "class/src/SpeechYL.js~SpeechYL.html#instance-set-onsoundstart",
+    "src/SpeechYL.js~SpeechYL#onsoundstart",
     "member"
   ],
   [
-    "src/speechyl.es6.js~speechyl#onspeechend",
-    "class/src/SpeechYL.es6.js~SpeechYL.html#instance-set-onspeechend",
-    "src/SpeechYL.es6.js~SpeechYL#onspeechend",
+    "src/speechyl.js~speechyl#onspeechend",
+    "class/src/SpeechYL.js~SpeechYL.html#instance-set-onspeechend",
+    "src/SpeechYL.js~SpeechYL#onspeechend",
     "member"
   ],
   [
-    "src/speechyl.es6.js~speechyl#onspeechstart",
-    "class/src/SpeechYL.es6.js~SpeechYL.html#instance-set-onspeechstart",
-    "src/SpeechYL.es6.js~SpeechYL#onspeechstart",
+    "src/speechyl.js~speechyl#onspeechstart",
+    "class/src/SpeechYL.js~SpeechYL.html#instance-set-onspeechstart",
+    "src/SpeechYL.js~SpeechYL#onspeechstart",
     "member"
   ],
   [
-    "src/speechyl.es6.js~speechyl#onstart",
-    "class/src/SpeechYL.es6.js~SpeechYL.html#instance-set-onstart",
-    "src/SpeechYL.es6.js~SpeechYL#onstart",
+    "src/speechyl.js~speechyl#onstart",
+    "class/src/SpeechYL.js~SpeechYL.html#instance-set-onstart",
+    "src/SpeechYL.js~SpeechYL#onstart",
     "member"
   ],
   [
-    "src/speechyl.es6.js~speechyl#onvoiceschanged",
-    "class/src/SpeechYL.es6.js~SpeechYL.html#instance-set-onvoiceschanged",
-    "src/SpeechYL.es6.js~SpeechYL#onvoiceschanged",
+    "src/speechyl.js~speechyl#onvoiceschanged",
+    "class/src/SpeechYL.js~SpeechYL.html#instance-set-onvoiceschanged",
+    "src/SpeechYL.js~SpeechYL#onvoiceschanged",
     "member"
   ],
   [
-    "src/speechyl.es6.js~speechyl#recogabort",
-    "class/src/SpeechYL.es6.js~SpeechYL.html#instance-method-recogAbort",
-    "src/SpeechYL.es6.js~SpeechYL#recogAbort",
+    "src/speechyl.js~speechyl#recogabort",
+    "class/src/SpeechYL.js~SpeechYL.html#instance-method-recogAbort",
+    "src/SpeechYL.js~SpeechYL#recogAbort",
     "method"
   ],
   [
-    "src/speechyl.es6.js~speechyl#recogstart",
-    "class/src/SpeechYL.es6.js~SpeechYL.html#instance-method-recogStart",
-    "src/SpeechYL.es6.js~SpeechYL#recogStart",
+    "src/speechyl.js~speechyl#recogstart",
+    "class/src/SpeechYL.js~SpeechYL.html#instance-method-recogStart",
+    "src/SpeechYL.js~SpeechYL#recogStart",
     "method"
   ],
   [
-    "src/speechyl.es6.js~speechyl#recogstop",
-    "class/src/SpeechYL.es6.js~SpeechYL.html#instance-method-recogStop",
-    "src/SpeechYL.es6.js~SpeechYL#recogStop",
+    "src/speechyl.js~speechyl#recogstop",
+    "class/src/SpeechYL.js~SpeechYL.html#instance-method-recogStop",
+    "src/SpeechYL.js~SpeechYL#recogStop",
     "method"
   ],
   [
-    "src/speechyl.es6.js~speechyl#recognition",
-    "class/src/SpeechYL.es6.js~SpeechYL.html#instance-member-recognition",
-    "src/SpeechYL.es6.js~SpeechYL#recognition",
+    "src/speechyl.js~speechyl#recognition",
+    "class/src/SpeechYL.js~SpeechYL.html#instance-member-recognition",
+    "src/SpeechYL.js~SpeechYL#recognition",
     "member"
   ],
   [
-    "src/speechyl.es6.js~speechyl#recognitionlang",
-    "class/src/SpeechYL.es6.js~SpeechYL.html#instance-set-recognitionLang",
-    "src/SpeechYL.es6.js~SpeechYL#recognitionLang",
+    "src/speechyl.js~speechyl#recognitionlang",
+    "class/src/SpeechYL.js~SpeechYL.html#instance-set-recognitionLang",
+    "src/SpeechYL.js~SpeechYL#recognitionLang",
     "member"
   ],
   [
-    "src/speechyl.es6.js~speechyl#say",
-    "class/src/SpeechYL.es6.js~SpeechYL.html#instance-method-say",
-    "src/SpeechYL.es6.js~SpeechYL#say",
+    "src/speechyl.js~speechyl#say",
+    "class/src/SpeechYL.js~SpeechYL.html#instance-method-say",
+    "src/SpeechYL.js~SpeechYL#say",
     "method"
   ],
   [
-    "src/speechyl.es6.js~speechyl#saysentenceafterrecognition",
-    "class/src/SpeechYL.es6.js~SpeechYL.html#instance-method-saySentenceAfterRecognition",
-    "src/SpeechYL.es6.js~SpeechYL#saySentenceAfterRecognition",
+    "src/speechyl.js~speechyl#saysentenceafterrecognition",
+    "class/src/SpeechYL.js~SpeechYL.html#instance-method-saySentenceAfterRecognition",
+    "src/SpeechYL.js~SpeechYL#saySentenceAfterRecognition",
     "method"
   ],
   [
-    "src/speechyl.es6.js~speechyl#saysentencefromdata",
-    "class/src/SpeechYL.es6.js~SpeechYL.html#instance-method-saySentenceFromData",
-    "src/SpeechYL.es6.js~SpeechYL#saySentenceFromData",
+    "src/speechyl.js~speechyl#saysentencefromdata",
+    "class/src/SpeechYL.js~SpeechYL.html#instance-method-saySentenceFromData",
+    "src/SpeechYL.js~SpeechYL#saySentenceFromData",
     "method"
   ],
   [
-    "src/speechyl.es6.js~speechyl#serviceuri",
-    "class/src/SpeechYL.es6.js~SpeechYL.html#instance-set-serviceURI",
-    "src/SpeechYL.es6.js~SpeechYL#serviceURI",
+    "src/speechyl.js~speechyl#serviceuri",
+    "class/src/SpeechYL.js~SpeechYL.html#instance-set-serviceURI",
+    "src/SpeechYL.js~SpeechYL#serviceURI",
     "member"
   ],
   [
-    "src/speechyl.es6.js~speechyl#setlang",
-    "class/src/SpeechYL.es6.js~SpeechYL.html#instance-method-setLang",
-    "src/SpeechYL.es6.js~SpeechYL#setLang",
+    "src/speechyl.js~speechyl#setlang",
+    "class/src/SpeechYL.js~SpeechYL.html#instance-method-setLang",
+    "src/SpeechYL.js~SpeechYL#setLang",
     "method"
   ],
   [
-    "src/speechyl.es6.js~speechyl#speak",
-    "class/src/SpeechYL.es6.js~SpeechYL.html#instance-method-speak",
-    "src/SpeechYL.es6.js~SpeechYL#speak",
+    "src/speechyl.js~speechyl#speak",
+    "class/src/SpeechYL.js~SpeechYL.html#instance-method-speak",
+    "src/SpeechYL.js~SpeechYL#speak",
     "method"
   ],
   [
-    "src/speechyl.es6.js~speechyl#synthcancel",
-    "class/src/SpeechYL.es6.js~SpeechYL.html#instance-method-synthCancel",
-    "src/SpeechYL.es6.js~SpeechYL#synthCancel",
+    "src/speechyl.js~speechyl#synthcancel",
+    "class/src/SpeechYL.js~SpeechYL.html#instance-method-synthCancel",
+    "src/SpeechYL.js~SpeechYL#synthCancel",
     "method"
   ],
   [
-    "src/speechyl.es6.js~speechyl#synthpause",
-    "class/src/SpeechYL.es6.js~SpeechYL.html#instance-method-synthPause",
-    "src/SpeechYL.es6.js~SpeechYL#synthPause",
+    "src/speechyl.js~speechyl#synthpause",
+    "class/src/SpeechYL.js~SpeechYL.html#instance-method-synthPause",
+    "src/SpeechYL.js~SpeechYL#synthPause",
     "method"
   ],
   [
-    "src/speechyl.es6.js~speechyl#synthresume",
-    "class/src/SpeechYL.es6.js~SpeechYL.html#instance-method-synthResume",
-    "src/SpeechYL.es6.js~SpeechYL#synthResume",
+    "src/speechyl.js~speechyl#synthresume",
+    "class/src/SpeechYL.js~SpeechYL.html#instance-method-synthResume",
+    "src/SpeechYL.js~SpeechYL#synthResume",
     "method"
   ],
   [
-    "src/speechyl.es6.js~speechyl#synthtext",
-    "class/src/SpeechYL.es6.js~SpeechYL.html#instance-member-synthText",
-    "src/SpeechYL.es6.js~SpeechYL#synthText",
+    "src/speechyl.js~speechyl#synthtext",
+    "class/src/SpeechYL.js~SpeechYL.html#instance-member-synthText",
+    "src/SpeechYL.js~SpeechYL#synthText",
     "member"
   ],
   [
-    "src/speechyl.es6.js~speechyl#synthesis",
-    "class/src/SpeechYL.es6.js~SpeechYL.html#instance-member-synthesis",
-    "src/SpeechYL.es6.js~SpeechYL#synthesis",
+    "src/speechyl.js~speechyl#synthesis",
+    "class/src/SpeechYL.js~SpeechYL.html#instance-member-synthesis",
+    "src/SpeechYL.js~SpeechYL#synthesis",
     "member"
   ],
   [
-    "src/speechyl.es6.js~speechyl#synthesislang",
-    "class/src/SpeechYL.es6.js~SpeechYL.html#instance-set-synthesisLang",
-    "src/SpeechYL.es6.js~SpeechYL#synthesisLang",
+    "src/speechyl.js~speechyl#synthesislang",
+    "class/src/SpeechYL.js~SpeechYL.html#instance-set-synthesisLang",
+    "src/SpeechYL.js~SpeechYL#synthesisLang",
     "member"
   ],
   [
-    "src/speechyl.es6.js~speechyl#utterance",
-    "class/src/SpeechYL.es6.js~SpeechYL.html#instance-member-utterance",
-    "src/SpeechYL.es6.js~SpeechYL#utterance",
+    "src/speechyl.js~speechyl#utterance",
+    "class/src/SpeechYL.js~SpeechYL.html#instance-member-utterance",
+    "src/SpeechYL.js~SpeechYL#utterance",
     "member"
   ],
   [
-    "src/speechyl.es6.js~speechyl#voice",
-    "class/src/SpeechYL.es6.js~SpeechYL.html#instance-set-voice",
-    "src/SpeechYL.es6.js~SpeechYL#voice",
+    "src/speechyl.js~speechyl#voice",
+    "class/src/SpeechYL.js~SpeechYL.html#instance-set-voice",
+    "src/SpeechYL.js~SpeechYL#voice",
     "member"
   ],
   [
-    "src/speechyl.es6.js~speechyl#voices",
-    "class/src/SpeechYL.es6.js~SpeechYL.html#instance-member-voices",
-    "src/SpeechYL.es6.js~SpeechYL#voices",
+    "src/speechyl.js~speechyl#voices",
+    "class/src/SpeechYL.js~SpeechYL.html#instance-member-voices",
+    "src/SpeechYL.js~SpeechYL#voices",
     "member"
   ],
   [

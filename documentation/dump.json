@@ -144,13 +144,13 @@
     "kind": "file",
     "static": true,
     "variation": null,
-    "name": "src/SpeechYL.es6.js",
+    "name": "src/SpeechYL.js",
     "memberof": null,
-    "longname": "src/SpeechYL.es6.js",
+    "longname": "src/SpeechYL.js",
     "access": null,
     "description": null,
-    "lineNumber": 17,
-    "content": "/* globals window, console, SpeechYWFunc, webkitSpeechRecognition, SpeechSynthesisUtterance, XMLHttpRequest */\r\n\r\n\r\n/*  TODO:\r\n\r\n    Load data from json with a promise.\r\n    Create data with the library.\r\n    Add sentence, functions, recognition.\r\n    \r\n*/\r\n\r\n\r\n/**\r\n* Library Web Speech Recognition & Web Speech Synthesis\r\n* @class SpeechYL\r\n*/\r\nclass SpeechYL{\r\n    \r\n    /**\r\n    * Default constructor\r\n    * @example\r\n    * let speechYL = new SpeechYL();\r\n    */\r\n    constructor() {\r\n        let speechRecognition = window.SpeechRecognition || webkitSpeechRecognition;\r\n        \r\n        if (speechRecognition) {\r\n            /**\r\n            * SpeechRecognition Object from Web API SpeechRecognition\r\n            * @type {SpeechRecognition}\r\n            */\r\n            this.recognition = new speechRecognition();\r\n        } else {\r\n            throw(\"Your browser does not support the Web Speech API\");\r\n        }\r\n        \r\n        /**\r\n        * SpeechSynthesis Object from Web API SpeechSynthesis\r\n        * @type {SpeechSynthesis}\r\n        */\r\n        this.synthesis = window.speechSynthesis;\r\n        /**\r\n        * SpeechSynthesisUtterance Object from Web API SpeechSynthesis\r\n        * @type {SpeechSynthesisUtterance}\r\n        */\r\n        this.utterance = new SpeechSynthesisUtterance();\r\n        /**\r\n        * The last transcript from SpeechRecognition\r\n        * @type {String} \r\n        */\r\n        this.lastTranscript = \"\";\r\n        /**\r\n        * The last text from SpeechSynthesis\r\n        * @type {String} \r\n        */\r\n        this.synthText = \"\";\r\n        \r\n        /**\r\n        * Array that contains recognition and speech commands.\r\n        * @type {Array}\r\n        */\r\n        this.commands = [];\r\n        /**\r\n        * Object that contains all functions listed in 'commands' object\r\n        * @type {Object}\r\n        */\r\n        this.commandsFunc = null;\r\n        \r\n        /**\r\n        * List of SpeechSynthesisVoice objects representing all the available voices on the current device.\r\n        * @type {Array<SpeechSynthesisVoice>}\r\n        */\r\n         \r\n        this.voices = this.synthesis.getVoices();\r\n        \r\n        //Default onresult\r\n        this.onresult = e => {\r\n            this.actionData(e, this.commands);\r\n        };\r\n        \r\n        //Default onvoiceschanged\r\n        this.onvoiceschanged = e => {\r\n            this.voices = this.synthesis.getVoices();\r\n        };\r\n    }\r\n    \r\n    /**\r\n     * Set lang for synthesis and recognition speech.\r\n     * @param {string} lang Language (\"en-EN\", \"fr-FR\")\r\n     */\r\n    setLang(lang) {\r\n        this.synthesisLang = lang;\r\n        this.recognitionLang = lang;\r\n    }\r\n    \r\n    /**\r\n     * @ignore\r\n     */\r\n    get synthesisLang() {\r\n        return this.utterance.lang;\r\n    }\r\n    \r\n    /**\r\n    * Set the language for speech synthesis (ex : \"en-EN\", \"fr-FR\")\r\n    * @type {string}\r\n    */\r\n    set synthesisLang(v) {\r\n        this.utterance.lang = v;\r\n    }\r\n    \r\n    /**\r\n     * @ignore\r\n     */\r\n    get recognitionLang() {\r\n        return this.recognition.lang;\r\n    }\r\n    \r\n    /**\r\n    * Set the language for speech recognition (ex : \"en-EN\", \"fr-FR\")\r\n    * @type {string}\r\n    */\r\n    set recognitionLang(v) {\r\n        this.recognition.lang = v;\r\n    }\r\n    \r\n    /**\r\n     * @ignore\r\n     */\r\n    get voice() {\r\n        return this.utterance.voice;\r\n    }\r\n    \r\n    /**\r\n    * Set the language for speech synthesis (ex : \"en-EN\", \"fr-FR\")\r\n    * @type {string}\r\n    */\r\n    set voice (v) {\r\n        this.utterance.voice = v;\r\n    }\r\n    \r\n    /**\r\n     * @ignore\r\n     */\r\n    get maxAlternatives() {\r\n        return this.recognition.maxAlternatives;\r\n    }\r\n    \r\n    /**\r\n    * Sets the maximum number of SpeechRecognitionAlternatives provided per result. The default value is 1.\r\n    * @type {number}\r\n    */\r\n    set maxAlternatives(v) {\r\n        this.recognition.maxAlternatives = v;\r\n    }\r\n    \r\n    /**\r\n     * @ignore\r\n     */\r\n    get serviceURI() {\r\n        return this.recognition.serviceURI;\r\n    }\r\n    /**\r\n    * Specifies the location of the speech recognition service used by the current SpeechRecognition\r\n    * to handle the actual recognition. The default is the user agent's default speech service.\r\n    * @type {DOMString}\r\n    */\r\n    set serviceURI(v) {\r\n        this.recognition.serviceURI = v;\r\n    }\r\n    \r\n   /**\r\n    * Fired when the user agent has started to capture audio.\r\n    * @listens {audiostart}\r\n    * @type {function}\r\n    */\r\n    set onaudiostart(f) {\r\n        this.recognition.onaudiostart = f;\r\n    }\r\n    \r\n    /**\r\n    * Fired when the user agent has finished capturing audio.\r\n    * @listens {audioend}\r\n    * @type {function}\r\n    */\r\n    set onaudioend(f) {\r\n        this.recognition.onaudioend = f;\r\n    }\r\n    \r\n    /**\r\n    * Fired when the speech recognition service has disconnected.\r\n    * @listens {end}\r\n    * @type {function}\r\n    */\r\n    set onend(f) {\r\n        this.recognition.onend = f;\r\n    }\r\n    \r\n    /**\r\n    * Fired when a speech recognition error occurs.\r\n    * @listens {error}\r\n    * @type {function}\r\n    */\r\n    set onerror(f) {\r\n        this.recognition.onerror = f;\r\n    }\r\n    \r\n    /**\r\n    * Fired when the speech recognition service returns a final result with no significant recognition. This may involve some degree of recognition, which doesn't meet or exceed the confidence threshold.\r\n    * @listens {nomatch}\r\n    * @type {function}\r\n    */\r\n    set onnomatch(f) {\r\n        this.recognition.onnomatch = f;\r\n    }\r\n    \r\n    /**\r\n    * Fired when the speech recognition service returns a result — a word or phrase has been positively recognized and this has been communicated back to the app.\r\n    * @listens {result}\r\n    * @type {function}\r\n    */\r\n    set onresult(f) {\r\n        this.recognition.onresult = f;\r\n    }\r\n    \r\n    /**\r\n    * Fired when any sound — recognisable speech or not — has been detected.\r\n    * @listens {soundstart}\r\n    * @type {function}\r\n    */\r\n    set onsoundstart(f) {\r\n        this.recognition.onsoundstart = f;\r\n    }\r\n    \r\n    /**\r\n    * Fired when any sound — recognisable speech or not — has stopped being detected.\r\n    * @listens {soundend}\r\n    * @type {function}\r\n    */\r\n    set onsoundend(f) {\r\n        this.recognition.onsoundend = f;\r\n    }\r\n    \r\n    /**\r\n    * Fired when sound that is recognised by the speech recognition service as speech has been detected.\r\n    * @listens {speechstart}\r\n    * @type {function}\r\n    */\r\n    set onspeechstart(f) {\r\n        this.recognition.onspeechstart = f;\r\n    }\r\n    \r\n    /**\r\n    * Fired when speech recognised by the speech recognition service has stopped being detected.\r\n    * @listens {speechend}\r\n    * @type {function}\r\n    */\r\n    set onspeechend(f) {\r\n        this.recognition.onspeechend = f;\r\n    }\r\n    \r\n    /**\r\n    * Fired when the speech recognition service has begun listening to incoming audio with intent to recognize grammars associated with the current SpeechRecognition.\r\n    * @type {function}\r\n    */\r\n    set onstart(f) {\r\n        this.recognition.onstart = f;\r\n    }\r\n    \r\n    /**\r\n    * Fired when the list of SpeechSynthesisVoice objects that would be returned by the SpeechSynthesis.getVoices() method has changed.\r\n    * @type {function}\r\n    */\r\n    set onvoiceschanged(f) {\r\n        this.synthesis.onvoiceschanged = f;\r\n    }\r\n    \r\n    /**\r\n     * @ignore\r\n     */\r\n    get onaudiostart() {\r\n        return this.recognition.onaudiostart;\r\n    }\r\n    \r\n    /**\r\n     * @ignore\r\n     */\r\n    get onaudioend() {\r\n        return this.recognition.onaudioend;\r\n    }\r\n    \r\n    /**\r\n     * @ignore\r\n     */\r\n    get onend() {\r\n        return this.recognition.onend;\r\n    }\r\n    \r\n    /**\r\n     * @ignore\r\n     */\r\n    get onerror() {\r\n        return this.recognition.onerror;\r\n    }\r\n    \r\n    /**\r\n     * @ignore\r\n     */\r\n    get onnomatch() {\r\n        return this.recognition.onnomatch;\r\n    }\r\n    \r\n    /**\r\n     * @ignore\r\n     */\r\n    get onresult() {\r\n        return this.recognition.onresult;\r\n    }\r\n    \r\n    /**\r\n     * @ignore\r\n     */\r\n    get onsoundstart() {\r\n        return this.recognition.onsoundstart;\r\n    }\r\n    \r\n    /**\r\n     * @ignore\r\n     */\r\n    get onsoundend() {\r\n        return this.recognition.onsoundend;\r\n    }\r\n    \r\n    /**\r\n     * @ignore\r\n     */\r\n    get onspeechstart() {\r\n        return this.recognition.onspeechstart;\r\n    }\r\n    \r\n    /**\r\n     * @ignore\r\n     */\r\n    get onspeechend() {\r\n        return this.recognition.onspeechend;\r\n    }\r\n    \r\n    /**\r\n     * @ignore\r\n     */\r\n    get onstart() {\r\n        return this.recognition.onstart;\r\n    }\r\n    \r\n    /**\r\n     * @ignore\r\n     */\r\n    get onvoiceschanged() {\r\n        return this.synthesis.onvoiceschanged;\r\n    }\r\n    \r\n    /**\r\n     * Removes all utterances from the utterance queue.\r\n     */\r\n    synthCancel() {\r\n        this.synthesis.cancel();\r\n    }\r\n    \r\n    /**\r\n     * Puts the SpeechSynthesis object into a paused state.\r\n     */\r\n    synthPause() {\r\n        this.synthesis.pause();\r\n    }\r\n    \r\n    /**\r\n     * Puts the SpeechSynthesis object into a non-paused state: resumes it if it was already paused.\r\n     */\r\n    synthResume() {\r\n        this.synthesis.resume();\r\n    }\r\n    \r\n    /**\r\n     * Stops the speech recognition service from listening to incoming audio, and doesn't attempt to return a SpeechRecognitionResult.\r\n     */\r\n    recogAbort() {\r\n        this.recognition.abort();\r\n    }\r\n    \r\n    /**\r\n     * Starts the speech recognition service listening to incoming audio with intent to recognize grammars associated with the current SpeechRecognition.\r\n     */\r\n    recogStart() {\r\n        this.recognition.start();\r\n    }\r\n    \r\n    /**\r\n     * Stops the speech recognition service from listening to incoming audio, and attempts to return a SpeechRecognitionResult using the audio captured so far.\r\n     */\r\n    recogStop() {\r\n        this.recognition.stop();\r\n    }\r\n    \r\n    /**\r\n     * Adds an utterance to the utterance queue; it will be spoken when any other utterances queued before it have been spoken.\r\n     * @param {string} sentence The sentence that is said by the speech synthesis\r\n     */\r\n    speak(sentence) {\r\n        this.synthText = sentence;\r\n        this.utterance.text = sentence;\r\n        this.synthesis.speak(this.utterance);\r\n    }\r\n    \r\n    /**\r\n    * Say a sentence using speech synthesis\r\n    * @param {String} sentence The sentence that is said by the speech synthesis\r\n    * @example\r\n    * let speechYL = new SpeechYL();\r\n    * speechYL.say(\"Hello world!\");\r\n    */\r\n    say(sentence) {\r\n        this.synthText = sentence;\r\n        this.utterance.text = sentence;\r\n        this.synthesis.speak(this.utterance);\r\n        return this;\r\n    }\r\n\r\n    /**\r\n    * Know if the word is said by the user\r\n    * @method isWordSaid\r\n    * @param {Object} event\r\n    * @param {String} word\r\n    * @return {Bool} Return true if the word is said by the user\r\n    */\r\n    isWordSaid(event, word) {\r\n        let indexResult = event.resultIndex;\r\n        \r\n        for (indexResult; indexResult < event.results.length; indexResult += 1) {\r\n            this.lastTranscript = this.formatTranscript(`${event.results[indexResult][0].transcript} ` );\r\n            if (event.results[indexResult].isFinal && this.lastTranscript.includes(`${word} `)) {\r\n                return true;\r\n            }\r\n        }\r\n        return false;\r\n    }\r\n    \r\n    /**\r\n    * Know if the sentence is said by the user\r\n    * @method isSentenceSaid\r\n    * @param {Object} event Event from SpeechRecognition\r\n    * @param {String} sentence Sentence that is said\r\n    * @return {Bool} Return true if the sentence is said by the user\r\n    */\r\n    isSentenceSaid(event, sentence) {\r\n        let indexResult = event.resultIndex;\r\n        for (indexResult; indexResult < event.results.length; indexResult += 1) {\r\n            this.lastTranscript = this.formatTranscript(event.results[indexResult][0].transcript);\r\n            if (event.results[indexResult].isFinal) {\r\n                if (this.lastTranscript === sentence) {\r\n                    return true;\r\n                }\r\n            }\r\n        }\r\n        return false;\r\n    }\r\n    \r\n    /**\r\n    * Say sentence if the recognition sentence is recognize\r\n    * @param {Object} event Event from SpeechRecognition\r\n    * @param {String} sentenceRecognition Sentence said by the user and recognize\r\n    * @param {String} sentenceSynthesis Sentence said by speech synthesis\r\n    * @return {Bool} Return true if the sentence is said by the user\r\n    */\r\n    saySentenceAfterRecognition(event, sentenceRecognition, sentenceSynthesis) {\r\n        let indexResult = event.resultIndex;\r\n        let transcript;\r\n        for (indexResult; indexResult < event.results.length; indexResult += 1) {\r\n            this.lastTranscript = this.formatTranscript(event.results[indexResult][0].transcript);\r\n            \r\n            if (this.lastTranscript === sentenceRecognition) {\r\n                this.say(sentenceSynthesis);\r\n                return true;\r\n            }\r\n        }\r\n        return false;\r\n    }\r\n    \r\n    /**\r\n    * Execute action if the transcript is in the data\r\n    * @param {String} transcript Transcript\r\n    * @param {Object} recogData \r\n    * @return {Bool} Return true if the transcript is in the data\r\n    */\r\n    saySentenceFromData(transcript, recogData) {\r\n        let dataIndex = 0;\r\n        for (dataIndex; dataIndex < recogData.length; dataIndex += 1) {\r\n            if (transcript === recogData[dataIndex].recognition.toLowerCase()) {\r\n\r\n                //Sunthesis\r\n                if (recogData[dataIndex].synthesis && recogData[dataIndex].synthesis !== \"\") {\r\n                    this.say(recogData[dataIndex].synthesis);\r\n                }\r\n\r\n                //Functions\r\n                if (recogData[dataIndex].func) {\r\n                    this.launchFunc(recogData[dataIndex].func, recogData[dataIndex].funcParameters);\r\n                }\r\n\r\n\r\n                return true;\r\n            }\r\n        }\r\n        return false;\r\n    }\r\n\r\n    /**\r\n     * Execute function in commandsFunc\r\n     * @param {object} funcObj       Function object\r\n     * @param {string} recogSentence Recognition sentence\r\n     * @param {string} [type=\"normal\"] Type (normal or start)\r\n     */\r\n    launchFunc(funcObj, recogSentence, type = \"normal\") {\r\n        let fn = this.commandsFunc[funcObj.func];\r\n        let params = funcObj.funcParameters;\r\n        let transcript;\r\n        if (typeof fn === \"function\") {\r\n            if (!params) {\r\n                params = [];\r\n            }\r\n            if (type === \"start\") {\r\n                transcript = this.lastTranscript.slice(recogSentence.length + 1);\r\n                params.unshift(transcript);\r\n            }\r\n            fn.apply(null, params);\r\n            \r\n        } else {\r\n            throw(`SpeechYL : function ${funcObj.func} not found.`);\r\n        }\r\n        \r\n    }\r\n    \r\n    /**\r\n     * @access private\r\n     * Get synthesis sentence based on weight and language\r\n     * @param   {Array}  synthesisArray Synthesis Array\r\n     * @returns {string} Sentence synthesis\r\n     */\r\n    getSynthesisSentence(synthesisArray) {\r\n        let weightTotal = this.computeTotalWeight(synthesisArray);\r\n        let random = Math.random() * weightTotal;\r\n        let weight = 0;\r\n        let i = 0;\r\n        for (i; i < synthesisArray.length; i += 1) {\r\n            weight += synthesisArray[i].weight;\r\n            if (random < weight) {\r\n                return synthesisArray[i][this.utterance.lang];\r\n            }\r\n        }\r\n        throw(\"SpeechYW : getSynthesisError.\");\r\n    }\r\n    \r\n    /**\r\n     * @access private\r\n     * Get name of the function based on weight\r\n     * @param   {Array}  funcArray Functions Array\r\n     * @returns {string} Name of the function\r\n     */\r\n    getFunction(funcArray) {\r\n        let weightTotal = this.computeTotalWeight(funcArray);\r\n        let random = Math.random() * weightTotal;\r\n        let weight = 0;\r\n        let i = 0;\r\n        for (i; i < funcArray.length; i += 1) {\r\n            weight += funcArray[i].weight;\r\n            if (random < weight) {\r\n                return funcArray[i];\r\n            }\r\n        }\r\n        throw(\"SpeechYW : getFunctionError.\");\r\n    }\r\n    \r\n    /**\r\n     * @access private\r\n     * Format the transcript (lowercase and first space remove)\r\n     * @param   {string} transcript Text to format\r\n     * @returns {string} Return text formated\r\n     */\r\n    formatTranscript(transcript) {\r\n        if (transcript === null) {\r\n            return null;\r\n        }\r\n        transcript = transcript.toLowerCase();\r\n        if (transcript.charAt(0) === \" \") {\r\n            transcript = transcript.slice(1);\r\n        }\r\n        return transcript;\r\n    }\r\n    \r\n    /**\r\n     * Launch actions if the recognition sentence from the data is recognize\r\n     * @param {object} event           Event from SpeechRecognition\r\n     * @param {object} recogData Array of single recognition data\r\n     * @param {string} [type=normal] (normal, start or include)\r\n     */\r\n    actionDataType(event, recogData, type = \"normal\") {\r\n        let eventResult,\r\n            data,\r\n            synthesis,\r\n            funcObj,\r\n            recogSentence;\r\n        for (let i = 0; i < event.results.length; i += 1) {\r\n            eventResult = event.results[i];\r\n            this.lastTranscript = this.formatTranscript(eventResult[0].transcript);\r\n            \r\n            data = this.retrieveData(recogData, type);\r\n            \r\n            if (data !== null && data !== undefined) {\r\n                recogSentence = this.retrieveRecognitionSentence(data);\r\n                //Synthesis\r\n                synthesis = this.retrieveSynthesis(data);\r\n                if (synthesis !== null) {\r\n                    this.say(synthesis);\r\n                }\r\n                //Functions\r\n                funcObj = this.retrieveFunction(data);\r\n                if (funcObj !== null) {\r\n                    this.launchFunc(funcObj, recogSentence, type);\r\n                }\r\n                \r\n                return true;\r\n            }\r\n        }\r\n        return false;\r\n    }\r\n    \r\n    /**\r\n     * Launch actions if the recognition sentence from the data is recognize\r\n     * @param {object} event           Event from SpeechRecognition\r\n     * @param {object} recogData Array of single recognition data\r\n     */\r\n    actionData(event, recogData) {\r\n        this.actionDataType(event, recogData, \"normal\");\r\n    }\r\n    \r\n    /**\r\n     * Launch actions if the beginning of the recognition sentence from the data is recognize\r\n     * @param {object} event           Event from SpeechRecognition\r\n     * @param {object} recogData Array of single recognition data\r\n     */\r\n    actionDataStart(event, recogData) {\r\n        this.actionDataType(event, recogData, \"start\");\r\n    }\r\n    \r\n    /**\r\n     * Launch actions if a part of the recognition sentence from the data is recognize\r\n     * @param {object} event           Event from SpeechRecognition\r\n     * @param {object} recogData Array of single recognition data\r\n     */\r\n    actionDataInclude(event, recogData) {\r\n        this.actionDataType(event, recogData, \"include\");\r\n    }\r\n    \r\n    /**\r\n     * @access private\r\n     * Compute the total weight of an array of object\r\n     * @param   {Array}  objectArray Array of objects\r\n     * @returns {number} The total weight of the array\r\n     */\r\n    computeTotalWeight(objectArray) {\r\n        let i = 0;\r\n        let weight = 0;\r\n        for (i; i < objectArray.length; i += 1) {\r\n            weight += objectArray[i].weight;\r\n        }\r\n        return weight;\r\n    }\r\n    \r\n    /**\r\n     * @access private\r\n     * Retrieve data based on the type (normal, start, include)\r\n     * @param   {object} recogData Data from the recognition object\r\n     * @param   {string} [type=\"normal\"] Type (normal, start or include)\r\n     * @returns {object} Data\r\n     */\r\n    retrieveData(recogData, type = \"normal\") {\r\n        let data;\r\n        switch (type) {\r\n            case \"normal\":\r\n                data = recogData.find(data => {\r\n                    return this.lastTranscript === this.retrieveRecognitionSentence(data);\r\n                });\r\n                break;\r\n            case \"start\":\r\n                data = recogData.find(data => {\r\n                    return this.lastTranscript.startsWith(this.retrieveRecognitionSentence(data));\r\n                });\r\n                break;\r\n            case \"include\":\r\n                data = recogData.find(data => {\r\n                    return this.lastTranscript.includes(this.retrieveRecognitionSentence(data));\r\n                });\r\n                break;\r\n            default:\r\n                data = null;\r\n                break;\r\n        }\r\n        return data;\r\n    }\r\n    \r\n    /**\r\n     * @access private\r\n     * Retrieve the synthesis \r\n     * @param   {object} data Single Recognition Data\r\n     * @returns {string} Text of utterance to synthesis\r\n     */\r\n    retrieveSynthesis(data) {\r\n        let synthesis = null;\r\n        if (!data.synthesis) {\r\n            synthesis = null;\r\n        } else if (data.synthesis instanceof Array) {\r\n            synthesis = this.getSynthesisSentence(data.synthesis);\r\n        } else if (data.synthesis instanceof Object) {\r\n            synthesis = data.synthesis[this.utterance.lang];\r\n        } else if (typeof data.synthesis === \"string\"){\r\n            synthesis = data.synthesis;\r\n        }\r\n        return synthesis;\r\n    }\r\n    \r\n    /**\r\n     * @access private\r\n     * Retrieve the function\r\n     * @param   {object} data Single Recognition Data\r\n     * @returns {string} Name of the function\r\n     */\r\n    retrieveFunction(data) {\r\n        let funcObj = null;\r\n        if (!data.func) {\r\n            funcObj = null;\r\n        } else if (data.func instanceof Array) {\r\n            funcObj = this.getFunction(data.func);\r\n        } else if (data.func instanceof Object) {\r\n            funcObj = data.func;\r\n        } else if (typeof data.func === \"string\") {\r\n            funcObj = {func: data.func, funcParameters: []};\r\n        }\r\n        return funcObj;\r\n    }\r\n    \r\n    /**\r\n     * @access private\r\n     * Retrieve the synthesis \r\n     * @param   {object} data Single Recognition Data\r\n     * @returns {string} Recognition sentence\r\n     */\r\n    retrieveRecognitionSentence(data) {\r\n        let recognition = null;\r\n        if (data.recognition instanceof Object) {\r\n            recognition = data.recognition[this.recognition.lang];\r\n        } else if (typeof data.recognition === \"string\") {\r\n            recognition = data.recognition;\r\n        }\r\n        return this.formatTranscript(recognition);\r\n    }\r\n    \r\n    /**\r\n     * @access private\r\n     * Get a JSON File\r\n     * @param   {string}  url Url of the json file\r\n     * @returns {Promise} Promise\r\n     */\r\n    getJson(url) {\r\n        return new Promise( (resolve, reject) => {\r\n            let request = new XMLHttpRequest();\r\n            request.open('Get', url);\r\n            request.onload = () => {\r\n                if (request.status === 200) {\r\n                    resolve(request.response);\r\n                } else {\r\n                    reject(new Error(`Data did not load successfully; Error code: ${request.statusText}`));\r\n                }\r\n            };\r\n            request.onerror = () => {\r\n                reject(new Error('Data did not load successfully; Network error.'));\r\n            };\r\n            request.send();\r\n        });\r\n    }\r\n    \r\n    /**\r\n     * Load commands from a json file\r\n     * @throws {TypeError} JSON object is not an array\r\n     * @param {string} url Url of the json file\r\n     */\r\n    loadJsonCommands(url) {\r\n        let commands;\r\n        this.getJson(url).then( (data) => {\r\n            commands = JSON.parse(data);\r\n            if (!(commands instanceof Array)) {\r\n                throw new TypeError(\"Json data must be an Array\");\r\n            } else {\r\n                this.commands = this.commands.concat(commands);\r\n            }\r\n        }, (e) => {\r\n            throw e;\r\n        });\r\n    }\r\n    \r\n    /**\r\n     * Return a voice with the specified name\r\n     * @param   {string}               name Name of the voice\r\n     * @returns {SpeechSynthesisVoice} Voice\r\n     */\r\n    getVoiceByName(name) {\r\n        return this.voices.find( voice => {\r\n            return voice.name === name;\r\n        });\r\n    }\r\n    \r\n    /**\r\n     * Return an array of voices corresponding to the specified langage\r\n     * @param   {string} lang Lang of the voices\r\n     * @returns {Array}  Array of voices\r\n     */\r\n    getVoicesByLang(lang) {\r\n        return this.voices.filter(voice => {\r\n            return voice.lang === lang;\r\n        });\r\n    }\r\n    \r\n    \r\n    createCommands(recognition, synthesis, func) {\r\n        return {\r\n            recognition,\r\n            synthesis,\r\n            func\r\n        };\r\n    }\r\n    \r\n    addCommand(recognition, synthesis, func) {\r\n        this.commands.push({\r\n            recognition,\r\n            synthesis,\r\n            func\r\n        });\r\n    }\r\n    \r\n}\r\n\r\n\r\n\r\nexport default SpeechYL;\r\n\r\n\r\n\r\n\r\n\r\n\r\n\r\n"
+    "lineNumber": 5,
+    "content": "/**\r\n* Library Web Speech Recognition & Web Speech Synthesis\r\n* @class SpeechYL\r\n*/\r\nclass SpeechYL{\r\n    \r\n    /**\r\n    * Default constructor\r\n    * @example\r\n    * let speechYL = new SpeechYL();\r\n    */\r\n    constructor() {\r\n        let speechRecognition = window.SpeechRecognition || webkitSpeechRecognition;\r\n        \r\n        if (speechRecognition) {\r\n            /**\r\n            * SpeechRecognition Object from Web API SpeechRecognition\r\n            * @type {SpeechRecognition}\r\n            */\r\n            this.recognition = new speechRecognition();\r\n        } else {\r\n            throw(\"Your browser does not support the Web Speech API\");\r\n        }\r\n        \r\n        /**\r\n        * SpeechSynthesis Object from Web API SpeechSynthesis\r\n        * @type {SpeechSynthesis}\r\n        */\r\n        this.synthesis = window.speechSynthesis;\r\n        /**\r\n        * SpeechSynthesisUtterance Object from Web API SpeechSynthesis\r\n        * @type {SpeechSynthesisUtterance}\r\n        */\r\n        this.utterance = new SpeechSynthesisUtterance();\r\n        /**\r\n        * The last transcript from SpeechRecognition\r\n        * @type {String} \r\n        */\r\n        this.lastTranscript = \"\";\r\n        /**\r\n        * The last text from SpeechSynthesis\r\n        * @type {String} \r\n        */\r\n        this.synthText = \"\";\r\n        \r\n        /**\r\n        * Array that contains recognition and speech commands.\r\n        * @type {Array}\r\n        */\r\n        this.commands = [];\r\n        /**\r\n        * Object that contains all functions listed in 'commands' object\r\n        * @type {Object}\r\n        */\r\n        this.commandsFunc = null;\r\n        \r\n        /**\r\n        * List of SpeechSynthesisVoice objects representing all the available voices on the current device.\r\n        * @type {Array<SpeechSynthesisVoice>}\r\n        */\r\n         \r\n        this.voices = this.synthesis.getVoices();\r\n        \r\n        //Default onresult\r\n        this.onresult = e => {\r\n            this.actionData(e, this.commands);\r\n        };\r\n        \r\n        //Default onvoiceschanged\r\n        this.onvoiceschanged = e => {\r\n            this.voices = this.synthesis.getVoices();\r\n        };\r\n    }\r\n    \r\n    /**\r\n     * Set lang for synthesis and recognition speech.\r\n     * @param {string} lang Language (\"en-EN\", \"fr-FR\")\r\n     */\r\n    setLang(lang) {\r\n        this.synthesisLang = lang;\r\n        this.recognitionLang = lang;\r\n    }\r\n    \r\n    /**\r\n     * @ignore\r\n     */\r\n    get synthesisLang() {\r\n        return this.utterance.lang;\r\n    }\r\n    \r\n    /**\r\n    * Set the language for speech synthesis (ex : \"en-EN\", \"fr-FR\")\r\n    * @type {string}\r\n    */\r\n    set synthesisLang(v) {\r\n        this.utterance.lang = v;\r\n    }\r\n    \r\n    /**\r\n     * @ignore\r\n     */\r\n    get recognitionLang() {\r\n        return this.recognition.lang;\r\n    }\r\n    \r\n    /**\r\n    * Set the language for speech recognition (ex : \"en-EN\", \"fr-FR\")\r\n    * @type {string}\r\n    */\r\n    set recognitionLang(v) {\r\n        this.recognition.lang = v;\r\n    }\r\n    \r\n    /**\r\n     * @ignore\r\n     */\r\n    get voice() {\r\n        return this.utterance.voice;\r\n    }\r\n    \r\n    /**\r\n    * Set the language for speech synthesis (ex : \"en-EN\", \"fr-FR\")\r\n    * @type {string}\r\n    */\r\n    set voice (v) {\r\n        this.utterance.voice = v;\r\n    }\r\n    \r\n    /**\r\n     * @ignore\r\n     */\r\n    get maxAlternatives() {\r\n        return this.recognition.maxAlternatives;\r\n    }\r\n    \r\n    /**\r\n    * Sets the maximum number of SpeechRecognitionAlternatives provided per result. The default value is 1.\r\n    * @type {number}\r\n    */\r\n    set maxAlternatives(v) {\r\n        this.recognition.maxAlternatives = v;\r\n    }\r\n    \r\n    /**\r\n     * @ignore\r\n     */\r\n    get serviceURI() {\r\n        return this.recognition.serviceURI;\r\n    }\r\n    /**\r\n    * Specifies the location of the speech recognition service used by the current SpeechRecognition\r\n    * to handle the actual recognition. The default is the user agent's default speech service.\r\n    * @type {DOMString}\r\n    */\r\n    set serviceURI(v) {\r\n        this.recognition.serviceURI = v;\r\n    }\r\n    \r\n   /**\r\n    * Fired when the user agent has started to capture audio.\r\n    * @listens {audiostart}\r\n    * @type {function}\r\n    */\r\n    set onaudiostart(f) {\r\n        this.recognition.onaudiostart = f;\r\n    }\r\n    \r\n    /**\r\n    * Fired when the user agent has finished capturing audio.\r\n    * @listens {audioend}\r\n    * @type {function}\r\n    */\r\n    set onaudioend(f) {\r\n        this.recognition.onaudioend = f;\r\n    }\r\n    \r\n    /**\r\n    * Fired when the speech recognition service has disconnected.\r\n    * @listens {end}\r\n    * @type {function}\r\n    */\r\n    set onend(f) {\r\n        this.recognition.onend = f;\r\n    }\r\n    \r\n    /**\r\n    * Fired when a speech recognition error occurs.\r\n    * @listens {error}\r\n    * @type {function}\r\n    */\r\n    set onerror(f) {\r\n        this.recognition.onerror = f;\r\n    }\r\n    \r\n    /**\r\n    * Fired when the speech recognition service returns a final result with no significant recognition. This may involve some degree of recognition, which doesn't meet or exceed the confidence threshold.\r\n    * @listens {nomatch}\r\n    * @type {function}\r\n    */\r\n    set onnomatch(f) {\r\n        this.recognition.onnomatch = f;\r\n    }\r\n    \r\n    /**\r\n    * Fired when the speech recognition service returns a result — a word or phrase has been positively recognized and this has been communicated back to the app.\r\n    * @listens {result}\r\n    * @type {function}\r\n    */\r\n    set onresult(f) {\r\n        this.recognition.onresult = f;\r\n    }\r\n    \r\n    /**\r\n    * Fired when any sound — recognisable speech or not — has been detected.\r\n    * @listens {soundstart}\r\n    * @type {function}\r\n    */\r\n    set onsoundstart(f) {\r\n        this.recognition.onsoundstart = f;\r\n    }\r\n    \r\n    /**\r\n    * Fired when any sound — recognisable speech or not — has stopped being detected.\r\n    * @listens {soundend}\r\n    * @type {function}\r\n    */\r\n    set onsoundend(f) {\r\n        this.recognition.onsoundend = f;\r\n    }\r\n    \r\n    /**\r\n    * Fired when sound that is recognised by the speech recognition service as speech has been detected.\r\n    * @listens {speechstart}\r\n    * @type {function}\r\n    */\r\n    set onspeechstart(f) {\r\n        this.recognition.onspeechstart = f;\r\n    }\r\n    \r\n    /**\r\n    * Fired when speech recognised by the speech recognition service has stopped being detected.\r\n    * @listens {speechend}\r\n    * @type {function}\r\n    */\r\n    set onspeechend(f) {\r\n        this.recognition.onspeechend = f;\r\n    }\r\n    \r\n    /**\r\n    * Fired when the speech recognition service has begun listening to incoming audio with intent to recognize grammars associated with the current SpeechRecognition.\r\n    * @type {function}\r\n    */\r\n    set onstart(f) {\r\n        this.recognition.onstart = f;\r\n    }\r\n    \r\n    /**\r\n    * Fired when the list of SpeechSynthesisVoice objects that would be returned by the SpeechSynthesis.getVoices() method has changed.\r\n    * @type {function}\r\n    */\r\n    set onvoiceschanged(f) {\r\n        this.synthesis.onvoiceschanged = f;\r\n    }\r\n    \r\n    /**\r\n     * @ignore\r\n     */\r\n    get onaudiostart() {\r\n        return this.recognition.onaudiostart;\r\n    }\r\n    \r\n    /**\r\n     * @ignore\r\n     */\r\n    get onaudioend() {\r\n        return this.recognition.onaudioend;\r\n    }\r\n    \r\n    /**\r\n     * @ignore\r\n     */\r\n    get onend() {\r\n        return this.recognition.onend;\r\n    }\r\n    \r\n    /**\r\n     * @ignore\r\n     */\r\n    get onerror() {\r\n        return this.recognition.onerror;\r\n    }\r\n    \r\n    /**\r\n     * @ignore\r\n     */\r\n    get onnomatch() {\r\n        return this.recognition.onnomatch;\r\n    }\r\n    \r\n    /**\r\n     * @ignore\r\n     */\r\n    get onresult() {\r\n        return this.recognition.onresult;\r\n    }\r\n    \r\n    /**\r\n     * @ignore\r\n     */\r\n    get onsoundstart() {\r\n        return this.recognition.onsoundstart;\r\n    }\r\n    \r\n    /**\r\n     * @ignore\r\n     */\r\n    get onsoundend() {\r\n        return this.recognition.onsoundend;\r\n    }\r\n    \r\n    /**\r\n     * @ignore\r\n     */\r\n    get onspeechstart() {\r\n        return this.recognition.onspeechstart;\r\n    }\r\n    \r\n    /**\r\n     * @ignore\r\n     */\r\n    get onspeechend() {\r\n        return this.recognition.onspeechend;\r\n    }\r\n    \r\n    /**\r\n     * @ignore\r\n     */\r\n    get onstart() {\r\n        return this.recognition.onstart;\r\n    }\r\n    \r\n    /**\r\n     * @ignore\r\n     */\r\n    get onvoiceschanged() {\r\n        return this.synthesis.onvoiceschanged;\r\n    }\r\n    \r\n    /**\r\n     * Removes all utterances from the utterance queue.\r\n     */\r\n    synthCancel() {\r\n        this.synthesis.cancel();\r\n    }\r\n    \r\n    /**\r\n     * Puts the SpeechSynthesis object into a paused state.\r\n     */\r\n    synthPause() {\r\n        this.synthesis.pause();\r\n    }\r\n    \r\n    /**\r\n     * Puts the SpeechSynthesis object into a non-paused state: resumes it if it was already paused.\r\n     */\r\n    synthResume() {\r\n        this.synthesis.resume();\r\n    }\r\n    \r\n    /**\r\n     * Stops the speech recognition service from listening to incoming audio, and doesn't attempt to return a SpeechRecognitionResult.\r\n     */\r\n    recogAbort() {\r\n        this.recognition.abort();\r\n    }\r\n    \r\n    /**\r\n     * Starts the speech recognition service listening to incoming audio with intent to recognize grammars associated with the current SpeechRecognition.\r\n     */\r\n    recogStart() {\r\n        this.recognition.start();\r\n    }\r\n    \r\n    /**\r\n     * Stops the speech recognition service from listening to incoming audio, and attempts to return a SpeechRecognitionResult using the audio captured so far.\r\n     */\r\n    recogStop() {\r\n        this.recognition.stop();\r\n    }\r\n    \r\n    /**\r\n     * Adds an utterance to the utterance queue; it will be spoken when any other utterances queued before it have been spoken.\r\n     * @param {string} sentence The sentence that is said by the speech synthesis\r\n     */\r\n    speak(sentence) {\r\n        this.synthText = sentence;\r\n        this.utterance.text = sentence;\r\n        this.synthesis.speak(this.utterance);\r\n    }\r\n    \r\n    /**\r\n    * Say a sentence using speech synthesis\r\n    * @param {String} sentence The sentence that is said by the speech synthesis\r\n    * @example\r\n    * let speechYL = new SpeechYL();\r\n    * speechYL.say(\"Hello world!\");\r\n    */\r\n    say(sentence) {\r\n        this.synthText = sentence;\r\n        this.utterance.text = sentence;\r\n        this.synthesis.speak(this.utterance);\r\n        return this;\r\n    }\r\n\r\n    /**\r\n    * Know if the word is said by the user\r\n    * @method isWordSaid\r\n    * @param {Object} event\r\n    * @param {String} word\r\n    * @return {Bool} Return true if the word is said by the user\r\n    */\r\n    isWordSaid(event, word) {\r\n        let indexResult = event.resultIndex;\r\n        \r\n        for (indexResult; indexResult < event.results.length; indexResult += 1) {\r\n            this.lastTranscript = this.formatTranscript(`${event.results[indexResult][0].transcript} ` );\r\n            if (event.results[indexResult].isFinal && this.lastTranscript.includes(`${word} `)) {\r\n                return true;\r\n            }\r\n        }\r\n        return false;\r\n    }\r\n    \r\n    /**\r\n    * Know if the sentence is said by the user\r\n    * @method isSentenceSaid\r\n    * @param {Object} event Event from SpeechRecognition\r\n    * @param {String} sentence Sentence that is said\r\n    * @return {Bool} Return true if the sentence is said by the user\r\n    */\r\n    isSentenceSaid(event, sentence) {\r\n        let indexResult = event.resultIndex;\r\n        for (indexResult; indexResult < event.results.length; indexResult += 1) {\r\n            this.lastTranscript = this.formatTranscript(event.results[indexResult][0].transcript);\r\n            if (event.results[indexResult].isFinal) {\r\n                if (this.lastTranscript === sentence) {\r\n                    return true;\r\n                }\r\n            }\r\n        }\r\n        return false;\r\n    }\r\n    \r\n    /**\r\n    * Say sentence if the recognition sentence is recognize\r\n    * @param {Object} event Event from SpeechRecognition\r\n    * @param {String} sentenceRecognition Sentence said by the user and recognize\r\n    * @param {String} sentenceSynthesis Sentence said by speech synthesis\r\n    * @return {Bool} Return true if the sentence is said by the user\r\n    */\r\n    saySentenceAfterRecognition(event, sentenceRecognition, sentenceSynthesis) {\r\n        let indexResult = event.resultIndex;\r\n        let transcript;\r\n        for (indexResult; indexResult < event.results.length; indexResult += 1) {\r\n            this.lastTranscript = this.formatTranscript(event.results[indexResult][0].transcript);\r\n            \r\n            if (this.lastTranscript === sentenceRecognition) {\r\n                this.say(sentenceSynthesis);\r\n                return true;\r\n            }\r\n        }\r\n        return false;\r\n    }\r\n    \r\n    /**\r\n    * Execute action if the transcript is in the data\r\n    * @param {String} transcript Transcript\r\n    * @param {Object} recogData \r\n    * @return {Bool} Return true if the transcript is in the data\r\n    */\r\n    saySentenceFromData(transcript, recogData) {\r\n        let dataIndex = 0;\r\n        for (dataIndex; dataIndex < recogData.length; dataIndex += 1) {\r\n            if (transcript === recogData[dataIndex].recognition.toLowerCase()) {\r\n\r\n                //Sunthesis\r\n                if (recogData[dataIndex].synthesis && recogData[dataIndex].synthesis !== \"\") {\r\n                    this.say(recogData[dataIndex].synthesis);\r\n                }\r\n\r\n                //Functions\r\n                if (recogData[dataIndex].func) {\r\n                    this.launchFunc(recogData[dataIndex].func, recogData[dataIndex].funcParameters);\r\n                }\r\n\r\n\r\n                return true;\r\n            }\r\n        }\r\n        return false;\r\n    }\r\n\r\n    /**\r\n     * Execute function in commandsFunc\r\n     * @param {object} funcObj       Function object\r\n     * @param {string} recogSentence Recognition sentence\r\n     * @param {string} [type=\"normal\"] Type (normal or start)\r\n     */\r\n    launchFunc(funcObj, recogSentence, type = \"normal\") {\r\n        let fn = this.commandsFunc[funcObj.func];\r\n        let params = funcObj.funcParameters;\r\n        let transcript;\r\n        if (typeof fn === \"function\") {\r\n            if (!params) {\r\n                params = [];\r\n            }\r\n            if (type === \"start\") {\r\n                transcript = this.lastTranscript.slice(recogSentence.length + 1);\r\n                params.unshift(transcript);\r\n            }\r\n            fn.apply(null, params);\r\n            \r\n        } else {\r\n            throw(`SpeechYL : function ${funcObj.func} not found.`);\r\n        }\r\n        \r\n    }\r\n    \r\n    /**\r\n     * @access private\r\n     * Get synthesis sentence based on weight and language\r\n     * @param   {Array}  synthesisArray Synthesis Array\r\n     * @returns {string} Sentence synthesis\r\n     */\r\n    getSynthesisSentence(synthesisArray) {\r\n        let weightTotal = this.computeTotalWeight(synthesisArray);\r\n        let random = Math.random() * weightTotal;\r\n        let weight = 0;\r\n        let i = 0;\r\n        for (i; i < synthesisArray.length; i += 1) {\r\n            weight += synthesisArray[i].weight;\r\n            if (random < weight) {\r\n                return synthesisArray[i][this.utterance.lang];\r\n            }\r\n        }\r\n        throw(\"SpeechYW : getSynthesisError.\");\r\n    }\r\n    \r\n    /**\r\n     * @access private\r\n     * Get name of the function based on weight\r\n     * @param   {Array}  funcArray Functions Array\r\n     * @returns {string} Name of the function\r\n     */\r\n    getFunction(funcArray) {\r\n        let weightTotal = this.computeTotalWeight(funcArray);\r\n        let random = Math.random() * weightTotal;\r\n        let weight = 0;\r\n        let i = 0;\r\n        for (i; i < funcArray.length; i += 1) {\r\n            weight += funcArray[i].weight;\r\n            if (random < weight) {\r\n                return funcArray[i];\r\n            }\r\n        }\r\n        throw(\"SpeechYW : getFunctionError.\");\r\n    }\r\n    \r\n    /**\r\n     * @access private\r\n     * Format the transcript (lowercase and first space remove)\r\n     * @param   {string} transcript Text to format\r\n     * @returns {string} Return text formated\r\n     */\r\n    formatTranscript(transcript) {\r\n        if (typeof transcript !== \"string\") {\r\n            return null;\r\n        }\r\n        transcript = transcript.toLowerCase();\r\n        if (transcript.charAt(0) === \" \") {\r\n            transcript = transcript.slice(1);\r\n        }\r\n        return transcript;\r\n    }\r\n    \r\n    /**\r\n     * Launch actions if the recognition sentence from the data is recognize\r\n     * @param {object} event           Event from SpeechRecognition\r\n     * @param {object} recogData Array of single recognition data\r\n     * @param {string} [type=normal] (normal, start or include)\r\n     */\r\n    actionDataType(event, recogData, type = \"normal\") {\r\n        let eventResult,\r\n            data,\r\n            synthesis,\r\n            funcObj,\r\n            recogSentence;\r\n        for (let i = 0; i < event.results.length; i += 1) {\r\n            eventResult = event.results[i];\r\n            this.lastTranscript = this.formatTranscript(eventResult[0].transcript);\r\n            \r\n            data = this.retrieveData(recogData, type);\r\n            \r\n            if (data !== null && data !== undefined) {\r\n                recogSentence = this.retrieveRecognitionSentence(data);\r\n                //Synthesis\r\n                synthesis = this.retrieveSynthesis(data);\r\n                if (synthesis !== null) {\r\n                    this.say(synthesis);\r\n                }\r\n                //Functions\r\n                funcObj = this.retrieveFunction(data);\r\n                if (funcObj !== null) {\r\n                    this.launchFunc(funcObj, recogSentence, type);\r\n                }\r\n                \r\n                return true;\r\n            }\r\n        }\r\n        return false;\r\n    }\r\n    \r\n    /**\r\n     * Launch actions if the recognition sentence from the data is recognize\r\n     * @param {object} event           Event from SpeechRecognition\r\n     * @param {object} recogData Array of single recognition data\r\n     */\r\n    actionData(event, recogData) {\r\n        this.actionDataType(event, recogData, \"normal\");\r\n    }\r\n    \r\n    /**\r\n     * Launch actions if the beginning of the recognition sentence from the data is recognize\r\n     * @param {object} event           Event from SpeechRecognition\r\n     * @param {object} recogData Array of single recognition data\r\n     */\r\n    actionDataStart(event, recogData) {\r\n        this.actionDataType(event, recogData, \"start\");\r\n    }\r\n    \r\n    /**\r\n     * Launch actions if a part of the recognition sentence from the data is recognize\r\n     * @param {object} event           Event from SpeechRecognition\r\n     * @param {object} recogData Array of single recognition data\r\n     */\r\n    actionDataInclude(event, recogData) {\r\n        this.actionDataType(event, recogData, \"include\");\r\n    }\r\n    \r\n    /**\r\n     * @access private\r\n     * Compute the total weight of an array of object\r\n     * @param   {Array}  objectArray Array of objects\r\n     * @returns {number} The total weight of the array\r\n     */\r\n    computeTotalWeight(objectArray) {\r\n        let i = 0;\r\n        let weight = 0;\r\n        for (i; i < objectArray.length; i += 1) {\r\n            weight += objectArray[i].weight;\r\n        }\r\n        return weight;\r\n    }\r\n    \r\n    /**\r\n     * @access private\r\n     * Retrieve data based on the type (normal, start, include)\r\n     * @param   {object} recogData Data from the recognition object\r\n     * @param   {string} [type=\"normal\"] Type (normal, start or include)\r\n     * @returns {object} Data\r\n     */\r\n    retrieveData(recogData, type = \"normal\") {\r\n        let data;\r\n        switch (type) {\r\n            case \"normal\":\r\n                data = recogData.find(data => {\r\n                    return this.lastTranscript === this.retrieveRecognitionSentence(data);\r\n                });\r\n                break;\r\n            case \"start\":\r\n                data = recogData.find(data => {\r\n                    return this.lastTranscript.startsWith(this.retrieveRecognitionSentence(data));\r\n                });\r\n                break;\r\n            case \"include\":\r\n                data = recogData.find(data => {\r\n                    return this.lastTranscript.includes(this.retrieveRecognitionSentence(data));\r\n                });\r\n                break;\r\n            default:\r\n                data = null;\r\n                break;\r\n        }\r\n        return data;\r\n    }\r\n    \r\n    /**\r\n     * @access private\r\n     * Retrieve the synthesis \r\n     * @param   {object} data Single Recognition Data\r\n     * @returns {string} Text of utterance to synthesis\r\n     */\r\n    retrieveSynthesis(data) {\r\n        let synthesis = null;\r\n        if (!data.synthesis) {\r\n            synthesis = null;\r\n        } else if (data.synthesis instanceof Array) {\r\n            synthesis = this.getSynthesisSentence(data.synthesis);\r\n        } else if (data.synthesis instanceof Object) {\r\n            synthesis = data.synthesis[this.utterance.lang];\r\n        } else if (typeof data.synthesis === \"string\"){\r\n            synthesis = data.synthesis;\r\n        }\r\n        return synthesis;\r\n    }\r\n    \r\n    /**\r\n     * @access private\r\n     * Retrieve the function\r\n     * @param   {object} data Single Recognition Data\r\n     * @returns {string} Name of the function\r\n     */\r\n    retrieveFunction(data) {\r\n        let funcObj = null;\r\n        if (!data.func) {\r\n            funcObj = null;\r\n        } else if (data.func instanceof Array) {\r\n            funcObj = this.getFunction(data.func);\r\n        } else if (data.func instanceof Object) {\r\n            funcObj = data.func;\r\n        } else if (typeof data.func === \"string\") {\r\n            funcObj = {func: data.func, funcParameters: []};\r\n        }\r\n        return funcObj;\r\n    }\r\n    \r\n    /**\r\n     * @access private\r\n     * Retrieve the synthesis \r\n     * @param   {object} data Single Recognition Data\r\n     * @returns {string} Recognition sentence\r\n     */\r\n    retrieveRecognitionSentence(data) {\r\n        let recognition = null;\r\n        if (data.recognition instanceof Object) {\r\n            recognition = data.recognition[this.recognition.lang];\r\n        } else if (typeof data.recognition === \"string\") {\r\n            recognition = data.recognition;\r\n        }\r\n        return this.formatTranscript(recognition);\r\n    }\r\n    \r\n    /**\r\n     * @access private\r\n     * Get a JSON File\r\n     * @param   {string}  url Url of the json file\r\n     * @returns {Promise} Promise\r\n     */\r\n    getJson(url) {\r\n        return new Promise( (resolve, reject) => {\r\n            let request = new XMLHttpRequest();\r\n            request.open('Get', url);\r\n            request.onload = () => {\r\n                if (request.status === 200) {\r\n                    resolve(request.response);\r\n                } else {\r\n                    reject(new Error(`Data did not load successfully; Error code: ${request.statusText}`));\r\n                }\r\n            };\r\n            request.onerror = () => {\r\n                reject(new Error('Data did not load successfully; Network error.'));\r\n            };\r\n            request.send();\r\n        });\r\n    }\r\n    \r\n    /**\r\n     * Load commands from a json file\r\n     * @throws {TypeError} JSON object is not an array\r\n     * @param {string} url Url of the json file\r\n     */\r\n    loadJsonCommands(url) {\r\n        let commands;\r\n        this.getJson(url).then( (data) => {\r\n            commands = JSON.parse(data);\r\n            if (!(commands instanceof Array)) {\r\n                throw new TypeError(\"Json data must be an Array\");\r\n            } else {\r\n                this.commands = this.commands.concat(commands);\r\n            }\r\n        }, (e) => {\r\n            throw e;\r\n        });\r\n    }\r\n    \r\n    /**\r\n     * Return a voice with the specified name\r\n     * @param   {string}               name Name of the voice\r\n     * @returns {SpeechSynthesisVoice} Voice\r\n     */\r\n    getVoiceByName(name) {\r\n        return this.voices.find( voice => {\r\n            return voice.name === name;\r\n        });\r\n    }\r\n    \r\n    /**\r\n     * Return an array of voices corresponding to the specified langage\r\n     * @param   {string} lang Lang of the voices\r\n     * @returns {Array}  Array of voices\r\n     */\r\n    getVoicesByLang(lang) {\r\n        return this.voices.filter(voice => {\r\n            return voice.lang === lang;\r\n        });\r\n    }\r\n    \r\n    \r\n    /**\r\n     * Return a command object \r\n     * @param   {string          |           Array}   recognition Recognition string or array\r\n     * @param   {string          |           Array}       synthesis   Synthesis string or array\r\n     * @param   {string}         func        Name of the function\r\n     * @returns {object}         Command object\r\n     */\r\n    createCommands(recognition, synthesis, func) {\r\n        return {\r\n            recognition,\r\n            synthesis,\r\n            func\r\n        };\r\n    }\r\n    \r\n    /**\r\n     * Add a command\r\n     * @param   {string          |           Array}   recognition Recognition string or array\r\n     * @param   {string          |           Array}       synthesis   Synthesis string or array\r\n     * @param   {string}         func        Name of the function\r\n     */\r\n    addCommand(recognition, synthesis, func) {\r\n        this.commands.push({\r\n            recognition,\r\n            synthesis,\r\n            func\r\n        });\r\n    }\r\n    \r\n}\r\n\r\n\r\n\r\n//export default SpeechYL;\r\n"
   },
   {
     "__docId__": 7,
@@ -158,14 +158,14 @@
     "static": true,
     "variation": null,
     "name": "SpeechYL",
-    "memberof": "src/SpeechYL.es6.js",
-    "longname": "src/SpeechYL.es6.js~SpeechYL",
+    "memberof": "src/SpeechYL.js",
+    "longname": "src/SpeechYL.js~SpeechYL",
     "access": null,
-    "export": true,
-    "importPath": "speechyl/src/SpeechYL.es6.js",
-    "importStyle": "SpeechYL",
+    "export": false,
+    "importPath": "speechyl/src/SpeechYL.js",
+    "importStyle": null,
     "description": "Library Web Speech Recognition & Web Speech Synthesis",
-    "lineNumber": 17,
+    "lineNumber": 5,
     "unknown": [
       {
         "tagName": "@class",
@@ -180,14 +180,14 @@
     "static": false,
     "variation": null,
     "name": "constructor",
-    "memberof": "src/SpeechYL.es6.js~SpeechYL",
-    "longname": "src/SpeechYL.es6.js~SpeechYL#constructor",
+    "memberof": "src/SpeechYL.js~SpeechYL",
+    "longname": "src/SpeechYL.js~SpeechYL#constructor",
     "access": null,
     "description": "Default constructor",
     "examples": [
       "let speechYL = new SpeechYL();"
     ],
-    "lineNumber": 24,
+    "lineNumber": 12,
     "params": [],
     "generator": false
   },
@@ -197,11 +197,11 @@
     "static": false,
     "variation": null,
     "name": "recognition",
-    "memberof": "src/SpeechYL.es6.js~SpeechYL",
-    "longname": "src/SpeechYL.es6.js~SpeechYL#recognition",
+    "memberof": "src/SpeechYL.js~SpeechYL",
+    "longname": "src/SpeechYL.js~SpeechYL#recognition",
     "access": null,
     "description": "SpeechRecognition Object from Web API SpeechRecognition",
-    "lineNumber": 32,
+    "lineNumber": 20,
     "type": {
       "nullable": null,
       "types": [
@@ -217,11 +217,11 @@
     "static": false,
     "variation": null,
     "name": "synthesis",
-    "memberof": "src/SpeechYL.es6.js~SpeechYL",
-    "longname": "src/SpeechYL.es6.js~SpeechYL#synthesis",
+    "memberof": "src/SpeechYL.js~SpeechYL",
+    "longname": "src/SpeechYL.js~SpeechYL#synthesis",
     "access": null,
     "description": "SpeechSynthesis Object from Web API SpeechSynthesis",
-    "lineNumber": 41,
+    "lineNumber": 29,
     "type": {
       "nullable": null,
       "types": [
@@ -237,11 +237,11 @@
     "static": false,
     "variation": null,
     "name": "utterance",
-    "memberof": "src/SpeechYL.es6.js~SpeechYL",
-    "longname": "src/SpeechYL.es6.js~SpeechYL#utterance",
+    "memberof": "src/SpeechYL.js~SpeechYL",
+    "longname": "src/SpeechYL.js~SpeechYL#utterance",
     "access": null,
     "description": "SpeechSynthesisUtterance Object from Web API SpeechSynthesis",
-    "lineNumber": 46,
+    "lineNumber": 34,
     "type": {
       "nullable": null,
       "types": [
@@ -257,11 +257,11 @@
     "static": false,
     "variation": null,
     "name": "lastTranscript",
-    "memberof": "src/SpeechYL.es6.js~SpeechYL",
-    "longname": "src/SpeechYL.es6.js~SpeechYL#lastTranscript",
+    "memberof": "src/SpeechYL.js~SpeechYL",
+    "longname": "src/SpeechYL.js~SpeechYL#lastTranscript",
     "access": null,
     "description": "The last transcript from SpeechRecognition",
-    "lineNumber": 51,
+    "lineNumber": 39,
     "type": {
       "nullable": null,
       "types": [
@@ -277,11 +277,11 @@
     "static": false,
     "variation": null,
     "name": "synthText",
-    "memberof": "src/SpeechYL.es6.js~SpeechYL",
-    "longname": "src/SpeechYL.es6.js~SpeechYL#synthText",
+    "memberof": "src/SpeechYL.js~SpeechYL",
+    "longname": "src/SpeechYL.js~SpeechYL#synthText",
     "access": null,
     "description": "The last text from SpeechSynthesis",
-    "lineNumber": 56,
+    "lineNumber": 44,
     "type": {
       "nullable": null,
       "types": [
@@ -297,11 +297,11 @@
     "static": false,
     "variation": null,
     "name": "commands",
-    "memberof": "src/SpeechYL.es6.js~SpeechYL",
-    "longname": "src/SpeechYL.es6.js~SpeechYL#commands",
+    "memberof": "src/SpeechYL.js~SpeechYL",
+    "longname": "src/SpeechYL.js~SpeechYL#commands",
     "access": null,
     "description": "Array that contains recognition and speech commands.",
-    "lineNumber": 62,
+    "lineNumber": 50,
     "type": {
       "nullable": null,
       "types": [
@@ -317,11 +317,11 @@
     "static": false,
     "variation": null,
     "name": "commandsFunc",
-    "memberof": "src/SpeechYL.es6.js~SpeechYL",
-    "longname": "src/SpeechYL.es6.js~SpeechYL#commandsFunc",
+    "memberof": "src/SpeechYL.js~SpeechYL",
+    "longname": "src/SpeechYL.js~SpeechYL#commandsFunc",
     "access": null,
     "description": "Object that contains all functions listed in 'commands' object",
-    "lineNumber": 67,
+    "lineNumber": 55,
     "type": {
       "nullable": null,
       "types": [
@@ -337,11 +337,11 @@
     "static": false,
     "variation": null,
     "name": "voices",
-    "memberof": "src/SpeechYL.es6.js~SpeechYL",
-    "longname": "src/SpeechYL.es6.js~SpeechYL#voices",
+    "memberof": "src/SpeechYL.js~SpeechYL",
+    "longname": "src/SpeechYL.js~SpeechYL#voices",
     "access": null,
     "description": "List of SpeechSynthesisVoice objects representing all the available voices on the current device.",
-    "lineNumber": 74,
+    "lineNumber": 62,
     "type": {
       "nullable": null,
       "types": [
@@ -357,11 +357,11 @@
     "static": false,
     "variation": null,
     "name": "onresult",
-    "memberof": "src/SpeechYL.es6.js~SpeechYL",
-    "longname": "src/SpeechYL.es6.js~SpeechYL#onresult",
+    "memberof": "src/SpeechYL.js~SpeechYL",
+    "longname": "src/SpeechYL.js~SpeechYL#onresult",
     "access": null,
     "description": null,
-    "lineNumber": 77,
+    "lineNumber": 65,
     "undocument": true,
     "type": {
       "types": [
@@ -375,11 +375,11 @@
     "static": false,
     "variation": null,
     "name": "onvoiceschanged",
-    "memberof": "src/SpeechYL.es6.js~SpeechYL",
-    "longname": "src/SpeechYL.es6.js~SpeechYL#onvoiceschanged",
+    "memberof": "src/SpeechYL.js~SpeechYL",
+    "longname": "src/SpeechYL.js~SpeechYL#onvoiceschanged",
     "access": null,
     "description": null,
-    "lineNumber": 82,
+    "lineNumber": 70,
     "undocument": true,
     "type": {
       "types": [
@@ -393,11 +393,11 @@
     "static": false,
     "variation": null,
     "name": "voices",
-    "memberof": "src/SpeechYL.es6.js~SpeechYL",
-    "longname": "src/SpeechYL.es6.js~SpeechYL#voices",
+    "memberof": "src/SpeechYL.js~SpeechYL",
+    "longname": "src/SpeechYL.js~SpeechYL#voices",
     "access": null,
     "description": null,
-    "lineNumber": 83,
+    "lineNumber": 71,
     "undocument": true,
     "type": {
       "types": [
@@ -411,11 +411,11 @@
     "static": false,
     "variation": null,
     "name": "setLang",
-    "memberof": "src/SpeechYL.es6.js~SpeechYL",
-    "longname": "src/SpeechYL.es6.js~SpeechYL#setLang",
+    "memberof": "src/SpeechYL.js~SpeechYL",
+    "longname": "src/SpeechYL.js~SpeechYL#setLang",
     "access": null,
     "description": "Set lang for synthesis and recognition speech.",
-    "lineNumber": 91,
+    "lineNumber": 79,
     "params": [
       {
         "nullable": null,
@@ -436,11 +436,11 @@
     "static": false,
     "variation": null,
     "name": "synthesisLang",
-    "memberof": "src/SpeechYL.es6.js~SpeechYL",
-    "longname": "src/SpeechYL.es6.js~SpeechYL#synthesisLang",
+    "memberof": "src/SpeechYL.js~SpeechYL",
+    "longname": "src/SpeechYL.js~SpeechYL#synthesisLang",
     "access": null,
     "description": null,
-    "lineNumber": 92,
+    "lineNumber": 80,
     "undocument": true,
     "type": {
       "types": [
@@ -454,11 +454,11 @@
     "static": false,
     "variation": null,
     "name": "recognitionLang",
-    "memberof": "src/SpeechYL.es6.js~SpeechYL",
-    "longname": "src/SpeechYL.es6.js~SpeechYL#recognitionLang",
+    "memberof": "src/SpeechYL.js~SpeechYL",
+    "longname": "src/SpeechYL.js~SpeechYL#recognitionLang",
     "access": null,
     "description": null,
-    "lineNumber": 93,
+    "lineNumber": 81,
     "undocument": true,
     "type": {
       "types": [
@@ -472,11 +472,11 @@
     "static": false,
     "variation": null,
     "name": "synthesisLang",
-    "memberof": "src/SpeechYL.es6.js~SpeechYL",
-    "longname": "src/SpeechYL.es6.js~SpeechYL#synthesisLang",
+    "memberof": "src/SpeechYL.js~SpeechYL",
+    "longname": "src/SpeechYL.js~SpeechYL#synthesisLang",
     "access": null,
     "description": "",
-    "lineNumber": 99,
+    "lineNumber": 87,
     "ignore": true,
     "type": {
       "types": [
@@ -491,11 +491,11 @@
     "static": false,
     "variation": null,
     "name": "synthesisLang",
-    "memberof": "src/SpeechYL.es6.js~SpeechYL",
-    "longname": "src/SpeechYL.es6.js~SpeechYL#synthesisLang",
+    "memberof": "src/SpeechYL.js~SpeechYL",
+    "longname": "src/SpeechYL.js~SpeechYL#synthesisLang",
     "access": null,
     "description": "Set the language for speech synthesis (ex : \"en-EN\", \"fr-FR\")",
-    "lineNumber": 107,
+    "lineNumber": 95,
     "type": {
       "nullable": null,
       "types": [
@@ -512,11 +512,11 @@
     "static": false,
     "variation": null,
     "name": "recognitionLang",
-    "memberof": "src/SpeechYL.es6.js~SpeechYL",
-    "longname": "src/SpeechYL.es6.js~SpeechYL#recognitionLang",
+    "memberof": "src/SpeechYL.js~SpeechYL",
+    "longname": "src/SpeechYL.js~SpeechYL#recognitionLang",
     "access": null,
     "description": "",
-    "lineNumber": 114,
+    "lineNumber": 102,
     "ignore": true,
     "type": {
       "types": [
@@ -531,11 +531,11 @@
     "static": false,
     "variation": null,
     "name": "recognitionLang",
-    "memberof": "src/SpeechYL.es6.js~SpeechYL",
-    "longname": "src/SpeechYL.es6.js~SpeechYL#recognitionLang",
+    "memberof": "src/SpeechYL.js~SpeechYL",
+    "longname": "src/SpeechYL.js~SpeechYL#recognitionLang",
     "access": null,
     "description": "Set the language for speech recognition (ex : \"en-EN\", \"fr-FR\")",
-    "lineNumber": 122,
+    "lineNumber": 110,
     "type": {
       "nullable": null,
       "types": [
@@ -552,11 +552,11 @@
     "static": false,
     "variation": null,
     "name": "voice",
-    "memberof": "src/SpeechYL.es6.js~SpeechYL",
-    "longname": "src/SpeechYL.es6.js~SpeechYL#voice",
+    "memberof": "src/SpeechYL.js~SpeechYL",
+    "longname": "src/SpeechYL.js~SpeechYL#voice",
     "access": null,
     "description": "",
-    "lineNumber": 129,
+    "lineNumber": 117,
     "ignore": true,
     "type": {
       "types": [
@@ -571,11 +571,11 @@
     "static": false,
     "variation": null,
     "name": "voice",
-    "memberof": "src/SpeechYL.es6.js~SpeechYL",
-    "longname": "src/SpeechYL.es6.js~SpeechYL#voice",
+    "memberof": "src/SpeechYL.js~SpeechYL",
+    "longname": "src/SpeechYL.js~SpeechYL#voice",
     "access": null,
     "description": "Set the language for speech synthesis (ex : \"en-EN\", \"fr-FR\")",
-    "lineNumber": 137,
+    "lineNumber": 125,
     "type": {
       "nullable": null,
       "types": [
@@ -592,11 +592,11 @@
     "static": false,
     "variation": null,
     "name": "maxAlternatives",
-    "memberof": "src/SpeechYL.es6.js~SpeechYL",
-    "longname": "src/SpeechYL.es6.js~SpeechYL#maxAlternatives",
+    "memberof": "src/SpeechYL.js~SpeechYL",
+    "longname": "src/SpeechYL.js~SpeechYL#maxAlternatives",
     "access": null,
     "description": "",
-    "lineNumber": 144,
+    "lineNumber": 132,
     "ignore": true,
     "type": {
       "types": [
@@ -611,11 +611,11 @@
     "static": false,
     "variation": null,
     "name": "maxAlternatives",
-    "memberof": "src/SpeechYL.es6.js~SpeechYL",
-    "longname": "src/SpeechYL.es6.js~SpeechYL#maxAlternatives",
+    "memberof": "src/SpeechYL.js~SpeechYL",
+    "longname": "src/SpeechYL.js~SpeechYL#maxAlternatives",
     "access": null,
     "description": "Sets the maximum number of SpeechRecognitionAlternatives provided per result. The default value is 1.",
-    "lineNumber": 152,
+    "lineNumber": 140,
     "type": {
       "nullable": null,
       "types": [
@@ -632,11 +632,11 @@
     "static": false,
     "variation": null,
     "name": "serviceURI",
-    "memberof": "src/SpeechYL.es6.js~SpeechYL",
-    "longname": "src/SpeechYL.es6.js~SpeechYL#serviceURI",
+    "memberof": "src/SpeechYL.js~SpeechYL",
+    "longname": "src/SpeechYL.js~SpeechYL#serviceURI",
     "access": null,
     "description": "",
-    "lineNumber": 159,
+    "lineNumber": 147,
     "ignore": true,
     "type": {
       "types": [
@@ -651,11 +651,11 @@
     "static": false,
     "variation": null,
     "name": "serviceURI",
-    "memberof": "src/SpeechYL.es6.js~SpeechYL",
-    "longname": "src/SpeechYL.es6.js~SpeechYL#serviceURI",
+    "memberof": "src/SpeechYL.js~SpeechYL",
+    "longname": "src/SpeechYL.js~SpeechYL#serviceURI",
     "access": null,
     "description": "Specifies the location of the speech recognition service used by the current SpeechRecognition\nto handle the actual recognition. The default is the user agent's default speech service.",
-    "lineNumber": 167,
+    "lineNumber": 155,
     "type": {
       "nullable": null,
       "types": [
@@ -672,11 +672,11 @@
     "static": false,
     "variation": null,
     "name": "onaudiostart",
-    "memberof": "src/SpeechYL.es6.js~SpeechYL",
-    "longname": "src/SpeechYL.es6.js~SpeechYL#onaudiostart",
+    "memberof": "src/SpeechYL.js~SpeechYL",
+    "longname": "src/SpeechYL.js~SpeechYL#onaudiostart",
     "access": null,
     "description": "Fired when the user agent has started to capture audio.",
-    "lineNumber": 176,
+    "lineNumber": 164,
     "type": {
       "nullable": null,
       "types": [
@@ -701,11 +701,11 @@
     "static": false,
     "variation": null,
     "name": "onaudioend",
-    "memberof": "src/SpeechYL.es6.js~SpeechYL",
-    "longname": "src/SpeechYL.es6.js~SpeechYL#onaudioend",
+    "memberof": "src/SpeechYL.js~SpeechYL",
+    "longname": "src/SpeechYL.js~SpeechYL#onaudioend",
     "access": null,
     "description": "Fired when the user agent has finished capturing audio.",
-    "lineNumber": 185,
+    "lineNumber": 173,
     "type": {
       "nullable": null,
       "types": [
@@ -730,11 +730,11 @@
     "static": false,
     "variation": null,
     "name": "onend",
-    "memberof": "src/SpeechYL.es6.js~SpeechYL",
-    "longname": "src/SpeechYL.es6.js~SpeechYL#onend",
+    "memberof": "src/SpeechYL.js~SpeechYL",
+    "longname": "src/SpeechYL.js~SpeechYL#onend",
     "access": null,
     "description": "Fired when the speech recognition service has disconnected.",
-    "lineNumber": 194,
+    "lineNumber": 182,
     "type": {
       "nullable": null,
       "types": [
@@ -759,11 +759,11 @@
     "static": false,
     "variation": null,
     "name": "onerror",
-    "memberof": "src/SpeechYL.es6.js~SpeechYL",
-    "longname": "src/SpeechYL.es6.js~SpeechYL#onerror",
+    "memberof": "src/SpeechYL.js~SpeechYL",
+    "longname": "src/SpeechYL.js~SpeechYL#onerror",
     "access": null,
     "description": "Fired when a speech recognition error occurs.",
-    "lineNumber": 203,
+    "lineNumber": 191,
     "type": {
       "nullable": null,
       "types": [
@@ -788,11 +788,11 @@
     "static": false,
     "variation": null,
     "name": "onnomatch",
-    "memberof": "src/SpeechYL.es6.js~SpeechYL",
-    "longname": "src/SpeechYL.es6.js~SpeechYL#onnomatch",
+    "memberof": "src/SpeechYL.js~SpeechYL",
+    "longname": "src/SpeechYL.js~SpeechYL#onnomatch",
     "access": null,
     "description": "Fired when the speech recognition service returns a final result with no significant recognition. This may involve some degree of recognition, which doesn't meet or exceed the confidence threshold.",
-    "lineNumber": 212,
+    "lineNumber": 200,
     "type": {
       "nullable": null,
       "types": [
@@ -817,11 +817,11 @@
     "static": false,
     "variation": null,
     "name": "onresult",
-    "memberof": "src/SpeechYL.es6.js~SpeechYL",
-    "longname": "src/SpeechYL.es6.js~SpeechYL#onresult",
+    "memberof": "src/SpeechYL.js~SpeechYL",
+    "longname": "src/SpeechYL.js~SpeechYL#onresult",
     "access": null,
     "description": "Fired when the speech recognition service returns a result — a word or phrase has been positively recognized and this has been communicated back to the app.",
-    "lineNumber": 221,
+    "lineNumber": 209,
     "type": {
       "nullable": null,
       "types": [
@@ -846,11 +846,11 @@
     "static": false,
     "variation": null,
     "name": "onsoundstart",
-    "memberof": "src/SpeechYL.es6.js~SpeechYL",
-    "longname": "src/SpeechYL.es6.js~SpeechYL#onsoundstart",
+    "memberof": "src/SpeechYL.js~SpeechYL",
+    "longname": "src/SpeechYL.js~SpeechYL#onsoundstart",
     "access": null,
     "description": "Fired when any sound — recognisable speech or not — has been detected.",
-    "lineNumber": 230,
+    "lineNumber": 218,
     "type": {
       "nullable": null,
       "types": [
@@ -875,11 +875,11 @@
     "static": false,
     "variation": null,
     "name": "onsoundend",
-    "memberof": "src/SpeechYL.es6.js~SpeechYL",
-    "longname": "src/SpeechYL.es6.js~SpeechYL#onsoundend",
+    "memberof": "src/SpeechYL.js~SpeechYL",
+    "longname": "src/SpeechYL.js~SpeechYL#onsoundend",
     "access": null,
     "description": "Fired when any sound — recognisable speech or not — has stopped being detected.",
-    "lineNumber": 239,
+    "lineNumber": 227,
     "type": {
       "nullable": null,
       "types": [
@@ -904,11 +904,11 @@
     "static": false,
     "variation": null,
     "name": "onspeechstart",
-    "memberof": "src/SpeechYL.es6.js~SpeechYL",
-    "longname": "src/SpeechYL.es6.js~SpeechYL#onspeechstart",
+    "memberof": "src/SpeechYL.js~SpeechYL",
+    "longname": "src/SpeechYL.js~SpeechYL#onspeechstart",
     "access": null,
     "description": "Fired when sound that is recognised by the speech recognition service as speech has been detected.",
-    "lineNumber": 248,
+    "lineNumber": 236,
     "type": {
       "nullable": null,
       "types": [
@@ -933,11 +933,11 @@
     "static": false,
     "variation": null,
     "name": "onspeechend",
-    "memberof": "src/SpeechYL.es6.js~SpeechYL",
-    "longname": "src/SpeechYL.es6.js~SpeechYL#onspeechend",
+    "memberof": "src/SpeechYL.js~SpeechYL",
+    "longname": "src/SpeechYL.js~SpeechYL#onspeechend",
     "access": null,
     "description": "Fired when speech recognised by the speech recognition service has stopped being detected.",
-    "lineNumber": 257,
+    "lineNumber": 245,
     "type": {
       "nullable": null,
       "types": [
@@ -962,11 +962,11 @@
     "static": false,
     "variation": null,
     "name": "onstart",
-    "memberof": "src/SpeechYL.es6.js~SpeechYL",
-    "longname": "src/SpeechYL.es6.js~SpeechYL#onstart",
+    "memberof": "src/SpeechYL.js~SpeechYL",
+    "longname": "src/SpeechYL.js~SpeechYL#onstart",
     "access": null,
     "description": "Fired when the speech recognition service has begun listening to incoming audio with intent to recognize grammars associated with the current SpeechRecognition.",
-    "lineNumber": 265,
+    "lineNumber": 253,
     "type": {
       "nullable": null,
       "types": [
@@ -983,11 +983,11 @@
     "static": false,
     "variation": null,
     "name": "onvoiceschanged",
-    "memberof": "src/SpeechYL.es6.js~SpeechYL",
-    "longname": "src/SpeechYL.es6.js~SpeechYL#onvoiceschanged",
+    "memberof": "src/SpeechYL.js~SpeechYL",
+    "longname": "src/SpeechYL.js~SpeechYL#onvoiceschanged",
     "access": null,
     "description": "Fired when the list of SpeechSynthesisVoice objects that would be returned by the SpeechSynthesis.getVoices() method has changed.",
-    "lineNumber": 273,
+    "lineNumber": 261,
     "type": {
       "nullable": null,
       "types": [
@@ -1004,11 +1004,11 @@
     "static": false,
     "variation": null,
     "name": "onaudiostart",
-    "memberof": "src/SpeechYL.es6.js~SpeechYL",
-    "longname": "src/SpeechYL.es6.js~SpeechYL#onaudiostart",
+    "memberof": "src/SpeechYL.js~SpeechYL",
+    "longname": "src/SpeechYL.js~SpeechYL#onaudiostart",
     "access": null,
     "description": "",
-    "lineNumber": 280,
+    "lineNumber": 268,
     "ignore": true,
     "type": {
       "types": [
@@ -1023,11 +1023,11 @@
     "static": false,
     "variation": null,
     "name": "onaudioend",
-    "memberof": "src/SpeechYL.es6.js~SpeechYL",
-    "longname": "src/SpeechYL.es6.js~SpeechYL#onaudioend",
+    "memberof": "src/SpeechYL.js~SpeechYL",
+    "longname": "src/SpeechYL.js~SpeechYL#onaudioend",
     "access": null,
     "description": "",
-    "lineNumber": 287,
+    "lineNumber": 275,
     "ignore": true,
     "type": {
       "types": [
@@ -1042,11 +1042,11 @@
     "static": false,
     "variation": null,
     "name": "onend",
-    "memberof": "src/SpeechYL.es6.js~SpeechYL",
-    "longname": "src/SpeechYL.es6.js~SpeechYL#onend",
+    "memberof": "src/SpeechYL.js~SpeechYL",
+    "longname": "src/SpeechYL.js~SpeechYL#onend",
     "access": null,
     "description": "",
-    "lineNumber": 294,
+    "lineNumber": 282,
     "ignore": true,
     "type": {
       "types": [
@@ -1061,11 +1061,11 @@
     "static": false,
     "variation": null,
     "name": "onerror",
-    "memberof": "src/SpeechYL.es6.js~SpeechYL",
-    "longname": "src/SpeechYL.es6.js~SpeechYL#onerror",
+    "memberof": "src/SpeechYL.js~SpeechYL",
+    "longname": "src/SpeechYL.js~SpeechYL#onerror",
     "access": null,
     "description": "",
-    "lineNumber": 301,
+    "lineNumber": 289,
     "ignore": true,
     "type": {
       "types": [
@@ -1080,11 +1080,11 @@
     "static": false,
     "variation": null,
     "name": "onnomatch",
-    "memberof": "src/SpeechYL.es6.js~SpeechYL",
-    "longname": "src/SpeechYL.es6.js~SpeechYL#onnomatch",
+    "memberof": "src/SpeechYL.js~SpeechYL",
+    "longname": "src/SpeechYL.js~SpeechYL#onnomatch",
     "access": null,
     "description": "",
-    "lineNumber": 308,
+    "lineNumber": 296,
     "ignore": true,
     "type": {
       "types": [
@@ -1099,11 +1099,11 @@
     "static": false,
     "variation": null,
     "name": "onresult",
-    "memberof": "src/SpeechYL.es6.js~SpeechYL",
-    "longname": "src/SpeechYL.es6.js~SpeechYL#onresult",
+    "memberof": "src/SpeechYL.js~SpeechYL",
+    "longname": "src/SpeechYL.js~SpeechYL#onresult",
     "access": null,
     "description": "",
-    "lineNumber": 315,
+    "lineNumber": 303,
     "ignore": true,
     "type": {
       "types": [
@@ -1118,11 +1118,11 @@
     "static": false,
     "variation": null,
     "name": "onsoundstart",
-    "memberof": "src/SpeechYL.es6.js~SpeechYL",
-    "longname": "src/SpeechYL.es6.js~SpeechYL#onsoundstart",
+    "memberof": "src/SpeechYL.js~SpeechYL",
+    "longname": "src/SpeechYL.js~SpeechYL#onsoundstart",
     "access": null,
     "description": "",
-    "lineNumber": 322,
+    "lineNumber": 310,
     "ignore": true,
     "type": {
       "types": [
@@ -1137,11 +1137,11 @@
     "static": false,
     "variation": null,
     "name": "onsoundend",
-    "memberof": "src/SpeechYL.es6.js~SpeechYL",
-    "longname": "src/SpeechYL.es6.js~SpeechYL#onsoundend",
+    "memberof": "src/SpeechYL.js~SpeechYL",
+    "longname": "src/SpeechYL.js~SpeechYL#onsoundend",
     "access": null,
     "description": "",
-    "lineNumber": 329,
+    "lineNumber": 317,
     "ignore": true,
     "type": {
       "types": [
@@ -1156,11 +1156,11 @@
     "static": false,
     "variation": null,
     "name": "onspeechstart",
-    "memberof": "src/SpeechYL.es6.js~SpeechYL",
-    "longname": "src/SpeechYL.es6.js~SpeechYL#onspeechstart",
+    "memberof": "src/SpeechYL.js~SpeechYL",
+    "longname": "src/SpeechYL.js~SpeechYL#onspeechstart",
     "access": null,
     "description": "",
-    "lineNumber": 336,
+    "lineNumber": 324,
     "ignore": true,
     "type": {
       "types": [
@@ -1175,11 +1175,11 @@
     "static": false,
     "variation": null,
     "name": "onspeechend",
-    "memberof": "src/SpeechYL.es6.js~SpeechYL",
-    "longname": "src/SpeechYL.es6.js~SpeechYL#onspeechend",
+    "memberof": "src/SpeechYL.js~SpeechYL",
+    "longname": "src/SpeechYL.js~SpeechYL#onspeechend",
     "access": null,
     "description": "",
-    "lineNumber": 343,
+    "lineNumber": 331,
     "ignore": true,
     "type": {
       "types": [
@@ -1194,11 +1194,11 @@
     "static": false,
     "variation": null,
     "name": "onstart",
-    "memberof": "src/SpeechYL.es6.js~SpeechYL",
-    "longname": "src/SpeechYL.es6.js~SpeechYL#onstart",
+    "memberof": "src/SpeechYL.js~SpeechYL",
+    "longname": "src/SpeechYL.js~SpeechYL#onstart",
     "access": null,
     "description": "",
-    "lineNumber": 350,
+    "lineNumber": 338,
     "ignore": true,
     "type": {
       "types": [
@@ -1213,11 +1213,11 @@
     "static": false,
     "variation": null,
     "name": "onvoiceschanged",
-    "memberof": "src/SpeechYL.es6.js~SpeechYL",
-    "longname": "src/SpeechYL.es6.js~SpeechYL#onvoiceschanged",
+    "memberof": "src/SpeechYL.js~SpeechYL",
+    "longname": "src/SpeechYL.js~SpeechYL#onvoiceschanged",
     "access": null,
     "description": "",
-    "lineNumber": 357,
+    "lineNumber": 345,
     "ignore": true,
     "type": {
       "types": [
@@ -1232,11 +1232,11 @@
     "static": false,
     "variation": null,
     "name": "synthCancel",
-    "memberof": "src/SpeechYL.es6.js~SpeechYL",
-    "longname": "src/SpeechYL.es6.js~SpeechYL#synthCancel",
+    "memberof": "src/SpeechYL.js~SpeechYL",
+    "longname": "src/SpeechYL.js~SpeechYL#synthCancel",
     "access": null,
     "description": "Removes all utterances from the utterance queue.",
-    "lineNumber": 364,
+    "lineNumber": 352,
     "params": [],
     "generator": false
   },
@@ -1246,11 +1246,11 @@
     "static": false,
     "variation": null,
     "name": "synthPause",
-    "memberof": "src/SpeechYL.es6.js~SpeechYL",
-    "longname": "src/SpeechYL.es6.js~SpeechYL#synthPause",
+    "memberof": "src/SpeechYL.js~SpeechYL",
+    "longname": "src/SpeechYL.js~SpeechYL#synthPause",
     "access": null,
     "description": "Puts the SpeechSynthesis object into a paused state.",
-    "lineNumber": 371,
+    "lineNumber": 359,
     "params": [],
     "generator": false
   },
@@ -1260,11 +1260,11 @@
     "static": false,
     "variation": null,
     "name": "synthResume",
-    "memberof": "src/SpeechYL.es6.js~SpeechYL",
-    "longname": "src/SpeechYL.es6.js~SpeechYL#synthResume",
+    "memberof": "src/SpeechYL.js~SpeechYL",
+    "longname": "src/SpeechYL.js~SpeechYL#synthResume",
     "access": null,
     "description": "Puts the SpeechSynthesis object into a non-paused state: resumes it if it was already paused.",
-    "lineNumber": 378,
+    "lineNumber": 366,
     "params": [],
     "generator": false
   },
@@ -1274,11 +1274,11 @@
     "static": false,
     "variation": null,
     "name": "recogAbort",
-    "memberof": "src/SpeechYL.es6.js~SpeechYL",
-    "longname": "src/SpeechYL.es6.js~SpeechYL#recogAbort",
+    "memberof": "src/SpeechYL.js~SpeechYL",
+    "longname": "src/SpeechYL.js~SpeechYL#recogAbort",
     "access": null,
     "description": "Stops the speech recognition service from listening to incoming audio, and doesn't attempt to return a SpeechRecognitionResult.",
-    "lineNumber": 385,
+    "lineNumber": 373,
     "params": [],
     "generator": false
   },
@@ -1288,11 +1288,11 @@
     "static": false,
     "variation": null,
     "name": "recogStart",
-    "memberof": "src/SpeechYL.es6.js~SpeechYL",
-    "longname": "src/SpeechYL.es6.js~SpeechYL#recogStart",
+    "memberof": "src/SpeechYL.js~SpeechYL",
+    "longname": "src/SpeechYL.js~SpeechYL#recogStart",
     "access": null,
     "description": "Starts the speech recognition service listening to incoming audio with intent to recognize grammars associated with the current SpeechRecognition.",
-    "lineNumber": 392,
+    "lineNumber": 380,
     "params": [],
     "generator": false
   },
@@ -1302,11 +1302,11 @@
     "static": false,
     "variation": null,
     "name": "recogStop",
-    "memberof": "src/SpeechYL.es6.js~SpeechYL",
-    "longname": "src/SpeechYL.es6.js~SpeechYL#recogStop",
+    "memberof": "src/SpeechYL.js~SpeechYL",
+    "longname": "src/SpeechYL.js~SpeechYL#recogStop",
     "access": null,
     "description": "Stops the speech recognition service from listening to incoming audio, and attempts to return a SpeechRecognitionResult using the audio captured so far.",
-    "lineNumber": 399,
+    "lineNumber": 387,
     "params": [],
     "generator": false
   },
@@ -1316,11 +1316,11 @@
     "static": false,
     "variation": null,
     "name": "speak",
-    "memberof": "src/SpeechYL.es6.js~SpeechYL",
-    "longname": "src/SpeechYL.es6.js~SpeechYL#speak",
+    "memberof": "src/SpeechYL.js~SpeechYL",
+    "longname": "src/SpeechYL.js~SpeechYL#speak",
     "access": null,
     "description": "Adds an utterance to the utterance queue; it will be spoken when any other utterances queued before it have been spoken.",
-    "lineNumber": 407,
+    "lineNumber": 395,
     "params": [
       {
         "nullable": null,
@@ -1341,11 +1341,11 @@
     "static": false,
     "variation": null,
     "name": "synthText",
-    "memberof": "src/SpeechYL.es6.js~SpeechYL",
-    "longname": "src/SpeechYL.es6.js~SpeechYL#synthText",
+    "memberof": "src/SpeechYL.js~SpeechYL",
+    "longname": "src/SpeechYL.js~SpeechYL#synthText",
     "access": null,
     "description": null,
-    "lineNumber": 408,
+    "lineNumber": 396,
     "undocument": true,
     "type": {
       "types": [
@@ -1359,14 +1359,14 @@
     "static": false,
     "variation": null,
     "name": "say",
-    "memberof": "src/SpeechYL.es6.js~SpeechYL",
-    "longname": "src/SpeechYL.es6.js~SpeechYL#say",
+    "memberof": "src/SpeechYL.js~SpeechYL",
+    "longname": "src/SpeechYL.js~SpeechYL#say",
     "access": null,
     "description": "Say a sentence using speech synthesis",
     "examples": [
       "let speechYL = new SpeechYL();\nspeechYL.say(\"Hello world!\");"
     ],
-    "lineNumber": 420,
+    "lineNumber": 408,
     "params": [
       {
         "nullable": null,
@@ -1392,11 +1392,11 @@
     "static": false,
     "variation": null,
     "name": "synthText",
-    "memberof": "src/SpeechYL.es6.js~SpeechYL",
-    "longname": "src/SpeechYL.es6.js~SpeechYL#synthText",
+    "memberof": "src/SpeechYL.js~SpeechYL",
+    "longname": "src/SpeechYL.js~SpeechYL#synthText",
     "access": null,
     "description": null,
-    "lineNumber": 421,
+    "lineNumber": 409,
     "undocument": true,
     "type": {
       "types": [
@@ -1410,11 +1410,11 @@
     "static": false,
     "variation": null,
     "name": "isWordSaid",
-    "memberof": "src/SpeechYL.es6.js~SpeechYL",
-    "longname": "src/SpeechYL.es6.js~SpeechYL#isWordSaid",
+    "memberof": "src/SpeechYL.js~SpeechYL",
+    "longname": "src/SpeechYL.js~SpeechYL#isWordSaid",
     "access": null,
     "description": "Know if the word is said by the user",
-    "lineNumber": 434,
+    "lineNumber": 422,
     "unknown": [
       {
         "tagName": "@method",
@@ -1459,11 +1459,11 @@
     "static": false,
     "variation": null,
     "name": "lastTranscript",
-    "memberof": "src/SpeechYL.es6.js~SpeechYL",
-    "longname": "src/SpeechYL.es6.js~SpeechYL#lastTranscript",
+    "memberof": "src/SpeechYL.js~SpeechYL",
+    "longname": "src/SpeechYL.js~SpeechYL#lastTranscript",
     "access": null,
     "description": null,
-    "lineNumber": 438,
+    "lineNumber": 426,
     "undocument": true,
     "type": {
       "types": [
@@ -1477,11 +1477,11 @@
     "static": false,
     "variation": null,
     "name": "isSentenceSaid",
-    "memberof": "src/SpeechYL.es6.js~SpeechYL",
-    "longname": "src/SpeechYL.es6.js~SpeechYL#isSentenceSaid",
+    "memberof": "src/SpeechYL.js~SpeechYL",
+    "longname": "src/SpeechYL.js~SpeechYL#isSentenceSaid",
     "access": null,
     "description": "Know if the sentence is said by the user",
-    "lineNumber": 453,
+    "lineNumber": 441,
     "unknown": [
       {
         "tagName": "@method",
@@ -1526,11 +1526,11 @@
     "static": false,
     "variation": null,
     "name": "lastTranscript",
-    "memberof": "src/SpeechYL.es6.js~SpeechYL",
-    "longname": "src/SpeechYL.es6.js~SpeechYL#lastTranscript",
+    "memberof": "src/SpeechYL.js~SpeechYL",
+    "longname": "src/SpeechYL.js~SpeechYL#lastTranscript",
     "access": null,
     "description": null,
-    "lineNumber": 456,
+    "lineNumber": 444,
     "undocument": true,
     "type": {
       "types": [
@@ -1544,11 +1544,11 @@
     "static": false,
     "variation": null,
     "name": "saySentenceAfterRecognition",
-    "memberof": "src/SpeechYL.es6.js~SpeechYL",
-    "longname": "src/SpeechYL.es6.js~SpeechYL#saySentenceAfterRecognition",
+    "memberof": "src/SpeechYL.js~SpeechYL",
+    "longname": "src/SpeechYL.js~SpeechYL#saySentenceAfterRecognition",
     "access": null,
     "description": "Say sentence if the recognition sentence is recognize",
-    "lineNumber": 473,
+    "lineNumber": 461,
     "params": [
       {
         "nullable": null,
@@ -1597,11 +1597,11 @@
     "static": false,
     "variation": null,
     "name": "lastTranscript",
-    "memberof": "src/SpeechYL.es6.js~SpeechYL",
-    "longname": "src/SpeechYL.es6.js~SpeechYL#lastTranscript",
+    "memberof": "src/SpeechYL.js~SpeechYL",
+    "longname": "src/SpeechYL.js~SpeechYL#lastTranscript",
     "access": null,
     "description": null,
-    "lineNumber": 477,
+    "lineNumber": 465,
     "undocument": true,
     "type": {
       "types": [
@@ -1615,11 +1615,11 @@
     "static": false,
     "variation": null,
     "name": "saySentenceFromData",
-    "memberof": "src/SpeechYL.es6.js~SpeechYL",
-    "longname": "src/SpeechYL.es6.js~SpeechYL#saySentenceFromData",
+    "memberof": "src/SpeechYL.js~SpeechYL",
+    "longname": "src/SpeechYL.js~SpeechYL#saySentenceFromData",
     "access": null,
     "description": "Execute action if the transcript is in the data",
-    "lineNumber": 493,
+    "lineNumber": 481,
     "params": [
       {
         "nullable": null,
@@ -1658,11 +1658,11 @@
     "static": false,
     "variation": null,
     "name": "launchFunc",
-    "memberof": "src/SpeechYL.es6.js~SpeechYL",
-    "longname": "src/SpeechYL.es6.js~SpeechYL#launchFunc",
+    "memberof": "src/SpeechYL.js~SpeechYL",
+    "longname": "src/SpeechYL.js~SpeechYL#launchFunc",
     "access": null,
     "description": "Execute function in commandsFunc",
-    "lineNumber": 521,
+    "lineNumber": 509,
     "params": [
       {
         "nullable": null,
@@ -1705,11 +1705,11 @@
     "static": false,
     "variation": null,
     "name": "getSynthesisSentence",
-    "memberof": "src/SpeechYL.es6.js~SpeechYL",
-    "longname": "src/SpeechYL.es6.js~SpeechYL#getSynthesisSentence",
+    "memberof": "src/SpeechYL.js~SpeechYL",
+    "longname": "src/SpeechYL.js~SpeechYL#getSynthesisSentence",
     "access": "private\nGet synthesis sentence based on weight and language",
     "description": "",
-    "lineNumber": 547,
+    "lineNumber": 535,
     "unknown": [
       {
         "tagName": "@returns",
@@ -1744,11 +1744,11 @@
     "static": false,
     "variation": null,
     "name": "getFunction",
-    "memberof": "src/SpeechYL.es6.js~SpeechYL",
-    "longname": "src/SpeechYL.es6.js~SpeechYL#getFunction",
+    "memberof": "src/SpeechYL.js~SpeechYL",
+    "longname": "src/SpeechYL.js~SpeechYL#getFunction",
     "access": "private\nGet name of the function based on weight",
     "description": "",
-    "lineNumber": 567,
+    "lineNumber": 555,
     "unknown": [
       {
         "tagName": "@returns",
@@ -1783,11 +1783,11 @@
     "static": false,
     "variation": null,
     "name": "formatTranscript",
-    "memberof": "src/SpeechYL.es6.js~SpeechYL",
-    "longname": "src/SpeechYL.es6.js~SpeechYL#formatTranscript",
+    "memberof": "src/SpeechYL.js~SpeechYL",
+    "longname": "src/SpeechYL.js~SpeechYL#formatTranscript",
     "access": "private\nFormat the transcript (lowercase and first space remove)",
     "description": "",
-    "lineNumber": 587,
+    "lineNumber": 575,
     "unknown": [
       {
         "tagName": "@returns",
@@ -1822,11 +1822,11 @@
     "static": false,
     "variation": null,
     "name": "actionDataType",
-    "memberof": "src/SpeechYL.es6.js~SpeechYL",
-    "longname": "src/SpeechYL.es6.js~SpeechYL#actionDataType",
+    "memberof": "src/SpeechYL.js~SpeechYL",
+    "longname": "src/SpeechYL.js~SpeechYL#actionDataType",
     "access": null,
     "description": "Launch actions if the recognition sentence from the data is recognize",
-    "lineNumber": 604,
+    "lineNumber": 592,
     "params": [
       {
         "nullable": null,
@@ -1874,11 +1874,11 @@
     "static": false,
     "variation": null,
     "name": "lastTranscript",
-    "memberof": "src/SpeechYL.es6.js~SpeechYL",
-    "longname": "src/SpeechYL.es6.js~SpeechYL#lastTranscript",
+    "memberof": "src/SpeechYL.js~SpeechYL",
+    "longname": "src/SpeechYL.js~SpeechYL#lastTranscript",
     "access": null,
     "description": null,
-    "lineNumber": 612,
+    "lineNumber": 600,
     "undocument": true,
     "type": {
       "types": [
@@ -1892,11 +1892,11 @@
     "static": false,
     "variation": null,
     "name": "actionData",
-    "memberof": "src/SpeechYL.es6.js~SpeechYL",
-    "longname": "src/SpeechYL.es6.js~SpeechYL#actionData",
+    "memberof": "src/SpeechYL.js~SpeechYL",
+    "longname": "src/SpeechYL.js~SpeechYL#actionData",
     "access": null,
     "description": "Launch actions if the recognition sentence from the data is recognize",
-    "lineNumber": 640,
+    "lineNumber": 628,
     "params": [
       {
         "nullable": null,
@@ -1927,11 +1927,11 @@
     "static": false,
     "variation": null,
     "name": "actionDataStart",
-    "memberof": "src/SpeechYL.es6.js~SpeechYL",
-    "longname": "src/SpeechYL.es6.js~SpeechYL#actionDataStart",
+    "memberof": "src/SpeechYL.js~SpeechYL",
+    "longname": "src/SpeechYL.js~SpeechYL#actionDataStart",
     "access": null,
     "description": "Launch actions if the beginning of the recognition sentence from the data is recognize",
-    "lineNumber": 649,
+    "lineNumber": 637,
     "params": [
       {
         "nullable": null,
@@ -1962,11 +1962,11 @@
     "static": false,
     "variation": null,
     "name": "actionDataInclude",
-    "memberof": "src/SpeechYL.es6.js~SpeechYL",
-    "longname": "src/SpeechYL.es6.js~SpeechYL#actionDataInclude",
+    "memberof": "src/SpeechYL.js~SpeechYL",
+    "longname": "src/SpeechYL.js~SpeechYL#actionDataInclude",
     "access": null,
     "description": "Launch actions if a part of the recognition sentence from the data is recognize",
-    "lineNumber": 658,
+    "lineNumber": 646,
     "params": [
       {
         "nullable": null,
@@ -1997,11 +1997,11 @@
     "static": false,
     "variation": null,
     "name": "computeTotalWeight",
-    "memberof": "src/SpeechYL.es6.js~SpeechYL",
-    "longname": "src/SpeechYL.es6.js~SpeechYL#computeTotalWeight",
+    "memberof": "src/SpeechYL.js~SpeechYL",
+    "longname": "src/SpeechYL.js~SpeechYL#computeTotalWeight",
     "access": "private\nCompute the total weight of an array of object",
     "description": "",
-    "lineNumber": 668,
+    "lineNumber": 656,
     "unknown": [
       {
         "tagName": "@returns",
@@ -2036,11 +2036,11 @@
     "static": false,
     "variation": null,
     "name": "retrieveData",
-    "memberof": "src/SpeechYL.es6.js~SpeechYL",
-    "longname": "src/SpeechYL.es6.js~SpeechYL#retrieveData",
+    "memberof": "src/SpeechYL.js~SpeechYL",
+    "longname": "src/SpeechYL.js~SpeechYL#retrieveData",
     "access": "private\nRetrieve data based on the type (normal, start, include)",
     "description": "",
-    "lineNumber": 684,
+    "lineNumber": 672,
     "unknown": [
       {
         "tagName": "@returns",
@@ -2087,11 +2087,11 @@
     "static": false,
     "variation": null,
     "name": "retrieveSynthesis",
-    "memberof": "src/SpeechYL.es6.js~SpeechYL",
-    "longname": "src/SpeechYL.es6.js~SpeechYL#retrieveSynthesis",
+    "memberof": "src/SpeechYL.js~SpeechYL",
+    "longname": "src/SpeechYL.js~SpeechYL#retrieveSynthesis",
     "access": "private\nRetrieve the synthesis ",
     "description": "",
-    "lineNumber": 715,
+    "lineNumber": 703,
     "unknown": [
       {
         "tagName": "@returns",
@@ -2126,11 +2126,11 @@
     "static": false,
     "variation": null,
     "name": "retrieveFunction",
-    "memberof": "src/SpeechYL.es6.js~SpeechYL",
-    "longname": "src/SpeechYL.es6.js~SpeechYL#retrieveFunction",
+    "memberof": "src/SpeechYL.js~SpeechYL",
+    "longname": "src/SpeechYL.js~SpeechYL#retrieveFunction",
     "access": "private\nRetrieve the function",
     "description": "",
-    "lineNumber": 735,
+    "lineNumber": 723,
     "unknown": [
       {
         "tagName": "@returns",
@@ -2165,11 +2165,11 @@
     "static": false,
     "variation": null,
     "name": "retrieveRecognitionSentence",
-    "memberof": "src/SpeechYL.es6.js~SpeechYL",
-    "longname": "src/SpeechYL.es6.js~SpeechYL#retrieveRecognitionSentence",
+    "memberof": "src/SpeechYL.js~SpeechYL",
+    "longname": "src/SpeechYL.js~SpeechYL#retrieveRecognitionSentence",
     "access": "private\nRetrieve the synthesis ",
     "description": "",
-    "lineNumber": 755,
+    "lineNumber": 743,
     "unknown": [
       {
         "tagName": "@returns",
@@ -2204,11 +2204,11 @@
     "static": false,
     "variation": null,
     "name": "getJson",
-    "memberof": "src/SpeechYL.es6.js~SpeechYL",
-    "longname": "src/SpeechYL.es6.js~SpeechYL#getJson",
+    "memberof": "src/SpeechYL.js~SpeechYL",
+    "longname": "src/SpeechYL.js~SpeechYL#getJson",
     "access": "private\nGet a JSON File",
     "description": "",
-    "lineNumber": 771,
+    "lineNumber": 759,
     "unknown": [
       {
         "tagName": "@returns",
@@ -2243,11 +2243,11 @@
     "static": false,
     "variation": null,
     "name": "loadJsonCommands",
-    "memberof": "src/SpeechYL.es6.js~SpeechYL",
-    "longname": "src/SpeechYL.es6.js~SpeechYL#loadJsonCommands",
+    "memberof": "src/SpeechYL.js~SpeechYL",
+    "longname": "src/SpeechYL.js~SpeechYL#loadJsonCommands",
     "access": null,
     "description": "Load commands from a json file",
-    "lineNumber": 794,
+    "lineNumber": 782,
     "params": [
       {
         "nullable": null,
@@ -2276,11 +2276,11 @@
     "static": false,
     "variation": null,
     "name": "commands",
-    "memberof": "src/SpeechYL.es6.js~SpeechYL",
-    "longname": "src/SpeechYL.es6.js~SpeechYL#commands",
+    "memberof": "src/SpeechYL.js~SpeechYL",
+    "longname": "src/SpeechYL.js~SpeechYL#commands",
     "access": null,
     "description": null,
-    "lineNumber": 801,
+    "lineNumber": 789,
     "undocument": true,
     "type": {
       "types": [
@@ -2294,11 +2294,11 @@
     "static": false,
     "variation": null,
     "name": "getVoiceByName",
-    "memberof": "src/SpeechYL.es6.js~SpeechYL",
-    "longname": "src/SpeechYL.es6.js~SpeechYL#getVoiceByName",
+    "memberof": "src/SpeechYL.js~SpeechYL",
+    "longname": "src/SpeechYL.js~SpeechYL#getVoiceByName",
     "access": null,
     "description": "Return a voice with the specified name",
-    "lineNumber": 813,
+    "lineNumber": 801,
     "unknown": [
       {
         "tagName": "@returns",
@@ -2333,11 +2333,11 @@
     "static": false,
     "variation": null,
     "name": "getVoicesByLang",
-    "memberof": "src/SpeechYL.es6.js~SpeechYL",
-    "longname": "src/SpeechYL.es6.js~SpeechYL#getVoicesByLang",
+    "memberof": "src/SpeechYL.js~SpeechYL",
+    "longname": "src/SpeechYL.js~SpeechYL#getVoicesByLang",
     "access": null,
     "description": "Return an array of voices corresponding to the specified langage",
-    "lineNumber": 824,
+    "lineNumber": 812,
     "unknown": [
       {
         "tagName": "@returns",
@@ -2372,36 +2372,58 @@
     "static": false,
     "variation": null,
     "name": "createCommands",
-    "memberof": "src/SpeechYL.es6.js~SpeechYL",
-    "longname": "src/SpeechYL.es6.js~SpeechYL#createCommands",
+    "memberof": "src/SpeechYL.js~SpeechYL",
+    "longname": "src/SpeechYL.js~SpeechYL#createCommands",
     "access": null,
-    "description": null,
-    "lineNumber": 831,
-    "undocument": true,
+    "description": "Return a command object ",
+    "lineNumber": 826,
+    "unknown": [
+      {
+        "tagName": "@returns",
+        "tagValue": "{object}         Command object"
+      }
+    ],
     "params": [
       {
+        "nullable": null,
+        "types": [
+          "string          ",
+          "           Array"
+        ],
+        "spread": false,
+        "optional": false,
         "name": "recognition",
-        "types": [
-          "*"
-        ]
+        "description": "Recognition string or array"
       },
       {
+        "nullable": null,
+        "types": [
+          "string          ",
+          "           Array"
+        ],
+        "spread": false,
+        "optional": false,
         "name": "synthesis",
-        "types": [
-          "*"
-        ]
+        "description": "Synthesis string or array"
       },
       {
-        "name": "func",
+        "nullable": null,
         "types": [
-          "*"
-        ]
+          "string"
+        ],
+        "spread": false,
+        "optional": false,
+        "name": "func",
+        "description": "Name of the function"
       }
     ],
     "return": {
+      "nullable": null,
       "types": [
-        "*"
-      ]
+        "object"
+      ],
+      "spread": false,
+      "description": "Command object"
     },
     "generator": false
   },
@@ -2411,30 +2433,43 @@
     "static": false,
     "variation": null,
     "name": "addCommand",
-    "memberof": "src/SpeechYL.es6.js~SpeechYL",
-    "longname": "src/SpeechYL.es6.js~SpeechYL#addCommand",
+    "memberof": "src/SpeechYL.js~SpeechYL",
+    "longname": "src/SpeechYL.js~SpeechYL#addCommand",
     "access": null,
-    "description": null,
-    "lineNumber": 839,
-    "undocument": true,
+    "description": "Add a command",
+    "lineNumber": 840,
     "params": [
       {
+        "nullable": null,
+        "types": [
+          "string          ",
+          "           Array"
+        ],
+        "spread": false,
+        "optional": false,
         "name": "recognition",
-        "types": [
-          "*"
-        ]
+        "description": "Recognition string or array"
       },
       {
+        "nullable": null,
+        "types": [
+          "string          ",
+          "           Array"
+        ],
+        "spread": false,
+        "optional": false,
         "name": "synthesis",
-        "types": [
-          "*"
-        ]
+        "description": "Synthesis string or array"
       },
       {
-        "name": "func",
+        "nullable": null,
         "types": [
-          "*"
-        ]
+          "string"
+        ],
+        "spread": false,
+        "optional": false,
+        "name": "func",
+        "description": "Name of the function"
       }
     ],
     "generator": false

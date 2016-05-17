@@ -15,7 +15,7 @@
 
 <header>
   <a href="./">Home</a>
-  
+  <a href="./manual/index.html" data-ice="manualHeaderLink">Manual</a>
   <a href="identifiers.html">Reference</a>
   <a href="source.html">Source</a>
   
@@ -32,7 +32,7 @@
 <nav class="navigation" data-ice="nav"><div>
   <ul>
     
-  <li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/SpeechYL.es6.js~SpeechYL.html">SpeechYL</a></span></span></li>
+  <li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/SpeechYL.js~SpeechYL.html">SpeechYL</a></span></span></li>
 <li data-ice="doc"><div data-ice="dirPath" class="nav-dir-path">example</div><span data-ice="kind" class="kind-variable">V</span><span data-ice="name"><span><a href="variable/index.html#static-variable-func">func</a></span></span></li>
 <li data-ice="doc"><span data-ice="kind" class="kind-variable">V</span><span data-ice="name"><span><a href="variable/index.html#static-variable-recognitionObj">recognitionObj</a></span></span></li>
 <li data-ice="doc"><span data-ice="kind" class="kind-variable">V</span><span data-ice="name"><span><a href="variable/index.html#static-variable-simpleData">simpleData</a></span></span></li>
@@ -42,12 +42,14 @@
 </div>
 </nav>
 
-<div class="content" data-ice="content"><div data-ice="index" class="github-markdown"><h1 id="speechyl-js">speechYL.js</h1>
-<p>SpeechYL is a Web Speech API library wrapper. It helps with the basic usage of web speech api. You can associate a sentence to a function with just a json object. </p>
+<div class="content" data-ice="content"><div data-ice="index" class="github-markdown"><h1 id="speechyl">SpeechYL</h1>
+<p>SpeechYL (spit&#x283; waj &#x25B;l) is a Web Speech API library wrapper. It helps with the basic usage of web speech api. You can associate a sentence to a function with just a json object. </p>
 <h2 id="installation">Installation</h2>
 <h3 id="from-npm">From npm</h3>
 <pre><code class="lang-bash"><code class="source-code prettyprint">$ npm install speechyl</code>
 </code></pre>
+<h2 id="quick-tutorial">Quick tutorial</h2>
+<p>A quick tutorial available <a href="http://ffloriel.github.io/speechYL/documentation/manual/tutorial.html">here</a>.</p>
 <h2 id="documentation">Documentation</h2>
 <p>Documentation available <a href="http://ffloriel.github.io/speechYL/documentation/">here</a>.</p>
 <h2 id="usage">Usage</h2>
@@ -60,78 +62,44 @@
 </code></pre>
 <pre><code class="lang-javascript"><code class="source-code prettyprint">var speechYL = new SpeechYL();
 var lang = &quot;en-EN&quot;;
-speechYL.setLang(lang);
-speechYL.commands = simpleData // from &apos;Commands Data examples&apos;</code>
+speechYL.setLang(lang);</code>
 </code></pre>
-<h3 id="commands-data-examples">Commands Data examples</h3>
-<pre><code class="lang-javascript"><code class="source-code prettyprint">var simpleData = [
+<h3 id="simple-example-commands-file">Simple example commands file</h3>
+<pre><code class="lang-json"><code class="source-code prettyprint">
+[
     {
-        recognition: &quot;How are you&quot;,
-        synthesis: &quot;I am fine. Thank you&quot;
+        &quot;recognition&quot;: &quot;Hello&quot;,
+        &quot;synthesis&quot;: &quot;Hello World&quot;
     },
     {
-        recognition: &quot;Hello World&quot;,
-        synthesis: &quot;Hello human&quot;
-    },
-    {
-        recognition: &quot;This is a test&quot;,
-        synthesis: &quot;The test is passed&quot;
-    }
-];</code>
-</code></pre>
-<pre><code class="lang-javascript"><code class="source-code prettyprint">var simpleData2 = [
-    {
-        recognition: {
-            &quot;en-EN&quot;: &quot;Hello&quot;,
-            &quot;fr-FR&quot;: &quot;Bonjour&quot;
+        &quot;recognition&quot;: {
+            &quot;en-EN&quot;: &quot;log me out&quot;,
+            &quot;fr-FR&quot;: &quot;deconnecte moi&quot;
         },
-        synthesis: [
-            {
-                weight: 1,
-                &quot;en-EN&quot;: &quot;Hello, Sir&quot;,
-                &quot;fr-FR&quot;: &quot;Bonjour, monsieur&quot;
-            },
-            {
-                weight: 1,
-                &quot;en-EN&quot;: &quot;Hi, Sir&quot;,
-                &quot;fr-FR&quot;: &quot;Salut, mec&quot;
-            }
-        ],
-        func: [
-            // this function will be executed 1 / 25 in average
-            {
-                weight: 1,
-                func: &quot;func1&quot;
-            },
-            // this function will be executed 24 / 25 in average
-            {
-                weight: 24,
-                func: &quot;func2&quot;
-            }
-        ]
-    }
-];</code>
+        &quot;func&quot;: &quot;logOut&quot;
+    },
+    {
+        &quot;recognition&quot;: {
+            &quot;en-EN&quot;: &quot;go to the previous page&quot;,
+            &quot;fr-FR&quot;: &quot;va a la page precedente&quot;
+        },
+        &quot;func&quot;: &quot;goPreviousPage&quot;
+    },
+    {
+        &quot;recognition&quot;: {
+            &quot;en-EN&quot;: &quot;go to the next page&quot;,
+            &quot;fr-FR&quot;: &quot;va a la page suivante&quot;
+        },
+        &quot;func&quot;: &quot;goNextPage&quot;
+    },
+
+]</code>
 </code></pre>
-<h3 id="methods">Methods</h3>
-<pre><code><code class="source-code prettyprint">actionData(event: object, recogData: object);
-actionDataInclude(event: object, recogData: object)
-actionDataStart(event: object, recogData: object)
-actionDataType(event: object, recogData: object, type: string): boolean
-isSentenceSaid(event: Object, sentence: String): Bool
-isWordSaid(event: Object, word: String): Bool
-launchFunc(funcObj: object, recogSentence: string, type: string)
-saySentenceAfterRecognition(event: Object, sentenceRecognition: String, sentenceSynthesis: String): Bool
-saySentenceFromData(transcript: String, recogData: Object): Bool
-setLang(lang: string)
-speak(sentence: string)
-synthCancel()
-synthPause()
-synthResume()</code>
-</code></pre></div>
+</div>
 </div>
 
 <footer class="footer">
-  Generated by <a href="https://esdoc.org">ESDoc<span data-ice="esdocVersion">(0.4.6)</span></a>
+  Generated by <a href="https://esdoc.org">ESDoc<span data-ice="esdocVersion">(0.4.7)</span></a>
 </footer>
 
 <script src="script/search_index.js"></script>

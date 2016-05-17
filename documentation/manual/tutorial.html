@@ -1,0 +1,218 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <base data-ice="baseUrl" href="../">
+  <title data-ice="title">Tutorial</title>
+  <link type="text/css" rel="stylesheet" href="css/style.css">
+  <link type="text/css" rel="stylesheet" href="css/prettify-tomorrow.css">
+  <script src="script/prettify/prettify.js"></script>
+  
+  
+  <script src="script/manual.js"></script>
+</head>
+<body class="layout-container manual-root" data-ice="rootContainer">
+
+<header>
+  <a href="./">Home</a>
+  <a href="./manual/index.html" data-ice="manualHeaderLink">Manual</a>
+  <a href="identifiers.html">Reference</a>
+  <a href="source.html">Source</a>
+  
+  <a data-ice="repoURL" href="https://github.com/Ffloriel/speechYL" class="repo-url-github">Repository</a>
+  <div class="search-box">
+  <span>
+    <img src="./image/search.png">
+    <span class="search-input-edge"></span><input class="search-input"><span class="search-input-edge"></span>
+  </span>
+    <ul class="search-result"></ul>
+  </div>
+</header>
+
+<nav class="navigation" data-ice="nav"><div class="manual-toc-root">
+  
+<div data-ice="manual" data-toc-name="overview">
+    <h1 class="manual-toc-title"><a href="manual/overview.html" data-ice="title">Overview</a></h1>
+    <ul class="manual-toc">
+      
+    <li data-ice="manualNav" class="indent-h1"><span class="manual-dot"></span><a href="manual/overview.html#speechyl" data-ice="link">SpeechYL</a></li>
+<li data-ice="manualNav" class="indent-h2"><span class="manual-dot"></span><a href="manual/overview.html#installation" data-ice="link">Installation</a></li>
+<li data-ice="manualNav" class="indent-h3"><span class="manual-dot"></span><a href="manual/overview.html#from-npm" data-ice="link">From npm</a></li>
+<li data-ice="manualNav" class="indent-h2"><span class="manual-dot"></span><a href="manual/overview.html#quick-tutorial" data-ice="link">Quick tutorial</a></li>
+<li data-ice="manualNav" class="indent-h2"><span class="manual-dot"></span><a href="manual/overview.html#documentation" data-ice="link">Documentation</a></li>
+<li data-ice="manualNav" class="indent-h2"><span class="manual-dot"></span><a href="manual/overview.html#usage" data-ice="link">Usage</a></li>
+<li data-ice="manualNav" class="indent-h3"><span class="manual-dot"></span><a href="manual/overview.html#getting-started" data-ice="link">Getting started</a></li>
+<li data-ice="manualNav" class="indent-h3"><span class="manual-dot"></span><a href="manual/overview.html#simple-example-commands-file" data-ice="link">Simple example commands file</a></li>
+</ul>
+  </div>
+<div data-ice="manual" data-toc-name="installation">
+    <h1 class="manual-toc-title"><a href="manual/installation.html" data-ice="title">Installation</a></h1>
+    <ul class="manual-toc">
+      
+    <li data-ice="manualNav" class="indent-h1"><span class="manual-dot"></span><a href="manual/installation.html#installation" data-ice="link">Installation</a></li>
+<li data-ice="manualNav" class="indent-h2"><span class="manual-dot"></span><a href="manual/installation.html#from-npm" data-ice="link">From npm</a></li>
+<li data-ice="manualNav" class="indent-h2"><span class="manual-dot"></span><a href="manual/installation.html#from-repository" data-ice="link">From repository</a></li>
+<li data-ice="manualNav" class="indent-h2"><span class="manual-dot"></span><a href="manual/installation.html#getting-started" data-ice="link">Getting Started</a></li>
+</ul>
+  </div>
+<div data-ice="manual" data-toc-name="tutorial">
+    <h1 class="manual-toc-title"><a href="manual/tutorial.html" data-ice="title">Tutorial</a></h1>
+    <ul class="manual-toc">
+      
+    <li data-ice="manualNav" class="indent-h1"><span class="manual-dot"></span><a href="manual/tutorial.html#tutorial" data-ice="link">Tutorial</a></li>
+<li data-ice="manualNav" class="indent-h2"><span class="manual-dot"></span><a href="manual/tutorial.html#1-setting-up" data-ice="link">1) Setting up</a></li>
+<li data-ice="manualNav" class="indent-h2"><span class="manual-dot"></span><a href="manual/tutorial.html#2-write-a-json-file-with-our-commands" data-ice="link">2) Write a json file with our commands</a></li>
+<li data-ice="manualNav" class="indent-h2"><span class="manual-dot"></span><a href="manual/tutorial.html#3-write-the-functions-associated-with-the-commands" data-ice="link">3) Write the functions associated with the commands</a></li>
+<li data-ice="manualNav" class="indent-h3"><span class="manual-dot"></span><a href="manual/tutorial.html#es6-es2015-" data-ice="link">ES6 (ES2015)</a></li>
+<li data-ice="manualNav" class="indent-h3"><span class="manual-dot"></span><a href="manual/tutorial.html#es5" data-ice="link">ES5</a></li>
+<li data-ice="manualNav" class="indent-h2"><span class="manual-dot"></span><a href="manual/tutorial.html#4-add-the-commands-and-functions-to-speechyl" data-ice="link">4) Add the commands and functions to speechYL</a></li>
+<li data-ice="manualNav" class="indent-h2"><span class="manual-dot"></span><a href="manual/tutorial.html#5-start-the-recognition" data-ice="link">5) Start the recognition</a></li>
+<li data-ice="manualNav" class="indent-h3"><span class="manual-dot"></span><a href="manual/tutorial.html#click-on-a-button" data-ice="link">Click on a button</a></li>
+<li data-ice="manualNav" class="indent-h3"><span class="manual-dot"></span><a href="manual/tutorial.html#keyboard-shortcut" data-ice="link">Keyboard shortcut</a></li>
+</ul>
+  </div>
+<div data-ice="manual" data-toc-name="usage">
+    <h1 class="manual-toc-title"><a href="manual/usage.html" data-ice="title">Usage</a></h1>
+    <ul class="manual-toc">
+      
+    <li data-ice="manualNav" class="indent-h1"><span class="manual-dot"></span><a href="manual/usage.html#usage" data-ice="link">Usage</a></li>
+<li data-ice="manualNav" class="indent-h2"><span class="manual-dot"></span><a href="manual/usage.html#basic-configuration" data-ice="link">Basic configuration</a></li>
+<li data-ice="manualNav" class="indent-h2"><span class="manual-dot"></span><a href="manual/usage.html#commands" data-ice="link">Commands</a></li>
+<li data-ice="manualNav" class="indent-h3"><span class="manual-dot"></span><a href="manual/usage.html#programmaticaly" data-ice="link">Programmaticaly</a></li>
+<li data-ice="manualNav" class="indent-h3"><span class="manual-dot"></span><a href="manual/usage.html#from-a-json-file" data-ice="link">From a json file</a></li>
+<li data-ice="manualNav" class="indent-h2"><span class="manual-dot"></span><a href="manual/usage.html#start-recognition-with-a-button" data-ice="link">Start recognition with a button</a></li>
+</ul>
+  </div>
+<div data-ice="manual" data-toc-name="reference">
+    <h1 class="manual-toc-title"><a href="identifiers.html" data-ice="title">Reference</a></h1>
+    <ul class="manual-toc">
+      
+    <li data-ice="manualNav" class="indent-h1"><span class="manual-dot"></span><a href="identifiers.html#class" data-ice="link">Class</a></li>
+<li data-ice="manualNav" class="indent-h1"><span class="manual-dot"></span><a href="identifiers.html#variable" data-ice="link">Variable</a></li>
+</ul>
+  </div>
+</div>
+</nav>
+
+<div class="content" data-ice="content"><div class="github-markdown">
+  <div class="manual-breadcrumb-list">
+    <a href="./manual/./index.html">Manual</a>
+    <span>&#xBB;</span>
+    <span data-ice="title">Tutorial</span>
+  </div>
+  <div data-ice="content"><h1 id="tutorial">Tutorial</h1>
+<p>In this example, we add quickly voice functionality to an application in french and english.</p>
+<h2 id="1-setting-up">1) Setting up</h2>
+<pre><code class="lang-javascript"><code class="source-code prettyprint">
+var speechYL = new SpeechYL();
+var lang = &quot;en-EN&quot;;
+speechYL.setLang(lang);
+
+//Choose a voice for synthesis
+
+var voiceFemaleEnglish = speechYL.getVoiceByName(&quot;Google UK English Female&quot;);
+
+//Set voice
+
+speechYL.voice = voiceFemaleEnglish;</code>
+</code></pre>
+<h2 id="2-write-a-json-file-with-our-commands">2) Write a json file with our commands</h2>
+<p>When we write the json file, we can specified multiple langages.
+SpeechYL will take in consideration the langage set with the methods <code>setLang</code>
+The punctuation is not recognize by the SpeechRecogniton API, so do not put punctuations in  the recognition object, it could not be recognize.</p>
+<p>File: commands.json</p>
+<pre><code class="lang-json"><code class="source-code prettyprint">
+[
+    {
+        &quot;recognition&quot;: {
+            &quot;en-EN&quot;: &quot;log me out&quot;,
+            &quot;fr-FR&quot;: &quot;deconnecte moi&quot;
+        },
+        &quot;func&quot;: &quot;logOut&quot;
+    },
+    {
+        &quot;recognition&quot;: {
+            &quot;en-EN&quot;: &quot;go to the previous page&quot;,
+            &quot;fr-FR&quot;: &quot;va a la page precedente&quot;
+        },
+        &quot;func&quot;: &quot;goPreviousPage&quot;
+    },
+    {
+        &quot;recognition&quot;: {
+            &quot;en-EN&quot;: &quot;go to the next page&quot;,
+            &quot;fr-FR&quot;: &quot;va a la page suivante&quot;
+        },
+        &quot;func&quot;: &quot;goNextPage&quot;
+    },
+
+]</code>
+</code></pre>
+<p>You can also add commands programmaticaly.</p>
+<h2 id="3-write-the-functions-associated-with-the-commands">3) Write the functions associated with the commands</h2>
+<h3 id="es6-es2015-">ES6 (ES2015)</h3>
+<p>One of the way to add the functions associated with the commands is in a class.</p>
+<pre><code class="lang-javascript"><code class="source-code prettyprint">
+class SpeechYLFunc{
+
+    logOut() {
+        //code
+    }
+
+    goPreviousPage() {
+        //code
+    }
+
+    goNextPage() {
+        //code
+    }
+
+}</code>
+</code></pre>
+<h3 id="es5">ES5</h3>
+<p>var func = {</p>
+<pre><code><code class="source-code prettyprint">logOut: function () {},
+goPreviousPage: function () {},
+goNextPage: function () {}</code>
+</code></pre><p>}</p>
+<h2 id="4-add-the-commands-and-functions-to-speechyl">4) Add the commands and functions to speechYL</h2>
+<pre><code class="lang-javascript"><code class="source-code prettyprint">
+speechYL.loadJsonCommands(&quot;commands.json&quot;):
+
+// ES6 (ES2015)
+speechYL.commandsFunc = new SpeechYLFunc();
+
+// ES5
+
+speechYL.commandsFunc = func;</code>
+</code></pre>
+<h2 id="5-start-the-recognition">5) Start the recognition</h2>
+<p>You can start the recognition with the methods <code>recogStart</code>.</p>
+<h3 id="click-on-a-button">Click on a button</h3>
+<pre><code class="lang-javascript"><code class="source-code prettyprint">
+document.getElementById(&quot;button&quot;).addEventListener(&quot;click&quot;, function() {
+    speechYL.recogStart();
+}, false);</code>
+</code></pre>
+<h3 id="keyboard-shortcut">Keyboard shortcut</h3>
+<pre><code class="lang-javascript"><code class="source-code prettyprint">
+document.getElementById(&quot;button&quot;).addEventListener(&quot;click&quot;, function() {
+    speechYL.recogStart();
+}, false);</code>
+</code></pre>
+</div>
+</div>
+</div>
+
+<footer class="footer">
+  Generated by <a href="https://esdoc.org">ESDoc<span data-ice="esdocVersion">(0.4.7)</span></a>
+</footer>
+
+<script src="script/search_index.js"></script>
+<script src="script/search.js"></script>
+<script src="script/pretty-print.js"></script>
+<script src="script/inherited-summary.js"></script>
+<script src="script/test-summary.js"></script>
+<script src="script/inner-link.js"></script>
+<script src="script/patch-for-local.js"></script>
+</body>
+</html>

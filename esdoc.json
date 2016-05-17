@@ -1,7 +1,0 @@
-{
-    "source": "./src",
-    "destination": "./documentation",
-    "includes": ["SpeechYL.es6.js", "dataObjects.js"],
-    "unexportIdentifier": true
-
-}

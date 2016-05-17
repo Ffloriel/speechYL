@@ -20,9 +20,9 @@
 
     <section class="main-content">
       <h1>
-<a id="speechyljs" class="anchor" href="#speechyljs" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>speechYL.js</h1>
+<a id="speechyl" class="anchor" href="#speechyl" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>SpeechYL</h1>
 
-<p>SpeechYL is a Web Speech API library wrapper. It helps with the basic usage of web speech api. You can associate a sentence to a function with just a json object. </p>
+<p>SpeechYL (spitʃ waj ɛl) is a Web Speech API library wrapper. It helps with the basic usage of web speech api. You can associate a sentence to a function with just a json object. </p>
 
 <h2>
 <a id="installation" class="anchor" href="#installation" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Installation</h2>
@@ -33,9 +33,14 @@
 <div class="highlight highlight-source-shell"><pre>$ npm install speechyl</pre></div>
 
 <h2>
+<a id="quick-tutorial" class="anchor" href="#quick-tutorial" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Quick tutorial</h2>
+
+<p>A quick tutorial available <a href="http://ffloriel.github.io/speechYL/documentation/manual/tutorial.html">here</a>.</p>
+
+<h2>
 <a id="documentation" class="anchor" href="#documentation" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Documentation</h2>
 
-<p>Documentation available here.</p>
+<p>Documentation available <a href="http://ffloriel.github.io/speechYL/documentation/">here</a>.</p>
 
 <h2>
 <a id="usage" class="anchor" href="#usage" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Usage</h2>
@@ -53,78 +58,41 @@
 
 <div class="highlight highlight-source-js"><pre><span class="pl-k">var</span> speechYL <span class="pl-k">=</span> <span class="pl-k">new</span> <span class="pl-en">SpeechYL</span>();
 <span class="pl-k">var</span> lang <span class="pl-k">=</span> <span class="pl-s"><span class="pl-pds">"</span>en-EN<span class="pl-pds">"</span></span>;
-<span class="pl-smi">speechYL</span>.<span class="pl-en">setLang</span>(lang);
-<span class="pl-smi">speechYL</span>.<span class="pl-smi">commands</span> <span class="pl-k">=</span> simpleData <span class="pl-c">// from 'Commands Data examples'</span></pre></div>
+<span class="pl-smi">speechYL</span>.<span class="pl-en">setLang</span>(lang);</pre></div>
 
 <h3>
-<a id="commands-data-examples" class="anchor" href="#commands-data-examples" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Commands Data examples</h3>
+<a id="simple-example-commands-file" class="anchor" href="#simple-example-commands-file" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Simple example commands file</h3>
 
-<div class="highlight highlight-source-js"><pre><span class="pl-k">var</span> simpleData <span class="pl-k">=</span> [
+<div class="highlight highlight-source-json"><pre>
+[
     {
-        recognition<span class="pl-k">:</span> <span class="pl-s"><span class="pl-pds">"</span>How are you<span class="pl-pds">"</span></span>,
-        synthesis<span class="pl-k">:</span> <span class="pl-s"><span class="pl-pds">"</span>I am fine. Thank you<span class="pl-pds">"</span></span>
+        <span class="pl-s"><span class="pl-pds">"</span>recognition<span class="pl-pds">"</span></span>: <span class="pl-s"><span class="pl-pds">"</span>Hello<span class="pl-pds">"</span></span>,
+        <span class="pl-s"><span class="pl-pds">"</span>synthesis<span class="pl-pds">"</span></span>: <span class="pl-s"><span class="pl-pds">"</span>Hello World<span class="pl-pds">"</span></span>
     },
     {
-        recognition<span class="pl-k">:</span> <span class="pl-s"><span class="pl-pds">"</span>Hello World<span class="pl-pds">"</span></span>,
-        synthesis<span class="pl-k">:</span> <span class="pl-s"><span class="pl-pds">"</span>Hello human<span class="pl-pds">"</span></span>
-    },
-    {
-        recognition<span class="pl-k">:</span> <span class="pl-s"><span class="pl-pds">"</span>This is a test<span class="pl-pds">"</span></span>,
-        synthesis<span class="pl-k">:</span> <span class="pl-s"><span class="pl-pds">"</span>The test is passed<span class="pl-pds">"</span></span>
-    }
-];</pre></div>
-
-<div class="highlight highlight-source-js"><pre><span class="pl-k">var</span> simpleData2 <span class="pl-k">=</span> [
-    {
-        recognition<span class="pl-k">:</span> {
-            <span class="pl-s"><span class="pl-pds">"</span>en-EN<span class="pl-pds">"</span></span><span class="pl-k">:</span> <span class="pl-s"><span class="pl-pds">"</span>Hello<span class="pl-pds">"</span></span>,
-            <span class="pl-s"><span class="pl-pds">"</span>fr-FR<span class="pl-pds">"</span></span><span class="pl-k">:</span> <span class="pl-s"><span class="pl-pds">"</span>Bonjour<span class="pl-pds">"</span></span>
+        <span class="pl-s"><span class="pl-pds">"</span>recognition<span class="pl-pds">"</span></span>: {
+            <span class="pl-s"><span class="pl-pds">"</span>en-EN<span class="pl-pds">"</span></span>: <span class="pl-s"><span class="pl-pds">"</span>log me out<span class="pl-pds">"</span></span>,
+            <span class="pl-s"><span class="pl-pds">"</span>fr-FR<span class="pl-pds">"</span></span>: <span class="pl-s"><span class="pl-pds">"</span>deconnecte moi<span class="pl-pds">"</span></span>
         },
-        synthesis<span class="pl-k">:</span> [
-            {
-                weight<span class="pl-k">:</span> <span class="pl-c1">1</span>,
-                <span class="pl-s"><span class="pl-pds">"</span>en-EN<span class="pl-pds">"</span></span><span class="pl-k">:</span> <span class="pl-s"><span class="pl-pds">"</span>Hello, Sir<span class="pl-pds">"</span></span>,
-                <span class="pl-s"><span class="pl-pds">"</span>fr-FR<span class="pl-pds">"</span></span><span class="pl-k">:</span> <span class="pl-s"><span class="pl-pds">"</span>Bonjour, monsieur<span class="pl-pds">"</span></span>
-            },
-            {
-                weight<span class="pl-k">:</span> <span class="pl-c1">1</span>,
-                <span class="pl-s"><span class="pl-pds">"</span>en-EN<span class="pl-pds">"</span></span><span class="pl-k">:</span> <span class="pl-s"><span class="pl-pds">"</span>Hi, Sir<span class="pl-pds">"</span></span>,
-                <span class="pl-s"><span class="pl-pds">"</span>fr-FR<span class="pl-pds">"</span></span><span class="pl-k">:</span> <span class="pl-s"><span class="pl-pds">"</span>Salut, mec<span class="pl-pds">"</span></span>
-            }
-        ],
-        func<span class="pl-k">:</span> [
-            <span class="pl-c">// this function will be executed 1 / 25 in average</span>
-            {
-                weight<span class="pl-k">:</span> <span class="pl-c1">1</span>,
-                func<span class="pl-k">:</span> <span class="pl-s"><span class="pl-pds">"</span>func1<span class="pl-pds">"</span></span>
-            },
-            <span class="pl-c">// this function will be executed 24 / 25 in average</span>
-            {
-                weight<span class="pl-k">:</span> <span class="pl-c1">24</span>,
-                func<span class="pl-k">:</span> <span class="pl-s"><span class="pl-pds">"</span>func2<span class="pl-pds">"</span></span>
-            }
-        ]
-    }
-];</pre></div>
+        <span class="pl-s"><span class="pl-pds">"</span>func<span class="pl-pds">"</span></span>: <span class="pl-s"><span class="pl-pds">"</span>logOut<span class="pl-pds">"</span></span>
+    },
+    {
+        <span class="pl-s"><span class="pl-pds">"</span>recognition<span class="pl-pds">"</span></span>: {
+            <span class="pl-s"><span class="pl-pds">"</span>en-EN<span class="pl-pds">"</span></span>: <span class="pl-s"><span class="pl-pds">"</span>go to the previous page<span class="pl-pds">"</span></span>,
+            <span class="pl-s"><span class="pl-pds">"</span>fr-FR<span class="pl-pds">"</span></span>: <span class="pl-s"><span class="pl-pds">"</span>va a la page precedente<span class="pl-pds">"</span></span>
+        },
+        <span class="pl-s"><span class="pl-pds">"</span>func<span class="pl-pds">"</span></span>: <span class="pl-s"><span class="pl-pds">"</span>goPreviousPage<span class="pl-pds">"</span></span>
+    },
+    {
+        <span class="pl-s"><span class="pl-pds">"</span>recognition<span class="pl-pds">"</span></span>: {
+            <span class="pl-s"><span class="pl-pds">"</span>en-EN<span class="pl-pds">"</span></span>: <span class="pl-s"><span class="pl-pds">"</span>go to the next page<span class="pl-pds">"</span></span>,
+            <span class="pl-s"><span class="pl-pds">"</span>fr-FR<span class="pl-pds">"</span></span>: <span class="pl-s"><span class="pl-pds">"</span>va a la page suivante<span class="pl-pds">"</span></span>
+        },
+        <span class="pl-s"><span class="pl-pds">"</span>func<span class="pl-pds">"</span></span>: <span class="pl-s"><span class="pl-pds">"</span>goNextPage<span class="pl-pds">"</span></span>
+    },
 
-<h3>
-<a id="methods" class="anchor" href="#methods" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Methods</h3>
-
-<pre><code>actionData(event: object, recogData: object);
-actionDataInclude(event: object, recogData: object)
-actionDataStart(event: object, recogData: object)
-actionDataType(event: object, recogData: object, type: string): boolean
-isSentenceSaid(event: Object, sentence: String): Bool
-isWordSaid(event: Object, word: String): Bool
-launchFunc(funcObj: object, recogSentence: string, type: string)
-saySentenceAfterRecognition(event: Object, sentenceRecognition: String, sentenceSynthesis: String): Bool
-saySentenceFromData(transcript: String, recogData: Object): Bool
-setLang(lang: string)
-speak(sentence: string)
-synthCancel()
-synthPause()
-synthResume()
-</code></pre>
+]
+</pre></div>
 
       <footer class="site-footer">
         <span class="site-footer-owner"><a href="https://github.com/Ffloriel/speechYL">Speechyl</a> is maintained by <a href="https://github.com/Ffloriel">Ffloriel</a>.</span>

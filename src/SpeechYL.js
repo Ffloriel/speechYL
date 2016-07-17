@@ -2,8 +2,8 @@
 * Library Web Speech Recognition & Web Speech Synthesis
 * @class SpeechYL
 */
-class SpeechYL{
-    
+class SpeechYL {
+
     /**
     * Default constructor
     * @example
@@ -11,7 +11,7 @@ class SpeechYL{
     */
     constructor() {
         let speechRecognition = window.SpeechRecognition || webkitSpeechRecognition;
-        
+
         if (speechRecognition) {
             /**
             * SpeechRecognition Object from Web API SpeechRecognition
@@ -19,9 +19,9 @@ class SpeechYL{
             */
             this.recognition = new speechRecognition();
         } else {
-            throw("Your browser does not support the Web Speech API");
+            throw new Error("Your browser does not support the Web Speech API");
         }
-        
+
         /**
         * SpeechSynthesis Object from Web API SpeechSynthesis
         * @type {SpeechSynthesis}
@@ -34,15 +34,15 @@ class SpeechYL{
         this.utterance = new SpeechSynthesisUtterance();
         /**
         * The last transcript from SpeechRecognition
-        * @type {String} 
+        * @type {String}
         */
         this.lastTranscript = "";
         /**
         * The last text from SpeechSynthesis
-        * @type {String} 
+        * @type {String}
         */
         this.synthText = "";
-        
+
         /**
         * Array that contains recognition and speech commands.
         * @type {Array}
@@ -53,25 +53,26 @@ class SpeechYL{
         * @type {Object}
         */
         this.commandsFunc = null;
-        
+
         /**
-        * List of SpeechSynthesisVoice objects representing all the available voices on the current device.
+        * List of SpeechSynthesisVoice objects representing all the
+        * available voices on the current device.
         * @type {Array<SpeechSynthesisVoice>}
         */
-         
+
         this.voices = this.synthesis.getVoices();
-        
-        //Default onresult
+
+        // Default onresult
         this.onresult = e => {
             this.actionData(e, this.commands);
         };
-        
-        //Default onvoiceschanged
-        this.onvoiceschanged = e => {
+
+        // Default onvoiceschanged
+        this.onvoiceschanged = () => {
             this.voices = this.synthesis.getVoices();
         };
     }
-    
+
     /**
      * Set lang for synthesis and recognition speech.
      * @param {string} lang Language ("en-EN", "fr-FR")
@@ -80,14 +81,14 @@ class SpeechYL{
         this.synthesisLang = lang;
         this.recognitionLang = lang;
     }
-    
+
     /**
      * @ignore
      */
     get synthesisLang() {
         return this.utterance.lang;
     }
-    
+
     /**
     * Set the language for speech synthesis (ex : "en-EN", "fr-FR")
     * @type {string}
@@ -95,14 +96,14 @@ class SpeechYL{
     set synthesisLang(v) {
         this.utterance.lang = v;
     }
-    
+
     /**
      * @ignore
      */
     get recognitionLang() {
         return this.recognition.lang;
     }
-    
+
     /**
     * Set the language for speech recognition (ex : "en-EN", "fr-FR")
     * @type {string}
@@ -110,37 +111,38 @@ class SpeechYL{
     set recognitionLang(v) {
         this.recognition.lang = v;
     }
-    
+
     /**
      * @ignore
      */
     get voice() {
         return this.utterance.voice;
     }
-    
+
     /**
     * Set the language for speech synthesis (ex : "en-EN", "fr-FR")
     * @type {string}
     */
-    set voice (v) {
+    set voice(v) {
         this.utterance.voice = v;
     }
-    
+
     /**
      * @ignore
      */
     get maxAlternatives() {
         return this.recognition.maxAlternatives;
     }
-    
+
     /**
-    * Sets the maximum number of SpeechRecognitionAlternatives provided per result. The default value is 1.
+    * Sets the maximum number of SpeechRecognitionAlternatives
+    ^ provided per result. The default value is 1.
     * @type {number}
     */
     set maxAlternatives(v) {
         this.recognition.maxAlternatives = v;
     }
-    
+
     /**
      * @ignore
      */
@@ -155,7 +157,7 @@ class SpeechYL{
     set serviceURI(v) {
         this.recognition.serviceURI = v;
     }
-    
+
    /**
     * Fired when the user agent has started to capture audio.
     * @listens {audiostart}
@@ -164,7 +166,7 @@ class SpeechYL{
     set onaudiostart(f) {
         this.recognition.onaudiostart = f;
     }
-    
+
     /**
     * Fired when the user agent has finished capturing audio.
     * @listens {audioend}
@@ -173,7 +175,7 @@ class SpeechYL{
     set onaudioend(f) {
         this.recognition.onaudioend = f;
     }
-    
+
     /**
     * Fired when the speech recognition service has disconnected.
     * @listens {end}
@@ -182,7 +184,7 @@ class SpeechYL{
     set onend(f) {
         this.recognition.onend = f;
     }
-    
+
     /**
     * Fired when a speech recognition error occurs.
     * @listens {error}
@@ -191,25 +193,28 @@ class SpeechYL{
     set onerror(f) {
         this.recognition.onerror = f;
     }
-    
+
     /**
-    * Fired when the speech recognition service returns a final result with no significant recognition. This may involve some degree of recognition, which doesn't meet or exceed the confidence threshold.
+    * Fired when the speech recognition service returns a final result with no
+    ^ significant recognition. This may involve some degree of recognition, which
+    ^ doesn't meet or exceed the confidence threshold.
     * @listens {nomatch}
     * @type {function}
     */
     set onnomatch(f) {
         this.recognition.onnomatch = f;
     }
-    
+
     /**
-    * Fired when the speech recognition service returns a result — a word or phrase has been positively recognized and this has been communicated back to the app.
+    * Fired when the speech recognition service returns a result — a word or
+    ^ phrase has been positively recognized and this has been communicated back to the app.
     * @listens {result}
     * @type {function}
     */
     set onresult(f) {
         this.recognition.onresult = f;
     }
-    
+
     /**
     * Fired when any sound — recognisable speech or not — has been detected.
     * @listens {soundstart}
@@ -218,7 +223,7 @@ class SpeechYL{
     set onsoundstart(f) {
         this.recognition.onsoundstart = f;
     }
-    
+
     /**
     * Fired when any sound — recognisable speech or not — has stopped being detected.
     * @listens {soundend}
@@ -227,16 +232,17 @@ class SpeechYL{
     set onsoundend(f) {
         this.recognition.onsoundend = f;
     }
-    
+
     /**
-    * Fired when sound that is recognised by the speech recognition service as speech has been detected.
+    * Fired when sound that is recognised by the speech recognition
+    ^ service as speech has been detected.
     * @listens {speechstart}
     * @type {function}
     */
     set onspeechstart(f) {
         this.recognition.onspeechstart = f;
     }
-    
+
     /**
     * Fired when speech recognised by the speech recognition service has stopped being detected.
     * @listens {speechend}
@@ -245,151 +251,157 @@ class SpeechYL{
     set onspeechend(f) {
         this.recognition.onspeechend = f;
     }
-    
+
     /**
-    * Fired when the speech recognition service has begun listening to incoming audio with intent to recognize grammars associated with the current SpeechRecognition.
+    * Fired when the speech recognition service has begun listening to incoming audio
+    ^ with intent to recognize grammars associated with the current SpeechRecognition.
     * @type {function}
     */
     set onstart(f) {
         this.recognition.onstart = f;
     }
-    
+
     /**
-    * Fired when the list of SpeechSynthesisVoice objects that would be returned by the SpeechSynthesis.getVoices() method has changed.
+    * Fired when the list of SpeechSynthesisVoice objects that would be returned
+    ^ by the SpeechSynthesis.getVoices() method has changed.
     * @type {function}
     */
     set onvoiceschanged(f) {
         this.synthesis.onvoiceschanged = f;
     }
-    
+
     /**
      * @ignore
      */
     get onaudiostart() {
         return this.recognition.onaudiostart;
     }
-    
+
     /**
      * @ignore
      */
     get onaudioend() {
         return this.recognition.onaudioend;
     }
-    
+
     /**
      * @ignore
      */
     get onend() {
         return this.recognition.onend;
     }
-    
+
     /**
      * @ignore
      */
     get onerror() {
         return this.recognition.onerror;
     }
-    
+
     /**
      * @ignore
      */
     get onnomatch() {
         return this.recognition.onnomatch;
     }
-    
+
     /**
      * @ignore
      */
     get onresult() {
         return this.recognition.onresult;
     }
-    
+
     /**
      * @ignore
      */
     get onsoundstart() {
         return this.recognition.onsoundstart;
     }
-    
+
     /**
      * @ignore
      */
     get onsoundend() {
         return this.recognition.onsoundend;
     }
-    
+
     /**
      * @ignore
      */
     get onspeechstart() {
         return this.recognition.onspeechstart;
     }
-    
+
     /**
      * @ignore
      */
     get onspeechend() {
         return this.recognition.onspeechend;
     }
-    
+
     /**
      * @ignore
      */
     get onstart() {
         return this.recognition.onstart;
     }
-    
+
     /**
      * @ignore
      */
     get onvoiceschanged() {
         return this.synthesis.onvoiceschanged;
     }
-    
+
     /**
      * Removes all utterances from the utterance queue.
      */
     synthCancel() {
         this.synthesis.cancel();
     }
-    
+
     /**
      * Puts the SpeechSynthesis object into a paused state.
      */
     synthPause() {
         this.synthesis.pause();
     }
-    
+
     /**
      * Puts the SpeechSynthesis object into a non-paused state: resumes it if it was already paused.
      */
     synthResume() {
         this.synthesis.resume();
     }
-    
+
     /**
-     * Stops the speech recognition service from listening to incoming audio, and doesn't attempt to return a SpeechRecognitionResult.
+     * Stops the speech recognition service from listening to incoming audio,
+     ^ and doesn't attempt to return a SpeechRecognitionResult.
      */
     recogAbort() {
         this.recognition.abort();
     }
-    
+
     /**
-     * Starts the speech recognition service listening to incoming audio with intent to recognize grammars associated with the current SpeechRecognition.
+     * Starts the speech recognition service listening to incoming audio with
+     ^ intent to recognize grammars associated with the current SpeechRecognition.
      */
     recogStart() {
         this.recognition.start();
     }
-    
+
     /**
-     * Stops the speech recognition service from listening to incoming audio, and attempts to return a SpeechRecognitionResult using the audio captured so far.
+     * Stops the speech recognition service from listening to incoming audio, and
+     ^ attempts to return a SpeechRecognitionResult using the audio captured so far.
      */
     recogStop() {
         this.recognition.stop();
     }
-    
+
     /**
-     * Adds an utterance to the utterance queue; it will be spoken when any other utterances queued before it have been spoken.
+     * Adds an utterance to the utterance queue; it will be spoken when any
+     ^ other utterances queued before it have been spoken.
      * @param {string} sentence The sentence that is said by the speech synthesis
      */
     speak(sentence) {
@@ -397,7 +409,7 @@ class SpeechYL{
         this.utterance.text = sentence;
         this.synthesis.speak(this.utterance);
     }
-    
+
     /**
     * Say a sentence using speech synthesis
     * @param {String} sentence The sentence that is said by the speech synthesis
@@ -409,6 +421,7 @@ class SpeechYL{
         this.synthText = sentence;
         this.utterance.text = sentence;
         this.synthesis.speak(this.utterance);
+
         return this;
     }
 
@@ -420,17 +433,22 @@ class SpeechYL{
     * @return {Bool} Return true if the word is said by the user
     */
     isWordSaid(event, word) {
-        let indexResult = event.resultIndex;
-        
+        let indexResult;
+
+        indexResult = event.resultIndex;
         for (indexResult; indexResult < event.results.length; indexResult += 1) {
-            this.lastTranscript = this.formatTranscript(`${event.results[indexResult][0].transcript} ` );
+            let transcript;
+
+            transcript = `${event.results[indexResult][0].transcript} `;
+            this.lastTranscript = this.formatTranscript(transcript);
             if (event.results[indexResult].isFinal && this.lastTranscript.includes(`${word} `)) {
                 return true;
             }
         }
+
         return false;
     }
-    
+
     /**
     * Know if the sentence is said by the user
     * @method isSentenceSaid
@@ -439,7 +457,9 @@ class SpeechYL{
     * @return {Bool} Return true if the sentence is said by the user
     */
     isSentenceSaid(event, sentence) {
-        let indexResult = event.resultIndex;
+        let indexResult;
+
+        indexResult = event.resultIndex;
         for (indexResult; indexResult < event.results.length; indexResult += 1) {
             this.lastTranscript = this.formatTranscript(event.results[indexResult][0].transcript);
             if (event.results[indexResult].isFinal) {
@@ -448,9 +468,10 @@ class SpeechYL{
                 }
             }
         }
+
         return false;
     }
-    
+
     /**
     * Say sentence if the recognition sentence is recognize
     * @param {Object} event Event from SpeechRecognition
@@ -459,44 +480,48 @@ class SpeechYL{
     * @return {Bool} Return true if the sentence is said by the user
     */
     saySentenceAfterRecognition(event, sentenceRecognition, sentenceSynthesis) {
-        let indexResult = event.resultIndex;
-        let transcript;
+        let indexResult;
+
+        indexResult = event.resultIndex;
         for (indexResult; indexResult < event.results.length; indexResult += 1) {
             this.lastTranscript = this.formatTranscript(event.results[indexResult][0].transcript);
-            
+
             if (this.lastTranscript === sentenceRecognition) {
                 this.say(sentenceSynthesis);
+
                 return true;
             }
         }
+
         return false;
     }
-    
+
     /**
     * Execute action if the transcript is in the data
     * @param {String} transcript Transcript
-    * @param {Object} recogData 
+    * @param {Object} recogData
     * @return {Bool} Return true if the transcript is in the data
     */
     saySentenceFromData(transcript, recogData) {
-        let dataIndex = 0;
+        let dataIndex;
+
+        dataIndex = 0;
         for (dataIndex; dataIndex < recogData.length; dataIndex += 1) {
             if (transcript === recogData[dataIndex].recognition.toLowerCase()) {
-
-                //Sunthesis
+                // Sunthesis
                 if (recogData[dataIndex].synthesis && recogData[dataIndex].synthesis !== "") {
                     this.say(recogData[dataIndex].synthesis);
                 }
 
-                //Functions
+                // Functions
                 if (recogData[dataIndex].func) {
                     this.launchFunc(recogData[dataIndex].func, recogData[dataIndex].funcParameters);
                 }
 
-
                 return true;
             }
         }
+
         return false;
     }
 
@@ -507,9 +532,10 @@ class SpeechYL{
      * @param {string} [type="normal"] Type (normal or start)
      */
     launchFunc(funcObj, recogSentence, type = "normal") {
-        let fn = this.commandsFunc[funcObj.func];
-        let params = funcObj.funcParameters;
-        let transcript;
+        let fn, params, transcript;
+
+        fn = this.commandsFunc[funcObj.func];
+        params = funcObj.funcParameters;
         if (typeof fn === "function") {
             if (!params) {
                 params = [];
@@ -518,14 +544,12 @@ class SpeechYL{
                 transcript = this.lastTranscript.slice(recogSentence.length + 1);
                 params.unshift(transcript);
             }
-            fn.apply(null, params);
-            
+            Reflect.apply(fn, params);
         } else {
-            throw(`SpeechYL : function ${funcObj.func} not found.`);
+            throw new Error(`SpeechYL : function ${funcObj.func} not found.`);
         }
-        
     }
-    
+
     /**
      * @access private
      * Get synthesis sentence based on weight and language
@@ -533,19 +557,21 @@ class SpeechYL{
      * @returns {string} Sentence synthesis
      */
     getSynthesisSentence(synthesisArray) {
-        let weightTotal = this.computeTotalWeight(synthesisArray);
-        let random = Math.random() * weightTotal;
-        let weight = 0;
-        let i = 0;
+        let i, random, weight, weightTotal;
+
+        weightTotal = this.computeTotalWeight(synthesisArray);
+        random = Math.random() * weightTotal;
+        weight = 0;
+        i = 0;
         for (i; i < synthesisArray.length; i += 1) {
             weight += synthesisArray[i].weight;
             if (random < weight) {
                 return synthesisArray[i][this.utterance.lang];
             }
         }
-        throw("SpeechYW : getSynthesisError.");
+        throw new Error("SpeechYW : getSynthesisError.");
     }
-    
+
     /**
      * @access private
      * Get name of the function based on weight
@@ -553,19 +579,21 @@ class SpeechYL{
      * @returns {string} Name of the function
      */
     getFunction(funcArray) {
-        let weightTotal = this.computeTotalWeight(funcArray);
-        let random = Math.random() * weightTotal;
-        let weight = 0;
-        let i = 0;
+        let i, random, weight, weightTotal;
+
+        weightTotal = this.computeTotalWeight(funcArray);
+        random = Math.random() * weightTotal;
+        weight = 0;
+        i = 0;
         for (i; i < funcArray.length; i += 1) {
             weight += funcArray[i].weight;
             if (random < weight) {
                 return funcArray[i];
             }
         }
-        throw("SpeechYW : getFunctionError.");
+        throw new Error("SpeechYW : getFunctionError.");
     }
-    
+
     /**
      * @access private
      * Format the transcript (lowercase and first space remove)
@@ -573,16 +601,19 @@ class SpeechYL{
      * @returns {string} Return text formated
      */
     formatTranscript(transcript) {
+        let transcriptFormat;
+
         if (typeof transcript !== "string") {
             return null;
         }
-        transcript = transcript.toLowerCase();
+        transcriptFormat = transcript.toLowerCase();
         if (transcript.charAt(0) === " ") {
-            transcript = transcript.slice(1);
+            transcriptFormat = transcript.slice(1);
         }
-        return transcript;
+
+        return transcriptFormat;
     }
-    
+
     /**
      * Launch actions if the recognition sentence from the data is recognize
      * @param {object} event           Event from SpeechRecognition
@@ -590,36 +621,35 @@ class SpeechYL{
      * @param {string} [type=normal] (normal, start or include)
      */
     actionDataType(event, recogData, type = "normal") {
-        let eventResult,
-            data,
-            synthesis,
-            funcObj,
-            recogSentence;
-        for (let i = 0; i < event.results.length; i += 1) {
+        let data, eventResult, funcObj, i, recogSentence, synthesis;
+
+        i = 0;
+        for (i = 0; i < event.results.length; i += 1) {
             eventResult = event.results[i];
             this.lastTranscript = this.formatTranscript(eventResult[0].transcript);
-            
+
             data = this.retrieveData(recogData, type);
-            
-            if (data !== null && data !== undefined) {
+
+            if (data !== null && typeof data !== "undefined") {
                 recogSentence = this.retrieveRecognitionSentence(data);
-                //Synthesis
+                // Synthesis
                 synthesis = this.retrieveSynthesis(data);
                 if (synthesis !== null) {
                     this.say(synthesis);
                 }
-                //Functions
+                // Functions
                 funcObj = this.retrieveFunction(data);
                 if (funcObj !== null) {
                     this.launchFunc(funcObj, recogSentence, type);
                 }
-                
+
                 return true;
             }
         }
+
         return false;
     }
-    
+
     /**
      * Launch actions if the recognition sentence from the data is recognize
      * @param {object} event           Event from SpeechRecognition
@@ -628,7 +658,7 @@ class SpeechYL{
     actionData(event, recogData) {
         this.actionDataType(event, recogData, "normal");
     }
-    
+
     /**
      * Launch actions if the beginning of the recognition sentence from the data is recognize
      * @param {object} event           Event from SpeechRecognition
@@ -637,7 +667,7 @@ class SpeechYL{
     actionDataStart(event, recogData) {
         this.actionDataType(event, recogData, "start");
     }
-    
+
     /**
      * Launch actions if a part of the recognition sentence from the data is recognize
      * @param {object} event           Event from SpeechRecognition
@@ -646,7 +676,7 @@ class SpeechYL{
     actionDataInclude(event, recogData) {
         this.actionDataType(event, recogData, "include");
     }
-    
+
     /**
      * @access private
      * Compute the total weight of an array of object
@@ -654,14 +684,17 @@ class SpeechYL{
      * @returns {number} The total weight of the array
      */
     computeTotalWeight(objectArray) {
-        let i = 0;
-        let weight = 0;
+        let i, weight;
+
+        i = 0;
+        weight = 0;
         for (i; i < objectArray.length; i += 1) {
             weight += objectArray[i].weight;
         }
+
         return weight;
     }
-    
+
     /**
      * @access private
      * Retrieve data based on the type (normal, start, include)
@@ -670,50 +703,59 @@ class SpeechYL{
      * @returns {object} Data
      */
     retrieveData(recogData, type = "normal") {
-        let data;
+        let dataR;
+
         switch (type) {
             case "normal":
-                data = recogData.find(data => {
-                    return this.lastTranscript === this.retrieveRecognitionSentence(data);
+                dataR = recogData.find(data => {
+                    let res = this.lastTranscript === this.retrieveRecognitionSentence(data);
+                    return res;
                 });
                 break;
             case "start":
-                data = recogData.find(data => {
-                    return this.lastTranscript.startsWith(this.retrieveRecognitionSentence(data));
+                dataR = recogData.find(data => {
+                    let res;
+                    res = this.lastTranscript.startsWith(this.retrieveRecognitionSentence(data));
+                    return res;
                 });
                 break;
             case "include":
-                data = recogData.find(data => {
-                    return this.lastTranscript.includes(this.retrieveRecognitionSentence(data));
+                dataR = recogData.find(data => {
+                    let res = this.lastTranscript.includes(this.retrieveRecognitionSentence(data));
+                    return res;
                 });
                 break;
             default:
-                data = null;
+                dataR = null;
                 break;
         }
-        return data;
+
+        return dataR;
     }
-    
+
     /**
      * @access private
-     * Retrieve the synthesis 
+     * Retrieve the synthesis
      * @param   {object} data Single Recognition Data
      * @returns {string} Text of utterance to synthesis
      */
     retrieveSynthesis(data) {
-        let synthesis = null;
+        let synthesis;
+
+        synthesis = null;
         if (!data.synthesis) {
             synthesis = null;
         } else if (data.synthesis instanceof Array) {
             synthesis = this.getSynthesisSentence(data.synthesis);
         } else if (data.synthesis instanceof Object) {
             synthesis = data.synthesis[this.utterance.lang];
-        } else if (typeof data.synthesis === "string"){
+        } else if (typeof data.synthesis === "string") {
             synthesis = data.synthesis;
         }
+
         return synthesis;
     }
-    
+
     /**
      * @access private
      * Retrieve the function
@@ -721,7 +763,9 @@ class SpeechYL{
      * @returns {string} Name of the function
      */
     retrieveFunction(data) {
-        let funcObj = null;
+        let funcObj;
+
+        funcObj = null;
         if (!data.func) {
             funcObj = null;
         } else if (data.func instanceof Array) {
@@ -729,27 +773,31 @@ class SpeechYL{
         } else if (data.func instanceof Object) {
             funcObj = data.func;
         } else if (typeof data.func === "string") {
-            funcObj = {func: data.func, funcParameters: []};
+            funcObj = { func: data.func, funcParameters: [] };
         }
+
         return funcObj;
     }
-    
+
     /**
      * @access private
-     * Retrieve the synthesis 
+     * Retrieve the synthesis
      * @param   {object} data Single Recognition Data
      * @returns {string} Recognition sentence
      */
     retrieveRecognitionSentence(data) {
-        let recognition = null;
+        let recognition;
+
+        recognition = null;
         if (data.recognition instanceof Object) {
             recognition = data.recognition[this.recognition.lang];
         } else if (typeof data.recognition === "string") {
             recognition = data.recognition;
         }
+
         return this.formatTranscript(recognition);
     }
-    
+
     /**
      * @access private
      * Get a JSON File
@@ -757,23 +805,26 @@ class SpeechYL{
      * @returns {Promise} Promise
      */
     getJson(url) {
-        return new Promise( (resolve, reject) => {
-            let request = new XMLHttpRequest();
-            request.open('Get', url);
+        return new Promise((resolve, reject) => {
+            let request;
+
+            request = new XMLHttpRequest();
+            request.open("Get", url);
             request.onload = () => {
                 if (request.status === 200) {
                     resolve(request.response);
                 } else {
-                    reject(new Error(`Data did not load successfully; Error code: ${request.statusText}`));
+                    reject(new Error(`Data did not load successfully;
+                       Error code: ${request.statusText}`));
                 }
             };
             request.onerror = () => {
-                reject(new Error('Data did not load successfully; Network error.'));
+                reject(new Error("Data did not load successfully; Network error."));
             };
             request.send();
         });
     }
-    
+
     /**
      * Load commands from a json file
      * @throws {TypeError} JSON object is not an array
@@ -781,43 +832,40 @@ class SpeechYL{
      */
     loadJsonCommands(url) {
         let commands;
-        this.getJson(url).then( (data) => {
+
+        this.getJson(url)
+        .then(data => {
             commands = JSON.parse(data);
             if (!(commands instanceof Array)) {
                 throw new TypeError("Json data must be an Array");
             } else {
                 this.commands = this.commands.concat(commands);
             }
-        }, (e) => {
+        }, e => {
             throw e;
         });
     }
-    
+
     /**
      * Return a voice with the specified name
      * @param   {string}               name Name of the voice
      * @returns {SpeechSynthesisVoice} Voice
      */
     getVoiceByName(name) {
-        return this.voices.find( voice => {
-            return voice.name === name;
-        });
+        return this.voices.find(voice => voice.name === name);
     }
-    
+
     /**
      * Return an array of voices corresponding to the specified langage
      * @param   {string} lang Lang of the voices
      * @returns {Array}  Array of voices
      */
     getVoicesByLang(lang) {
-        return this.voices.filter(voice => {
-            return voice.lang === lang;
-        });
+        return this.voices.filter(voice => voice.lang === lang);
     }
-    
-    
+
     /**
-     * Return a command object 
+     * Return a command object
      * @param   {string          |           Array}   recognition Recognition string or array
      * @param   {string          |           Array}       synthesis   Synthesis string or array
      * @param   {string}         func        Name of the function
@@ -830,11 +878,11 @@ class SpeechYL{
             func
         };
     }
-    
+
     /**
      * Add a command
-     * @param   {string          |           Array}   recognition Recognition string or array
-     * @param   {string          |           Array}       synthesis   Synthesis string or array
+     * @param   {string   |  Array}   recognition Recognition string or array
+     * @param   {string   |  Array}       synthesis   Synthesis string or array
      * @param   {string}         func        Name of the function
      */
     addCommand(recognition, synthesis, func) {
@@ -844,9 +892,7 @@ class SpeechYL{
             func
         });
     }
-    
+
 }
 
-
-
-//export default SpeechYL;
+// export default SpeechYL;

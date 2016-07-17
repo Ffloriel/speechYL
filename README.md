@@ -1,6 +1,9 @@
-# SpeechYL 
+[![npm](https://img.shields.io/npm/l/speechyl.svg?maxAge=2592000?style=flat-square)]()
+[![npm](https://img.shields.io/npm/dt/speechyl.svg?maxAge=2592000?style=flat-square)]()
 
-SpeechYL (spitʃ waj ɛl) is a Web Speech API library wrapper. It helps with the basic usage of web speech api. You can associate a sentence to a function with just a json object. 
+# SpeechYL
+
+SpeechYL (spitʃ waj ɛl) is a Web Speech API library wrapper. It helps with the basic usage of web speech api. You can associate a sentence to a function with just a json object.
 
 ## Installation
 

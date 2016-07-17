@@ -75,7 +75,7 @@ class SpeechYL {
 
     /**
      * Set lang for synthesis and recognition speech.
-     * @param {string} lang Language ("en-EN", "fr-FR")
+     * @type {string} lang Language ("en-EN", "fr-FR")
      */
     setLang(lang) {
         this.synthesisLang = lang;
@@ -773,7 +773,10 @@ class SpeechYL {
         } else if (data.func instanceof Object) {
             funcObj = data.func;
         } else if (typeof data.func === "string") {
-            funcObj = { func: data.func, funcParameters: [] };
+            funcObj = {
+                func: data.func,
+                funcParameters: []
+            };
         }
 
         return funcObj;
@@ -836,7 +839,7 @@ class SpeechYL {
         this.getJson(url)
         .then(data => {
             commands = JSON.parse(data);
-            if (!(commands instanceof Array)) {
+            if (commands instanceof Array === false) {
                 throw new TypeError("Json data must be an Array");
             } else {
                 this.commands = this.commands.concat(commands);
